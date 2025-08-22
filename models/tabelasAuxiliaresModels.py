@@ -147,8 +147,7 @@ class RacaCor(Base):
 
 
 class GravidezRisco(Base):
-    __tablename__ = "aux_" \
-    "gravidez_risco"
+    __tablename__ = "aux_gravidez_risco"
 
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)

@@ -1,9 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from conexao.conect_db import get_db
-from models.tabelasAuxiliaresModels import QualificacaoProfissional, TipoObra,\
-    SetorBeneficiado, TipoFornecedor, UnidadeExecutora, RegimeExecucaoObra, NaturezaObra, \
-    Situacao, Etapa, TipoVinculo, TipoLicenca, TipoServicos, TipoOrgaoLicenciador
+from models.tabelasAuxiliaresModels import *
 
 from endpoints.userEndpoints import get_current_user
 
@@ -16,58 +14,84 @@ def listar_todos(model, db):
     return db.query(model).order_by(model.id).all()
 
 
-@auxiliares.get("/qualificacoes", summary="Listar Qualificações Profissionais")
-def listar_qualificacoes(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(QualificacaoProfissional).order_by(QualificacaoProfissional.codigo).all()
+@auxiliares.get("/classificacao-estabelecimento", summary="Listar Classificações Estabelecimentos")
+def listar_classificacoes(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return db.query(ClassificacaoEstabelecimentoSaude).order_by(ClassificacaoEstabelecimentoSaude.id).all()
 
 
-@auxiliares.get("/setores", summary="Listar Setores Beneficiados")
-def listar_setores(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(SetorBeneficiado).order_by(SetorBeneficiado.id).all()
+@auxiliares.get("/atividade-estabelecimento", summary="Listar Atividades Estabelecimentos")
+def listar_atividades(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return db.query(AtividadeEstabelecimentoSaude).order_by(AtividadeEstabelecimentoSaude.id).all()
 
 
-@auxiliares.get("/unidades-executoras", summary="Listar Unidades Executoras")
-def listar_unidades_executoras(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(UnidadeExecutora).order_by(UnidadeExecutora.codigo).all()
+@auxiliares.get("/sus", summary="Listar sus")
+def listar_sus(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return db.query(Sus).order_by(Sus.codigo).all()
 
 
 
-@auxiliares.get("/regimes", summary="Listar todos os regimes de execução de obra")
-def get_regimes(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(RegimeExecucaoObra, db)
+@auxiliares.get("/vinculos_profissionais", summary="Listar todos os vinculos profissionais")
+def get_vinculo_profissional(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(VinculoProfissionalSaude, db)
 
-@auxiliares.get("/naturezas", summary="Listar todas as naturezas de obra")
-def get_naturezas(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(NaturezaObra, db)
+@auxiliares.get("/tipos-leito", summary="Listar todos os tipos leito")
+def get_tipo_leito(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TiposLeito, db)
 
-@auxiliares.get("/situacoes", summary="Listar todas as situações de obra")
-def get_situacoes(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(Situacao, db)
+@auxiliares.get("/tipo-equipamento", summary="Listar todos os tipos equipamentos")
+def get_tipo_equipamento(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TipoEquipamento, db)
 
-@auxiliares.get("/etapas", summary="Listar todas as etapas de obra")
-def get_etapas(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(Etapa, db)
+@auxiliares.get("/tipo-financiamento", summary="Listar todas os tipos financiamentos")
+def get_tipo_financiamento(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TipoFinanciamento, db)
 
-@auxiliares.get("/tipos-vinculo", summary="Listar todos os tipos de vínculo")
-def get_tipos_vinculo(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(TipoVinculo, db)
+@auxiliares.get("/origem-informacoes", summary="Listar todas as origens informações")
+def get_origem_informacoes(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(OrigemInformacoes, db)
 
-@auxiliares.get("/tipos-fornecedor", summary="Listar todos os tipos de Fornecedores")
-def get_tipos(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(TipoFornecedor).order_by(TipoFornecedor.codigo).all()
+@auxiliares.get("/identificacao-aih", summary="Listar todos os tipos de licenças")
+def get_identificacao_aih(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return db.query(IdentificacaoAIH).order_by(IdentificacaoAIH.codigo).all()
 
-@auxiliares.get("/tipo-licenca", summary="Listar todos os tipos de licenças")
-def get_tipos(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(TipoLicenca, db)
+@auxiliares.get("/tipo-modalidade-internacao", summary="Listar todas as modaldidades internação")
+def get_modalidade_internacao(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(ModalidadeInternacao, db)
 
-@auxiliares.get("/tipo-obra", summary="Listar todos os tipos de obras")
-def get_tipos(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(TipoObra, db)
+@auxiliares.get("/carater-internacao", summary="Listar todos os carater informação")
+def get_carater_internacao(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(CaraterInternacao, db)
 
-@auxiliares.get("/tipo-servico", summary="Listar todos os tipos de Serviços")
-def get_tipos(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(TipoServicos, db)
+@auxiliares.get("/motivo_saida", summary="Listar todos os motivos saida")
+def get_motivo_saida(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(MotivoSaida, db)
 
-@auxiliares.get("/orgaos-licenciadores", summary="Listar todos os tipos de órgão licenciador")
-def get_orgaos_licenciadores(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(TipoOrgaoLicenciador, db)
+@auxiliares.get("/faixa-etaria", summary="Listar todas as faixas etarias")
+def get_faixa_etaria(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(FaixaEtaria, db)
+
+
+@auxiliares.get("/raca-cor", summary="Listar todas as faixas etarias")
+def get_raca_cor(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(RacaCor, db)
+
+
+@auxiliares.get("/gravidez-risco", summary="Listar todas as gravidez de risco")
+def get_gravidez_risco(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(GravidezRisco, db)
+
+
+@auxiliares.get("/tipo-parto", summary="Listar todos os tipos parto")
+def get_tipo_parto(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TipoParto, db)
+
+
+@auxiliares.get("/tempo-gestacao", summary="Listar todos os tempos de gestação")
+def get_tempo_gestacao(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TempoGestacao, db)
+
+
+
+@auxiliares.get("/tipo_vacina", summary="Listar todos os tipos de vacina")
+def get_tipo_vacina(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return listar_todos(TipoVacina, db)
