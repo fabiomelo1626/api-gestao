@@ -4,6 +4,7 @@ import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from conexao.conect_db import Base, engine
 
+from endpoints.tabelasAuxiliaresEndpoints import auxiliares
 from endpoints.estabelecimentoSaudeEndpoints import estabelecimento
 from endpoints.vinculoProfissionalSaudeEndpoints import vinculo
 from endpoints.estabelecimentoLeitoEndpoints import estabelecimento_leito
@@ -33,13 +34,13 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    #allow_credentials=True,
-    #allow_methods=["*"],
-    #allow_headers=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
-
+app.include_router(auxiliares)
 app.include_router(estabelecimento)
 app.include_router(vinculo)
 app.include_router(estabelecimento_leito)
