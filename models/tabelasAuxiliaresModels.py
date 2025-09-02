@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Float
 from conexao.conect_db import Base
 from sqlalchemy.orm import relationship
 
@@ -15,11 +15,12 @@ class ClassificacaoEstabelecimentoSaude(Base):
 class AtividadeEstabelecimentoSaude(Base):
     __tablename__ = "aux_atividade_estabelecimento"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
+    atividade = Column(String, nullable=True)
     descricao = Column(String, nullable=False)
     
-    estabelecimento_saude = relationship("EstabelecimentoSaude", back_populates="atividade_estabelecimento")
-    estabelecimento = relationship("EstabelecimentoSaude", back_populates="atividade_secundaria")
+    estabelecimento_saude = relationship("EstabelecimentoSaude", back_populates="atividade_estabelecimento", foreign_keys="[EstabelecimentoSaude.AtividadePrincipal]")
+    estabelecimento = relationship("EstabelecimentoSaude", back_populates="atividade_secundaria", foreign_keys="[EstabelecimentoSaude.AtividadeSecundaria]")
 
 
 
@@ -34,12 +35,13 @@ class Sus(Base):
     
 
 
-class VinculoProfissionalSaude(Base):
+class VinculoProfissional(Base):
     __tablename__ = "aux_vinculo_profissional"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
+    FormaContratacao = Column(String, nullable=True)
     descricao = Column(String, nullable=False)
 
-    vinculo_profissional = relationship("VinculoProfissionalSaude", back_populates="vinculo")
+    vinculo_profissional = relationship("VinculoProfissionalSaude", back_populates="vinculo_saude")
 
 
 
@@ -65,7 +67,7 @@ class TipoEquipamento(Base):
 class TipoFinanciamento(Base):
     __tablename__ = "aux_tipo_financiamento"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
     descricao = Column(String, nullable=False)
     
     
@@ -99,7 +101,7 @@ class ModalidadeInternacao(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=False)
     
-    autorizacao_internacao = relationship("AutotizacaoInternacaoHospitalar", back_populates="modalidade")
+    autorizacao_internacao = relationship("AutorizacaoInternacaoHospitalar", back_populates="modalidade")
 
 
 
@@ -116,7 +118,7 @@ class CaraterInternacao(Base):
 class MotivoSaida(Base):
     __tablename__ = "aux_motivo_saida"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(String, primary_key=True, index=True)
     descricao = Column(String, nullable=False)
     
     autorizacao_internacao = relationship("AutorizacaoInternacaoHospitalar", back_populates="motivo_saida")

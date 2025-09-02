@@ -22,7 +22,7 @@ class LocalAcesso(Base):
     
     acessos = relationship("Acesso", back_populates="locais")
     
-    estabelecimento_saude = relationship("Estabelecimentosaude", back_populates="local")
+    estabelecimento_saude = relationship("EstabelecimentoSaude", back_populates="local")
     vinculo_profissional = relationship("VinculoProfissionalSaude", back_populates="local")
     estabelecimentoleito = relationship("EstabelecimentoLeito", back_populates="local")
     estabelecimento_equipamento = relationship("EstabelecimentoEquipamento", back_populates="local")
@@ -35,3 +35,5 @@ class LocalAcesso(Base):
     mae = relationship("Mae", back_populates="local")
     nascido_vivo = relationship("NascidoVivo", back_populates="local")
     cobertura_vacinal = relationship("CoberturaVacinal", back_populates="local")
+    procedimento_ambulatorial = relationship("AutorizacaoProcedimentoAmbulatorial", back_populates="local")
+      
