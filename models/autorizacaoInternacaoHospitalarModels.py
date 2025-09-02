@@ -29,7 +29,7 @@ class AutorizacaoInternacaoHospitalar(Base):
     ProcedimentoSolicitado = Column(Integer, nullable=True)
     CaraterInternacao = Column(Integer, ForeignKey("aux_carater_internacao.id"), nullable=True)
     carater_internacao = relationship("CaraterInternacao", back_populates="autorizacao_internacao")
-    MotivoSaida = Column(Integer, ForeignKey("aux_motivo_saida.id"), nullable=True)
+    MotivoSaida = Column(String, ForeignKey("aux_motivo_saida.id"), nullable=True)
     motivo_saida = relationship("MotivoSaida", back_populates="autorizacao_internacao")
     CNSSolicitante = Column(Integer, nullable=True)
     CNSResponsavel = Column(Integer, nullable=True)

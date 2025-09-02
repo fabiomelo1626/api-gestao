@@ -22,7 +22,7 @@ class User(Base):
    
     acessos = relationship("Acesso", back_populates="usuarios")
     estabelecimento_saude = relationship("EstabelecimentoSaude", back_populates="user")
-    vinculo_profissinal = relationship("VinculoProfissionalSaude", back_populates="user")
+    vinculo_profissional = relationship("VinculoProfissionalSaude", back_populates="user")
     estabelecimentoleito  = relationship("EstabelecimentoLeito", back_populates="user")
     estabelecimento_equipamento = relationship("EstabelecimentoEquipamento", back_populates="user")
     solicitacao_procedimento = relationship("SolicitacaoProcedimentoAmbulatorial", back_populates="user")
@@ -34,3 +34,4 @@ class User(Base):
     mae = relationship("Mae", back_populates="user")
     nascido_vivo = relationship("NascidoVivo", back_populates="user")
     cobertura_vacinal = relationship("CoberturaVacinal", back_populates="user")
+    procedimento_ambulatorial = relationship("AutorizacaoProcedimentoAmbulatorial", back_populates="user")
