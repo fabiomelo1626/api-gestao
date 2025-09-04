@@ -15,7 +15,7 @@ class AutorizacaoProcedimentoAmbulatorial(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
-    CPFAutorizador = Column(Integer, nullable=True)
+    CPFAutorizador = Column(BigInteger, nullable=True)
     Ocupacao = Column(Integer, nullable=True)
     CNS = Column(Integer, nullable=True)
     Data = Column(Date, nullable=True)

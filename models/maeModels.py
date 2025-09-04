@@ -14,7 +14,7 @@ class Mae(Base):
 
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
-    CPF = Column(Integer, nullable=True)
+    CPF = Column(String, nullable=True)
     Nome = Column(String(255), nullable=True) 
     DataNascimento = Column(Date, nullable=True)
     Raca = Column(Integer, ForeignKey("aux_raca_cor.id"), nullable=True)

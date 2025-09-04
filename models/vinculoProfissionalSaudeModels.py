@@ -15,7 +15,7 @@ class VinculoProfissionalSaude(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
-    CPF = Column(Integer, nullable=True)
+    CPF = Column(String, nullable=True)
     Matricula = Column(Integer, nullable=True) 
     Vinculo = Column(String, ForeignKey("aux_vinculo_profissional.id"), nullable=True)
     vinculo_saude = relationship("VinculoProfissional", back_populates="vinculo_profissional")
