@@ -25,7 +25,7 @@ class EstabelecimentoSaude(Base):
     Numero = Column(String(10), nullable=False)
     Bairro = Column(String(255),nullable=False)
     CEP = Column(BigInteger, nullable=True)
-    CPFDiretor = Column(String(11), nullable=True)
+    CPFDiretor = Column(BigInteger, nullable=True)
     Tipo = Column(Integer, ForeignKey("aux_classificacao_estabelecimento.id"), nullable=True)
     tipo = relationship("ClassificacaoEstabelecimentoSaude", back_populates="estabelecimento_saude")
     AtividadePrincipal = Column(String, ForeignKey("aux_atividade_estabelecimento.id"), nullable=True)

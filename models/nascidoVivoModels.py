@@ -14,8 +14,8 @@ class NascidoVivo(Base):
 
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
-    CPFMae = Column(String, nullable=True)
-    NumeroDNV = Column(Integer, nullable=True) 
+    CPFMae = Column(BigInteger, nullable=True)
+    NumeroDNV = Column(BigInteger, nullable=True) 
     Raca = Column(Integer, ForeignKey("aux_raca_cor.id"), nullable=True)
     raca = relationship("RacaCor", back_populates="nascido_vivo")
     DataNascimento = Column(Date, nullable=True)

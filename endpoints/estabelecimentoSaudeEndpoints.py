@@ -55,14 +55,12 @@ def estabelecimento_all(db:Session = Depends(get_db), current_user: dict = Depen
     return estabelecimentos
 
 
-
 @estabelecimento.get("/estabelecimentos-saude-by-local_id/{local_id}", response_model=EstabelecimentoSaudeResponse)
 def search_estabelecimento_local(local_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    estabelecimentos = db.query(EstabelecimentoSaude).filter(EstabelecimentoSaude.local_id == local_id).first()
-    if not estabelecimentos:
-        HTTPException(status_code=404, detail="Estabelecimento  não encontrado para o local")
-    return estabelecimentos
-
+    estabelecimento = db.query(EstabelecimentoSaude).filter(EstabelecimentoSaude.local_id == local_id).first()
+    if not estabelecimento:
+        raise HTTPException(status_code=404, detail="Estabelecimento não encontrado para o local")
+    return estabelecimento
 
 
 @estabelecimento.put("/editar-estabelecimento-saude/{estabelecimento_id}", response_model=EstabelecimentoSaudeResponse)

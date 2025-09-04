@@ -12,11 +12,12 @@ class SaudeMental(Base):
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
     local = relationship("LocalAcesso", back_populates="saude_mental")
 
-    data_registro = Column(Date, nullable=True)
-    data_alteracao = Column(Date, nullable=True)
     FaixaEtaria = Column(Integer, ForeignKey("aux_faixa_etaria.id"), nullable=True)
     faixa = relationship("FaixaEtaria", back_populates="saude_mental")
     CategoriaCID = Column(String(6), nullable=True)
     SubCategoriaCID = Column(String(6), nullable=True) 
     QuantidadeMasculino = Column(Integer, nullable=True)
     QuantidadeFeminino = Column(Integer, nullable=True)
+    
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)

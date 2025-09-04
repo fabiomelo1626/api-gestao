@@ -11,13 +11,14 @@ class FichaProgramacaoOrcamentaria(Base):
     user = relationship("User", back_populates="ficha_programacao")
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
     local = relationship("LocalAcesso", back_populates="ficha_programacao")
-
-    data_registro = Column(Date, nullable=True)
-    data_alteracao = Column(Date, nullable=True)
+    
     CNES = Column(Integer, nullable=True)
     Procedimento = Column(Integer, nullable=True)
     Financiamento = Column(String, ForeignKey("aux_tipo_financiamento.id"), nullable=True) 
     financiamento = relationship("TipoFinanciamento", back_populates="ficha_programacao")
-    Quantidade = Column(Integer, nullable=True)
+    Quantidade = Column(BigInteger, nullable=True)
     ValorUnitario = Column(Float, nullable=True)
     ValorTotal = Column(Float, nullable=True)
+    
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)

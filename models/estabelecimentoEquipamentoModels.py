@@ -12,8 +12,6 @@ class EstabelecimentoEquipamento(Base):
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
     local = relationship("LocalAcesso", back_populates="estabelecimento_equipamento")
 
-    data_registro = Column(Date, nullable=True)
-    data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
     Codigo = Column(Integer, nullable=True)
     Tipo = Column(Integer, ForeignKey("aux_tipo_equipamento.id"), nullable=True)
@@ -22,3 +20,6 @@ class EstabelecimentoEquipamento(Base):
     QuantidadeSUS = Column(Integer, nullable=True)
     DisponibilidadeSUS = Column(Integer, ForeignKey("aux_sus.id"), nullable=True)
     disponibilidade = relationship("Sus", back_populates="estabelecimento_equipamento")
+    
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)

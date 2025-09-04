@@ -12,15 +12,19 @@ class SolicitacaoProcedimentoAmbulatorial(Base):
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
     local = relationship("LocalAcesso", back_populates="solicitacao_procedimento")
 
-    data_registro = Column(Date, nullable=True)
-    data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
+    CPFSolicitante = Column(BigInteger, nullable=True)
+    Ocupacao = Column(BigInteger, nullable=True)
+    CNS = Column(BigInteger, nullable=True)
     Data = Column(Date, nullable=True)
-    Procedimento = Column(Integer, nullable=True)
+    Procedimento = Column(BigInteger, nullable=True)
     CID10Principal = Column(String(4), nullable=True) 
     CID10Secundario = Column(String(4), nullable=True)
     CID10CausasAssociadas = Column(String(4), nullable=True)
     Quantidade = Column(Integer, nullable=True)
     Origem = Column(String(3), ForeignKey("aux_origem_informacoes.id"), nullable=True)
     origem = relationship("OrigemInformacoes", back_populates="solicitacao_procedimento")
+    
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)
 

@@ -18,7 +18,7 @@ class EstabelecimentoSaudeSchema(BaseModel):
     Logradouro : Optional[str] = None
     Numero : Optional[str] = None
     Bairro : Optional[str] = None
-    CEP : Optional[str] = None
+    CEP : Optional[int] = None
     CPFDiretor : Optional[str] = None
     #Tipo : Optional[int] = None
     #AtividadePrincipal : Optional[int] = None
