@@ -19,6 +19,10 @@ from endpoints.saudeMentalEndpoints import saude_mental
 from endpoints.maeEndpoints import mae
 from endpoints.nascidoVivoEndpoints import nascido_vivo
 from endpoints.coberturaVacinalEndpoints import cobertura
+from endpoints.userEndpoints import user
+from endpoints.loginEndpoints import login_user
+from endpoints.acessoEndpoints import acesso
+from endpoints.localAcessoEndpoints import local
 from seed.popular import popular
 
 
@@ -39,7 +43,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+app.include_router(user)
+app.include_router(login_user)
+app.include_router(acesso)
+app.include_router(local)
 app.include_router(auxiliares)
 app.include_router(estabelecimento)
 app.include_router(vinculo)
