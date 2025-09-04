@@ -37,7 +37,7 @@ class Sus(Base):
 
 class VinculoProfissional(Base):
     __tablename__ = "aux_vinculo_profissional"
-    id = Column(String, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True)
     FormaContratacao = Column(String, nullable=True)
     descricao = Column(String, nullable=False)
 

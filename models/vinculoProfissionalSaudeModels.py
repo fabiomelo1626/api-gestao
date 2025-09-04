@@ -12,8 +12,6 @@ class VinculoProfissionalSaude(Base):
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
     local = relationship("LocalAcesso", back_populates="vinculo_profissional")
 
-    data_registro = Column(Date, nullable=True)
-    data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
     CPF = Column(BigInteger, nullable=True)
     Matricula = Column(Integer, nullable=True) 
@@ -25,4 +23,7 @@ class VinculoProfissionalSaude(Base):
     CargaHorariaTotal = Column(Integer, nullable=True)
     DataInicioVinculo = Column(Date, nullable=True)
     DataFimVinculo = Column(Date, nullable=True)
+    
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)
 
