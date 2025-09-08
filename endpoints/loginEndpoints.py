@@ -37,7 +37,6 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
 
         acessos = db_user.acessos
 
-        perfis_info = [{"descricao": perfil.descricao} for perfil in db_user.perfis]
         acesso_info = [{"id": acesso.id} for acesso in db_user.acessos]
 
         access_token = create_access_token(
@@ -45,7 +44,6 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
                 "sub": db_user.username,
                 "id": db_user.id,
                 "acesso_id": acesso_info,
-                "perfis": perfis_info
             }
         )
 
@@ -61,7 +59,6 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
                 "created_at": db_user.created_at,
                 "updated_at": db_user.updated_at,
                 "acesso_id": acesso_info,
-                "perfis": perfis_info,
                 "first_access": db_user.first_access
             }
         }
