@@ -1,42 +1,47 @@
 from pydantic import BaseModel
-from typing import List, Optional
-from datetime import datetime
+from typing import Optional
+from datetime import date
+
 
 class EstabelecimentoSaudeSchema(BaseModel):
-    user_id : Optional[int] = None
-    local_id : Optional[int] = None
+    user_id: Optional[int] = None
+    local_id: Optional[int] = None
 
-    data_registro : Optional[datetime] = None
-    data_alteracao : Optional[datetime] = None
-    CNES : Optional[int] = None
-    CNPJ : Optional[int] = None
-    NomeFantasia : Optional[str] = None
-    RazaoSocial : Optional[str] = None
-    Endereco : Optional[str] = None
-    Cidade : Optional[str] = None
-    Estado : Optional[str] = None
-    Logradouro : Optional[str] = None
-    Numero : Optional[str] = None
-    Bairro : Optional[str] = None
-    CEP : Optional[int] = None
-    CPFDiretor : Optional[str] = None
-    #Tipo : Optional[int] = None
-    #AtividadePrincipal : Optional[int] = None
-    #AtividadeSecundaria : Optional[int] = None
-    #SistemaSUS : Optional[int] = None
+    data_registro: Optional[date] = None
+    data_alteracao: Optional[date] = None
+    CNES: Optional[int] = None
+    CNPJ: Optional[int] = None          
+    NomeFantasia: Optional[str] = None
+    RazaoSocial: Optional[str] = None
+    Endereco: Optional[str] = None
+    Cidade: Optional[str] = None
+    Estado: Optional[str] = None
+    Logradouro: Optional[str] = None
+    Numero: Optional[str] = None
+    Bairro: Optional[str] = None
+    CEP: Optional[int] = None            
+    CPFDiretor: Optional[int] = None     
+    Tipo: Optional[int] = None
+    AtividadePrincipal: Optional[int] = None
+    AtividadeSecundaria: Optional[int] = None
+    SistemaSUS: Optional[int] = None
 
-    
     class Config:
-        from_attributes  : True
-        
+        from_attributes = True
+
+
 class EstabelecimentoSaudeCreate(EstabelecimentoSaudeSchema):
-    pass 
-
     class Config:
-        from_attributes  : True
+        from_attributes = True
+
+
+class EstabelecimentoSaudeUpdate(EstabelecimentoSaudeSchema):
+    class Config:
+        from_attributes = True
+
 
 class EstabelecimentoSaudeResponse(EstabelecimentoSaudeSchema):
     id: int
-    
+
     class Config:
-        from_attributes  : True
+        from_attributes = True

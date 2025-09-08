@@ -9,7 +9,7 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.acessoModels import Acesso
 from models.estabelecimentoSaudeModels import EstabelecimentoSaude
-from schemas.estabelecimentoSaudeSchema import EstabelecimentoSaudeCreate, EstabelecimentoSaudeResponse
+from schemas.estabelecimentoSaudeSchema import EstabelecimentoSaudeCreate, EstabelecimentoSaudeResponse, EstabelecimentoSaudeUpdate
 
 estabelecimento = APIRouter(prefix="/api")
 
@@ -36,7 +36,7 @@ def create_estabelecimento(
 @estabelecimento.put("/editar-estabelecimento-saude/{estabelecimento_id}", response_model=EstabelecimentoSaudeResponse)
 def update_estabelecimento(
     estabelecimento_id: int,
-    estabelecimento: EstabelecimentoSaudeCreate,
+    estabelecimento: EstabelecimentoSaudeUpdate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
@@ -88,7 +88,7 @@ def get_estabelecimentos(
         coluna = getattr(EstabelecimentoSaude, ordenar_por)
         query = query.order_by(desc(coluna) if ordem == "desc" else asc(coluna))
 
-    return query.all()  # Retorna lista vazia se não houver registros
+    return query.all()
 
 
 @estabelecimento.get("/estabelecimentos-saude-by-local_id/{local_id}", response_model=List[EstabelecimentoSaudeResponse])

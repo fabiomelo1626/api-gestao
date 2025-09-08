@@ -56,11 +56,11 @@ def vinculo_all(db:Session = Depends(get_db), current_user: dict = Depends(get_c
 
 
 
-@vinculo.get("/vinculos-by-local_id/{local_id}", response_model=VinculoProfissionalSaudeResponse)
+@vinculo.get("/vinculos-by-local_id/{local_id}", response_model=List[VinculoProfissionalSaudeResponse])
 def search_vinculo_local(local_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    vinculos = db.query(VinculoProfissionalSaude).filter(VinculoProfissionalSaude.local_id == local_id).first()
+    vinculos = db.query(VinculoProfissionalSaude).filter(VinculoProfissionalSaude.local_id == local_id).all()
     if not vinculos:
-        HTTPException(status_code=404, detail="Vinculo profissional  não encontrado para o local")
+        raise HTTPException(status_code=404, detail="Nenhum vínculo profissional encontrado para o local")
     return vinculos
 
 

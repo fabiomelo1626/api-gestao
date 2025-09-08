@@ -1,7 +1,26 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from conexao.conect_db import get_db
-from models.tabelasAuxiliaresModels import *
+from models.tabelasAuxiliaresModels import (
+    ClassificacaoEstabelecimentoSaude,
+    AtividadeEstabelecimentoSaude,
+    Sus,
+    VinculoProfissional,
+    TiposLeito,
+    TipoEquipamento,
+    TipoFinanciamento,
+    OrigemInformacoes,
+    IdentificacaoAIH,
+    ModalidadeInternacao,
+    CaraterInternacao,
+    MotivoSaida,
+    FaixaEtaria,
+    RacaCor,
+    GravidezRisco,
+    TipoParto,
+    TempoGestacao,
+    TipoVacina
+)
 
 from endpoints.userEndpoints import get_current_user
 
@@ -29,10 +48,9 @@ def listar_sus(db: Session = Depends(get_db), current_user: dict = Depends(get_c
     return db.query(Sus).order_by(Sus.codigo).all()
 
 
-
-@auxiliares.get("/vinculos_profissionais", summary="Listar todos os vinculos profissionais")
+@auxiliares.get("/vinculos-profissionais", summary="Listar todos os vinculos profissionais")
 def get_vinculo_profissional(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return listar_todos(VinculoProfissionalSaude, db)
+    return listar_todos(VinculoProfissional, db)
 
 @auxiliares.get("/tipos-leito", summary="Listar todos os tipos leito")
 def get_tipo_leito(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
