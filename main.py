@@ -19,19 +19,27 @@ from endpoints.saudeMentalEndpoints import saude_mental
 from endpoints.maeEndpoints import mae
 from endpoints.nascidoVivoEndpoints import nascido_vivo
 from endpoints.coberturaVacinalEndpoints import cobertura
+<<<<<<< HEAD
 from endpoints.userEndpoints import user
 from endpoints.loginEndpoints import login_user
 from endpoints.acessoEndpoints import acesso
 from endpoints.localAcessoEndpoints import local
+=======
+from endpoints.loginEndpoints import login_user
+from endpoints.userEndpoints import user
+from endpoints.localAcessoEndpoints import local
+from endpoints.acessoEndpoints import acesso
+from endpoints.relatorioPdfEndpoints import pdf
+>>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
 from seed.popular import popular
 
 
 app = FastAPI(
     title="SAÚDE SIAP API",
     version="1.0",
-    docs_url=None,
-    redoc_url=None,    
-    openapi_url=None
+    #docs_url=None,
+    #redoc_url=None,    
+    #openapi_url=None
     )
 
 
@@ -62,7 +70,11 @@ app.include_router(saude_mental)
 app.include_router(mae)
 app.include_router(nascido_vivo)
 app.include_router(cobertura)
-
+app.include_router(login_user)
+app.include_router(local)
+app.include_router(user)
+app.include_router(acesso)
+app.include_router(pdf)
 
 def test_connection():
     try:
@@ -82,7 +94,7 @@ def create_tables():
 # Chamar a função de inicialização antes de rodar o servidor
 test_connection()
 create_tables()
-popular()
+#popular()
 
 
 # Rodar o servidor

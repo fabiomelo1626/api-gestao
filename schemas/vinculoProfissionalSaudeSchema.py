@@ -11,7 +11,11 @@ class VinculoProfissionalSaudeSchema(BaseModel):
     CNES : Optional[int] = None
     CPF : Optional[int] = None
     Matricula : Optional[int] = None
+<<<<<<< HEAD
     Vinculo : Optional[int] = None
+=======
+    Vinculo : Optional[str] = None
+>>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
     Ocupacao : Optional[int] = None
     CargaHorariaAmbulatorio : Optional[int] = None
     CargaHorariaTotal : Optional[int] = None

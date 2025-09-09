@@ -20,3 +20,4 @@ class CoberturaVacinal(Base):
     vacina = relationship("TipoVacina", back_populates="cobertura_vacinal")
     QuantidadeMasculino = Column(Integer, nullable=True)
     QuantidadeFeminino = Column(Integer, nullable=True)
+    

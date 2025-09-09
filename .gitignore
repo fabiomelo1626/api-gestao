@@ -2,9 +2,13 @@
 .ipynb_checkpoints
 .mypy_cache
 .vscode
+<<<<<<< HEAD
 __pycache__/
 **/__pycache__/
 *.pyc
+=======
+__pycache__
+>>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
 .pytest_cache
 htmlcov
 dist

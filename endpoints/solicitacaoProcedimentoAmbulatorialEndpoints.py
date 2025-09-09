@@ -27,6 +27,8 @@ def create_solicitacao_procedimento(
     try:
         db_solicitacao = SolicitacaoProcedimentoAmbulatorial(**solicitacao_procedimento.dict())
         db_solicitacao.data_registro = datetime.today()
+        db_solicitacao.user_id = current_user["id"]
+        db_solicitacao.local_id = current_user["acesso_id"]
         db.add(db_solicitacao)
         db.commit()
         db.refresh(db_solicitacao)

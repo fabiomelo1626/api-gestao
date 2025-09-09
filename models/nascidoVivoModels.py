@@ -24,3 +24,4 @@ class NascidoVivo(Base):
     TempoGestacao = Column(Integer, ForeignKey("aux_tempo_gestacao.id"), nullable=True)
     tempo = relationship("TempoGestacao", back_populates="nascido_vivo")
     PesoNascimento = Column(Float, nullable=True)
+  

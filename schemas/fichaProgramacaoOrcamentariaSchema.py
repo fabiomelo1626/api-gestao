@@ -9,8 +9,8 @@ class FichaProgramacaoOrcamentariaSchema(BaseModel):
     data_registro : Optional[datetime] = None
     data_alteracao : Optional[datetime] = None
     CNES : Optional[int] = None
-    #Procedimento : Optional[int] = None
-    #Financiamento : Optional[int] = None
+    Procedimento : Optional[int] = None
+    Financiamento : Optional[str] = None
     Quantidade : Optional[int] = None
     ValorUnitario : Optional[float] = None
     ValorTotal : Optional[float] = None

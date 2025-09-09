@@ -15,7 +15,7 @@ class EstabelecimentoSaude(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
     CNES = Column(Integer, nullable=True)
-    CNPJ = Column(BigInteger, nullable=True)
+    CNPJ = Column(BigInteger, nullable=True, unique=True)
     NomeFantasia = Column(String(255), nullable=True) 
     RazaoSocial = Column(String(255), nullable=True)
     Endereco = Column(String(255), nullable=True)

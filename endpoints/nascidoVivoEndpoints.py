@@ -27,6 +27,8 @@ def create_nascido_vivo(
     try:
         db_nascido = NascidoVivo(**nascido.dict())
         db_nascido.data_registro = datetime.today()
+        db_nascido.user_id = current_user["id"]
+        db_nascido.local_id = current_user["acesso_id"]
         db.add(db_nascido)
         db.commit()
         db.refresh(db_nascido)

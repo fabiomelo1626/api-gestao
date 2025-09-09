@@ -19,6 +19,10 @@ class FichaProgramacaoOrcamentaria(Base):
     Quantidade = Column(BigInteger, nullable=True)
     ValorUnitario = Column(Float, nullable=True)
     ValorTotal = Column(Float, nullable=True)
+<<<<<<< HEAD
     
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
+=======
+ 
+>>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece

@@ -24,7 +24,13 @@ def create_vinculo(
 ):
     try:
         db_vinculo = VinculoProfissionalSaude(**vinculo.dict())
+<<<<<<< HEAD
         db_vinculo.data_registro = datetime.now()
+=======
+        db_vinculo.data_registro = datetime.today()
+        db_vinculo.user_id = current_user["id"]
+        db_vinculo.local_id = current_user["acesso_id"]
+>>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
         db.add(db_vinculo)
         db.commit()
         db.refresh(db_vinculo)

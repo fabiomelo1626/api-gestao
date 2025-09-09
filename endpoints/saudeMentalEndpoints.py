@@ -25,6 +25,8 @@ def create_saude_mental(
     try:
         db_saude = SaudeMental(**saude.dict())
         db_saude.data_registro = datetime.today()
+        db_saude.user_id = current_user["id"]
+        db_saude.local_id = current_user["acesso_id"]
         db.add(db_saude)
         db.commit()
         db.refresh(db_saude)
