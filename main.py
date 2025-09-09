@@ -22,6 +22,7 @@ from endpoints.loginEndpoints import login_user
 from endpoints.userEndpoints import user
 from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
+from endpoints.relatorioPdfEndpoints import pdf
 from seed.popular import popular
 
 
@@ -62,6 +63,7 @@ app.include_router(login_user)
 app.include_router(local)
 app.include_router(user)
 app.include_router(acesso)
+app.include_router(pdf)
 
 def test_connection():
     try:

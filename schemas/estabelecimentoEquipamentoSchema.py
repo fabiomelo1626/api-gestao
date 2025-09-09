@@ -10,10 +10,10 @@ class EstabelecimentoEquipamentoSchema(BaseModel):
     data_alteracao : Optional[datetime] = None
     CNES : Optional[int] = None
     Codigo : Optional[int] = None
-    #Tipo : Optional[int] = None
+    Tipo : Optional[int] = None
     Quantidade : Optional[int] = None
     QuantidadeSUS : Optional[int] = None
-    #DisponibilidadeSUS : Optional[int] = None
+    DisponibilidadeSUS : Optional[int] = None
     
     class Config:
         from_attributes  : True

@@ -26,6 +26,8 @@ def create_estabelecimento(
     try:
         db_equipamento = EstabelecimentoEquipamento(**estabelecimento.dict())
         db_equipamento.data_registro = datetime.today()
+        db_equipamento.user_id = current_user["id"]
+        db_equipamento.local_id = current_user["acesso_id"]
         db.add(db_equipamento)
         db.commit()
         db.refresh(db_equipamento)

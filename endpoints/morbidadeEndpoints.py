@@ -25,6 +25,8 @@ def create_morbidade(
     try:
         db_morbidade = Morbidade(**morbidade.dict())
         db_morbidade.data_registro = datetime.today()
+        db_morbidade.user_id = current_user["id"]
+        db_morbidade.local_id = current_user["acesso_id"]
         db.add(db_morbidade)
         db.commit()
         db.refresh(db_morbidade)

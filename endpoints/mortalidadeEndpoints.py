@@ -25,6 +25,8 @@ def create_mortalidade(
     try:
         db_mortalidade = Mortalidade(**mortalidade.dict())
         db_mortalidade.data_registro = datetime.today()
+        db_mortalidade.user_id = current_user["id"]
+        db_mortalidade.local_id = current_user["acesso_id"]
         db.add(db_mortalidade)
         db.commit()
         db.refresh(db_mortalidade)

@@ -81,6 +81,8 @@ def update_mae(
     try:
         db_mae = Mae(**mae.dict())
         db_mae.data_alteracao = datetime.today()
+        db_mae.user_id = current_user["id"]
+        db_mae.local_id = current_user["acesso_id"]
         db.add(db_mae)
         db.commit()
         db.refresh(db_mae)

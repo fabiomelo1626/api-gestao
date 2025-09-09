@@ -27,6 +27,8 @@ def create_autorizacao(
     try:
         db_autorizacao = AutorizacaoProcedimentoAmbulatorial(**autorizacao.dict())
         db_autorizacao.data_registro = datetime.today()
+        db_autorizacao.user_id = current_user["id"]
+        db_autorizacao.local_id = current_user["acesso_id"]
         db.add(db_autorizacao)
         db.commit()
         db.refresh(db_autorizacao)

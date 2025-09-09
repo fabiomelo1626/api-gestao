@@ -20,3 +20,4 @@ class Mortalidade(Base):
     SubCategoriaCID = Column(String(6), nullable=True) 
     QuantidadeMasculino = Column(Integer, nullable=True)
     QuantidadeFeminino = Column(Integer, nullable=True)
+  

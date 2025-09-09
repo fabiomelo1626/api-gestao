@@ -27,6 +27,8 @@ def create_ficha(
     try:
         db_ficha = FichaProgramacaoOrcamentaria(**ficha.dict())
         db_ficha.data_registro = datetime.today()
+        db_ficha.user_id = current_user["id"]
+        db_ficha.local_id = current_user["acesso_id"]
         db.add(db_ficha)
         db.commit()
         db.refresh(db_ficha)

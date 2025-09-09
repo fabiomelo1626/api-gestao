@@ -22,3 +22,4 @@ class Mae(Base):
     QuantidadeConsulta = Column(Integer, nullable=True)
     GravidezRisco = Column(Integer, ForeignKey("aux_gravidez_risco.id"), nullable=True)
     gravidez = relationship("GravidezRisco", back_populates="mae")
+  

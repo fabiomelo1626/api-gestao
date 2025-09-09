@@ -22,3 +22,4 @@ class EstabelecimentoEquipamento(Base):
     QuantidadeSUS = Column(Integer, nullable=True)
     DisponibilidadeSUS = Column(Integer, ForeignKey("aux_sus.id"), nullable=True)
     disponibilidade = relationship("Sus", back_populates="estabelecimento_equipamento")
+ 

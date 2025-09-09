@@ -28,7 +28,7 @@ def create_autorizacao(
     try:
         db_autorizacao = AutorizacaoInternacaoHospitalar(**autorizacao.dict())
         db_autorizacao.user_id = current_user["id"]
-        db_autorizacao.local_id = current_user["local_id"]
+        db_autorizacao.local_id = current_user["acesso_id"]
         db_autorizacao.data_registro = datetime.today()
         db.add(db_autorizacao)
         db.commit()

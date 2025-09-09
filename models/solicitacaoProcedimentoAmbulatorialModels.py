@@ -24,3 +24,4 @@ class SolicitacaoProcedimentoAmbulatorial(Base):
     Origem = Column(String(3), ForeignKey("aux_origem_informacoes.id"), nullable=True)
     origem = relationship("OrigemInformacoes", back_populates="solicitacao_procedimento")
 
+  

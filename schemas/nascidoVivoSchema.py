@@ -10,10 +10,10 @@ class NascidoVivoSchema(BaseModel):
     data_alteracao : Optional[datetime] = None
     CPFMae : Optional[int] = None
     NumeroDNV : Optional[int] = None
-    #Raca : Optional[int] = None
+    Raca : Optional[int] = None
     DataNascimento : Optional[datetime] = None
-    #TipoParto : Optional[int] = None
-    #TempoGestacao : Optional[int] = None
+    TipoParto : Optional[int] = None
+    TempoGestacao : Optional[int] = None
     PesoNascimento : Optional[float] = None
     
     class Config:

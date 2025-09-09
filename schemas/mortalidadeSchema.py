@@ -8,7 +8,7 @@ class MortalidadeSchema(BaseModel):
 
     data_registro : Optional[datetime] = None
     data_alteracao : Optional[datetime] = None
-     #FaixaEtaria : Optional[int] = None
+    FaixaEtaria : Optional[int] = None
     CategoriaCID : Optional[str] = None
     SubCategoriaCID : Optional[str] = None
     QuantidadeMasculino : Optional[int] = None

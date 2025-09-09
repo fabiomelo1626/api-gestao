@@ -21,3 +21,4 @@ class FichaProgramacaoOrcamentaria(Base):
     Quantidade = Column(Integer, nullable=True)
     ValorUnitario = Column(Float, nullable=True)
     ValorTotal = Column(Float, nullable=True)
+ 

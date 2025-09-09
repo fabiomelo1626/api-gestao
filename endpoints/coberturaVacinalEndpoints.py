@@ -25,6 +25,8 @@ def create_cobertura_vacinal(
     try:
         cobertura = CoberturaVacinal(**cobertura.dict())
         cobertura.data_registro = datetime.today()
+        cobertura.user_id = current_user["id"]
+        cobertura.local_id = current_user["acesso_id"]
         db.add(cobertura)
         db.commit()
         db.refresh(cobertura)

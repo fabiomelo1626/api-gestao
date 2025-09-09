@@ -8,8 +8,8 @@ class CoberturaVacinalSchema(BaseModel):
 
     data_registro : Optional[datetime] = None
     data_alteracao : Optional[datetime] = None
-    #FaixaEtaria : Optional[int] = None
-    #Vacina : Optional[int] = None
+    FaixaEtaria : Optional[int] = None
+    Vacina : Optional[int] = None
     QuantidadeMasculino : Optional[int] = None
     QuantidadeFeminino : Optional[int] = None
     

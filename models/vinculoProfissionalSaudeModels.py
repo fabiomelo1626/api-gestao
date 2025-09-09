@@ -25,3 +25,4 @@ class VinculoProfissionalSaude(Base):
     DataInicioVinculo = Column(Date, nullable=True)
     DataFimVinculo = Column(Date, nullable=True)
 
+ 
