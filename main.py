@@ -19,18 +19,11 @@ from endpoints.saudeMentalEndpoints import saude_mental
 from endpoints.maeEndpoints import mae
 from endpoints.nascidoVivoEndpoints import nascido_vivo
 from endpoints.coberturaVacinalEndpoints import cobertura
-<<<<<<< HEAD
-from endpoints.userEndpoints import user
-from endpoints.loginEndpoints import login_user
-from endpoints.acessoEndpoints import acesso
-from endpoints.localAcessoEndpoints import local
-=======
 from endpoints.loginEndpoints import login_user
 from endpoints.userEndpoints import user
 from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
 from endpoints.relatorioPdfEndpoints import pdf
->>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
 from seed.popular import popular
 
 

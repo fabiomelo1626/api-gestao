@@ -36,24 +36,14 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Senha incorreta")
 
         acessos = db_user.acessos
-<<<<<<< HEAD
-
-        # perfis_info = [{"descricao": perfil.descricao} for perfil in db_user.perfis]
-=======
         
->>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
         acesso_info = [{"id": acesso.id} for acesso in db_user.acessos]
         acesso_atual = acesso_info[0]
         access_token = create_access_token(
             data={
                 "sub": db_user.username,
                 "id": db_user.id,
-<<<<<<< HEAD
-                "acesso_id": acesso_info,
-                # "perfis": perfis_info
-=======
                 "acesso_id": acesso_atual["id"],
->>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
             }
         )
 
@@ -69,10 +59,6 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
                 "created_at": db_user.created_at,
                 "updated_at": db_user.updated_at,
                 "acesso_id": acesso_info,
-<<<<<<< HEAD
-                # "perfis": perfis_info,
-=======
->>>>>>> cf3bda59fc7e0ba69ebeb6ce3a900f36767d9ece
                 "first_access": db_user.first_access
             }
         }
