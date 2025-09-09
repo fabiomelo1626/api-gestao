@@ -38,12 +38,12 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
         acessos = db_user.acessos
         
         acesso_info = [{"id": acesso.id} for acesso in db_user.acessos]
-        acesso_atual = acesso_info[0]
+        # acesso_atual = acesso_info[0]
         access_token = create_access_token(
             data={
                 "sub": db_user.username,
                 "id": db_user.id,
-                "acesso_id": acesso_atual["id"],
+                # "acesso_id": acesso_atual["id"],
             }
         )
 

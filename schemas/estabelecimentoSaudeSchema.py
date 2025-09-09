@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, Union
 from datetime import datetime
 
 
@@ -22,8 +22,8 @@ class EstabelecimentoSaudeSchema(BaseModel):
     CEP : Optional[int] = None
     CPFDiretor : Optional[str] = None
     Tipo : Optional[int] = None
-    AtividadePrincipal : Optional[str] = None
-    AtividadeSecundaria : Optional[str] = None
+    AtividadePrincipal: Optional[Union[str, int]] = None
+    AtividadeSecundaria: Optional[Union[str, int]] = None
     SistemaSUS : Optional[int] = None
 
     class Config:
