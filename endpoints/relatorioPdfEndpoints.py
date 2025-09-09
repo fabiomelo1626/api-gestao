@@ -26,7 +26,7 @@ def gerar_pdf_autorizacao_internacao(autorizacao_id: int, db: Session = Depends(
     }
 
 
-    resp = requests.post("http://localhost:3000/api/autorizacao/relatorio", json=payload)
+    resp = requests.post("http://189.126.106.183:5000/api/autorizacao/relatorio", json=payload)
     if resp.status_code == 200:
         filename = f"relatorio_autorizacao_{autorizacao.id}.pdf"
         filepath = os.path.join(os.getcwd(), filename)
