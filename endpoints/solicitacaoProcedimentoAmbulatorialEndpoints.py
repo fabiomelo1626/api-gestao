@@ -1,91 +1,86 @@
-from fastapi import APIRouter, Depends, HTTPException, Query, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from datetime import datetime
-from typing import List, Optional
+from typing import List
+from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
-from models.localAcessoModels import *
-from models.acessoModels import Acesso
 from models.solicitacaoProcedimentoAmbulatorialModels import SolicitacaoProcedimentoAmbulatorial
 from schemas.solicitacaoProcedimentoAmbulatorialSchema import SolicitacaoProcedimentoAmbulatorialCreate, SolicitacaoProcedimentoAmbulatorialResponse
-from sqlalchemy import asc, desc, func
-from sqlalchemy.exc import SQLAlchemyError
-
 
 solicitacao_procedimento = APIRouter(prefix="/api")
 
 
-
 @solicitacao_procedimento.post("/create-solicitacao-procedimento/", response_model=SolicitacaoProcedimentoAmbulatorialResponse)
 def create_solicitacao_procedimento(
-    solicitacao_procedimento: SolicitacaoProcedimentoAmbulatorialCreate,
+    solicitacao_in: SolicitacaoProcedimentoAmbulatorialCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-
     try:
-        db_solicitacao = SolicitacaoProcedimentoAmbulatorial(**solicitacao_procedimento.dict())
+        db_solicitacao = SolicitacaoProcedimentoAmbulatorial(**solicitacao_in.dict())
         db_solicitacao.data_registro = datetime.today()
         db_solicitacao.user_id = current_user["id"]
-        db_solicitacao.local_id = current_user["acesso_id"]
         db.add(db_solicitacao)
         db.commit()
         db.refresh(db_solicitacao)
         return db_solicitacao
-   
-
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
-
 @solicitacao_procedimento.get("/busca-solicitacao-procedimento/{solicitacao_id}", response_model=SolicitacaoProcedimentoAmbulatorialResponse)
 def search_solicitacao_procedimento(solicitacao_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    solicicatacao = db.query(SolicitacaoProcedimentoAmbulatorial).filter(SolicitacaoProcedimentoAmbulatorial.id == solicitacao_id).first()
-    if not solicicatacao:
-        raise HTTPException(status_code=404, detail="Solicitacao Procedimento não encontrada")
-    return solicicatacao
+    db_solicitacao = db.query(SolicitacaoProcedimentoAmbulatorial).filter(
+        SolicitacaoProcedimentoAmbulatorial.id == solicitacao_id
+    ).first()
+    if not db_solicitacao:
+        raise HTTPException(status_code=404, detail="Solicitação Procedimento não encontrada")
+    return db_solicitacao
 
 
-
-@solicitacao_procedimento.get("/solicitacoes-procedimentos", response_model=SolicitacaoProcedimentoAmbulatorialResponse)
-def solicitacao_all(db:Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    solicitacoes = db.query(SolicitacaoProcedimentoAmbulatorial).all()
-
-    return solicitacoes
+@solicitacao_procedimento.get("/solicitacoes-procedimentos", response_model=List[SolicitacaoProcedimentoAmbulatorialResponse])
+def solicitacao_all(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+    return db.query(SolicitacaoProcedimentoAmbulatorial).all()
 
 
-
-@solicitacao_procedimento.get("/solicitacoes-by-local_id/{local_id}", response_model=SolicitacaoProcedimentoAmbulatorialResponse)
+@solicitacao_procedimento.get("/solicitacoes-by-local_id/{local_id}", response_model=List[SolicitacaoProcedimentoAmbulatorialResponse])
 def search_solicitacao_local(local_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    solicitacoes = db.query(SolicitacaoProcedimentoAmbulatorial).filter(SolicitacaoProcedimentoAmbulatorial.local_id == local_id).first()
+    solicitacoes = db.query(SolicitacaoProcedimentoAmbulatorial).filter(
+        SolicitacaoProcedimentoAmbulatorial.local_id == local_id
+    ).all()
     if not solicitacoes:
-        HTTPException(status_code=404, detail="Solicitacao Procedimento  não encontrado para o local")
+        raise HTTPException(status_code=404, detail="Nenhuma solicitação encontrada para o local")
     return solicitacoes
-
 
 
 @solicitacao_procedimento.put("/editar-solicitacao-procedimento/{solicitacao_id}", response_model=SolicitacaoProcedimentoAmbulatorialResponse)
 def update_solicitacao(
     solicitacao_id: int,
-    solicitacao: SolicitacaoProcedimentoAmbulatorialCreate,
+    solicitacao_in: SolicitacaoProcedimentoAmbulatorialCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_solicitacao = db.query(SolicitacaoProcedimentoAmbulatorial).filter(SolicitacaoProcedimentoAmbulatorial.id == solicitacao_id).first()
-
+    db_solicitacao = db.query(SolicitacaoProcedimentoAmbulatorial).filter(
+        SolicitacaoProcedimentoAmbulatorial.id == solicitacao_id
+    ).first()
     if not db_solicitacao:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Solicitacao Procedimento não encontrado")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Solicitação Procedimento não encontrada")
 
     try:
-        db_solicitacao = SolicitacaoProcedimentoAmbulatorial(**solicitacao.dict())
+        # Atualiza somente os campos enviados
+        for key, value in solicitacao_in.dict(exclude_unset=True).items():
+            setattr(db_solicitacao, key, value)
+
         db_solicitacao.data_alteracao = datetime.today()
-        db.add(db_solicitacao)
         db.commit()
         db.refresh(db_solicitacao)
         return db_solicitacao
+
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")

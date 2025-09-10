@@ -17,6 +17,8 @@ class SolicitacaoProcedimentoAmbulatorialSchema(BaseModel):
     CID10CausasAssociadas : Optional[str] = None
     Quantidade : Optional[int] = None
     Origem : Optional[str] = None
+    Ocupacao : Optional[int] = None
+    CPFSolicitante : Optional[int] = None
     
     class Config:
         from_attributes  : True
