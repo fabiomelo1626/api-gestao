@@ -20,7 +20,7 @@ class EstabelecimentoSaudeSchema(BaseModel):
     Numero : Optional[str] = None
     Bairro : Optional[str] = None
     CEP : Optional[int] = None
-    CPFDiretor : Optional[str] = None
+    CPFDiretor : Optional[int] = None
     Tipo : Optional[int] = None
     AtividadePrincipal: Optional[Union[str, int]] = None
     AtividadeSecundaria: Optional[Union[str, int]] = None
