@@ -23,15 +23,16 @@ from endpoints.userEndpoints import user
 from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
 from endpoints.relatorioPdfEndpoints import pdf
+from endpoints.geradorXmlEndpoint import xml
 from seed.popular import popular
 
 
 app = FastAPI(
     title="SAÚDE SIAP API",
     version="1.0",
-    #docs_url=None,
-    #redoc_url=None,    
-    #openapi_url=None
+    docs_url=None,
+    redoc_url=None,    
+    openapi_url=None
     )
 
 
@@ -64,6 +65,8 @@ app.include_router(local)
 app.include_router(user)
 app.include_router(acesso)
 app.include_router(pdf)
+app.include_router(xml)
+
 
 def test_connection():
     try:
