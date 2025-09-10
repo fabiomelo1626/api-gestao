@@ -58,8 +58,6 @@ def estabelecimento_leitos_all(db: Session = Depends(get_db), current_user: dict
 @estabelecimento_leito.get("/estabelecimento_leito-by-local_id/{local_id}", response_model=List[EstabelecimentoLeitoResponse])
 def search_estabelecimento_leito_local(local_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
     estabelecimentos = db.query(EstabelecimentoLeito).filter(EstabelecimentoLeito.local_id == local_id).all()
-    if not estabelecimentos:
-        raise HTTPException(status_code=404, detail="Nenhum estabelecimento leito encontrado para o local")
     return estabelecimentos
 
 

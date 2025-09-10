@@ -45,8 +45,7 @@ def listar_atividades(db: Session = Depends(get_db), current_user: dict = Depend
 
 @auxiliares.get("/sus", summary="Listar sus")
 def listar_sus(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(Sus).order_by(Sus.codigo).all()
-
+    return db.query(Sus).order_by(Sus.id).all()
 
 @auxiliares.get("/vinculos-profissionais", summary="Listar todos os vinculos profissionais")
 def get_vinculo_profissional(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
