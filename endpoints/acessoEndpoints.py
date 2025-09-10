@@ -60,8 +60,8 @@ def definir_local(
     new_token = create_access_token(data={
         "sub": current_user["sub"],
         "id": current_user["id"],
-        "acesso_id": current_user["acesso_id"],
-        "perfis": current_user["perfis"],
+        # "acesso_id": current_user["acesso_id"],
+        # "perfis": current_user["perfis"],
         "local_id":local_id
     })
 
@@ -70,9 +70,8 @@ def definir_local(
         "token_type": "bearer",
         "sub":current_user["sub"],
         "id":current_user["id"],
-        "acesso_id":current_user["acesso_id"],
+        # "acesso_id":current_user["acesso_id"],
         "local_id": local_id,
-        
     }
 
 
