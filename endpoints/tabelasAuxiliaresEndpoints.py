@@ -69,7 +69,7 @@ def get_origem_informacoes(db: Session = Depends(get_db), current_user: dict = D
 
 @auxiliares.get("/identificacao-aih", summary="Listar todos os tipos de licenças")
 def get_identificacao_aih(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
-    return db.query(IdentificacaoAIH).order_by(IdentificacaoAIH.codigo).all()
+    return db.query(IdentificacaoAIH).order_by(IdentificacaoAIH.id).all()
 
 @auxiliares.get("/tipo-modalidade-internacao", summary="Listar todas as modaldidades internação")
 def get_modalidade_internacao(db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
