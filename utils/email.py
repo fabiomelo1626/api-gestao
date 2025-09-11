@@ -20,7 +20,7 @@ def enviar_email_com_link_reset(destinatario: str, link_reset: str, username: st
             <div style="max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; padding: 20px; background-color: #f9f9f9;">
                 <h2 style="color: #1e88e5;">🔐 Redefinição de Senha</h2>
                 <p>Olá <strong>{username}</strong>,</p>
-                <p>Recebemos uma solicitação para redefinir a senha da sua conta no sistema de obras públicas da <strong>Marka System</strong>.</p>
+                <p>Recebemos uma solicitação para redefinir a senha da sua conta no sistema de saúde pública da <strong>Marka Sistemas</strong>.</p>
                 <p style="text-align: center; margin: 30px 0;">
                     <a href="{link_reset}" style="background-color: #1e88e5; color: white; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">
                         🔁 Redefinir Senha
