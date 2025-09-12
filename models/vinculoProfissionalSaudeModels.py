@@ -27,4 +27,5 @@ class VinculoProfissionalSaude(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
 
- 
+    
+    
