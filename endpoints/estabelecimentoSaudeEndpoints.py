@@ -118,3 +118,32 @@ def search_estabelecimento_local(
     ).all()
 
     return estabelecimento
+
+
+@estabelecimento.get("/contagem-estabelecimentos-saude/")
+def contagem_estabelecimentos(
+    local_id: Optional[int] = Query(None),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        query = db.query(
+            EstabelecimentoSaude.local_id,
+            func.count(EstabelecimentoSaude.id).label("total")
+        )
+        
+        if local_id:
+            query = query.filter(EstabelecimentoSaude.local_id == local_id)
+        
+        query = query.group_by(EstabelecimentoSaude.local_id)
+        resultados = query.all()
+        
+        # Formatar resultado como lista de dicionários
+        resposta = [{"local_id": r.local_id, "total": r.total} for r in resultados]
+        
+        return {"contagem": resposta}
+    
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")

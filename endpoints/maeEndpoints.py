@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import func
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
@@ -76,6 +77,34 @@ def update_mae(
         db.commit()
         db.refresh(db_mae)
         return db_mae
+
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+@mae.get("/contagem-maes/")
+def contagem_maes(
+    local_id: int = Query(None),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    try:
+        query = db.query(
+            Mae.local_id,
+            func.count(Mae.id).label("total")
+        )
+
+        if local_id:
+            query = query.filter(Mae.local_id == local_id)
+
+        query = query.group_by(Mae.local_id)
+        resultados = query.all()
+
+        resposta = [{"local_id": r.local_id, "total": r.total} for r in resultados]
+
+        return {"contagem": resposta}
 
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
