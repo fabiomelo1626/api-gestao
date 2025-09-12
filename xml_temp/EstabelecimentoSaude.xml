@@ -4,26 +4,26 @@
   <Exercicio>2025</Exercicio>
   <Mes>05</Mes>
   <EstabelecimentoSaude>
-    <id>8</id>
-    <user_id>4</user_id>
+    <id>1</id>
+    <user_id />
     <local_id>1</local_id>
-    <data_registro>2025-09-09</data_registro>
-    <data_alteracao>2025-09-08</data_alteracao>
-    <CNES>4257</CNES>
-    <CNPJ>458711222</CNPJ>
-    <NomeFantasia>posto josefa batista</NomeFantasia>
-    <RazaoSocial>posto de saude camajar</RazaoSocial>
+    <data_registro />
+    <data_alteracao>2025-09-11</data_alteracao>
+    <CNES>12718712</CNES>
+    <CNPJ>68899569000174</CNPJ>
+    <NomeFantasia>Corretores Associados</NomeFantasia>
+    <RazaoSocial>Giovanna e Luiza Corretores Associados ME</RazaoSocial>
     <Endereco />
-    <Cidade>estrela</Cidade>
-    <Estado>al</Estado>
-    <Logradouro>rua dr velho</Logradouro>
-    <Numero>16</Numero>
-    <Bairro>centro</Bairro>
-    <CEP>5478222</CEP>
-    <CPFDiretor>74859632</CPFDiretor>
-    <Tipo>2</Tipo>
-    <AtividadePrincipal>00</AtividadePrincipal>
-    <AtividadeSecundaria>00</AtividadeSecundaria>
+    <Cidade>Maceió</Cidade>
+    <Estado>AL</Estado>
+    <Logradouro>Avenida Siqueira Campos</Logradouro>
+    <Numero>59</Numero>
+    <Bairro>Prado</Bairro>
+    <CEP>57010002</CEP>
+    <CPFDiretor>12483408419</CPFDiretor>
+    <Tipo>5</Tipo>
+    <AtividadePrincipal>01</AtividadePrincipal>
+    <AtividadeSecundaria>03</AtividadeSecundaria>
     <SistemaSUS>1</SistemaSUS>
   </EstabelecimentoSaude>
 </SIAP>

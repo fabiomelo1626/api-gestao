@@ -3,4 +3,16 @@
   <Codigo>1</Codigo>
   <Exercicio>2025</Exercicio>
   <Mes>05</Mes>
+  <SaudeMental>
+    <id>1</id>
+    <user_id />
+    <local_id>1</local_id>
+    <FaixaEtaria>3</FaixaEtaria>
+    <CategoriaCID>65489</CategoriaCID>
+    <SubCategoriaCID>6556</SubCategoriaCID>
+    <QuantidadeMasculino />
+    <QuantidadeFeminino />
+    <data_registro>2025-09-11</data_registro>
+    <data_alteracao>2025-09-11</data_alteracao>
+  </SaudeMental>
 </SIAP>

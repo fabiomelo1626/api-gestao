@@ -9,7 +9,6 @@ import zipfile
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.autorizacaoInternacaoHospitalarModels import AutorizacaoInternacaoHospitalar
-from models.autorizacaoInternacaoHospitalarModels import AutorizacaoInternacaoHospitalar
 from models.autorizacaoProcedimentoAmbulatorialModels import AutorizacaoProcedimentoAmbulatorial
 from models.coberturaVacinalModels import CoberturaVacinal
 from models.estabelecimentoEquipamentoModels import EstabelecimentoEquipamento
@@ -24,12 +23,10 @@ from models.saudeMentalModels import SaudeMental
 from models.solicitacaoProcedimentoAmbulatorialModels import SolicitacaoProcedimentoAmbulatorial
 from models.vinculoProfissionalSaudeModels import VinculoProfissionalSaude
 
-
-xml = APIRouter()
+xml = APIRouter(prefix="/api")
 
 def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, local_id: int, xml_path: str):
     registros = db.query(modelo).filter_by(local_id=local_id).all()
-
     root = ET.Element("SIAP")
 
     ET.SubElement(root, "Codigo").text = str(local_id)
@@ -38,7 +35,7 @@ def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, l
 
     if registros:
         for registro in registros:
-            item_elem = ET.SubElement(root, nome) 
+            item_elem = ET.SubElement(root, nome)
             for coluna in registro.__table__.columns:
                 valor = getattr(registro, coluna.name)
                 campo = ET.SubElement(item_elem, coluna.name)
@@ -48,8 +45,6 @@ def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, l
     ET.indent(tree, space="  ")
     tree.write(xml_path, encoding="utf-8", xml_declaration=True)
 
-
-
 @xml.get("/exportar_xml_zip/")
 def exportar_xml_zip(
     exercicio: int,
@@ -57,7 +52,11 @@ def exportar_xml_zip(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    local_id = current_user["acesso_id"]
+    # Usa id do usuário como local_id se acesso_id não existir
+    local_id = current_user.get("acesso_id") or current_user.get("id")
+    if not local_id:
+        return {"error": "Usuário não possui acesso_id definido"}
+
     tabelas = {
         "AutorizacaoInternacaoHospitalar": AutorizacaoInternacaoHospitalar,
         "AutorizacaoProcedimentoAmbulatorial": AutorizacaoProcedimentoAmbulatorial,

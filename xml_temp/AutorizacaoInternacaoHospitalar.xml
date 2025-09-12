@@ -4,27 +4,27 @@
   <Exercicio>2025</Exercicio>
   <Mes>05</Mes>
   <AutorizacaoInternacaoHospitalar>
-    <id>2</id>
-    <user_id>4</user_id>
+    <id>1</id>
+    <user_id>1</user_id>
     <local_id>1</local_id>
-    <data_registro>2025-09-09</data_registro>
-    <data_alteracao />
-    <CNES>124570</CNES>
-    <NumeroAIH>425880</NumeroAIH>
+    <CNES>12718712</CNES>
+    <NumeroAIH>172</NumeroAIH>
     <Identificacao>1</Identificacao>
-    <EspecialidadeLeito>1</EspecialidadeLeito>
-    <ModalidadeInternacao>2</ModalidadeInternacao>
-    <AIHAnterior>15150</AIHAnterior>
-    <DataEmissao>2025-09-09</DataEmissao>
-    <DataInternacao>2025-09-09</DataInternacao>
-    <DataSaida>2025-09-09</DataSaida>
-    <ProcedimentoSolicitado>20</ProcedimentoSolicitado>
+    <EspecialidadeLeito>4</EspecialidadeLeito>
+    <ModalidadeInternacao>3</ModalidadeInternacao>
+    <AIHAnterior>17263</AIHAnterior>
+    <DataEmissao>2030-05-31</DataEmissao>
+    <DataInternacao>2030-05-31</DataInternacao>
+    <DataSaida>2030-05-31</DataSaida>
+    <ProcedimentoSolicitado>98756</ProcedimentoSolicitado>
     <CaraterInternacao>1</CaraterInternacao>
     <MotivoSaida>1.1</MotivoSaida>
-    <CNSSolicitante>150</CNSSolicitante>
-    <CNSResponsavel>120</CNSResponsavel>
-    <CNSAutorizador>48</CNSAutorizador>
-    <DiagnosticoPrincipal>12</DiagnosticoPrincipal>
-    <CNSPaciente>45450</CNSPaciente>
+    <CNSSolicitante>17263</CNSSolicitante>
+    <CNSResponsavel>71623</CNSResponsavel>
+    <CNSAutorizador>17263</CNSAutorizador>
+    <DiagnosticoPrincipal>6121</DiagnosticoPrincipal>
+    <CNSPaciente>71263</CNSPaciente>
+    <data_registro>2025-09-11</data_registro>
+    <data_alteracao>2025-09-11</data_alteracao>
   </AutorizacaoInternacaoHospitalar>
 </SIAP>
