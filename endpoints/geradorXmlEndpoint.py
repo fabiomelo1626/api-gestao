@@ -25,7 +25,7 @@ from models.vinculoProfissionalSaudeModels import VinculoProfissionalSaude
 
 xml = APIRouter(prefix="/api")
 
-def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, local_id: int, xml_path: str):
+def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, local_id: int, xml_path: str, campos: list[str]):
     registros = db.query(modelo).filter_by(local_id=local_id).all()
     root = ET.Element("SIAP")
 
@@ -36,9 +36,9 @@ def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, l
     if registros:
         for registro in registros:
             item_elem = ET.SubElement(root, nome)
-            for coluna in registro.__table__.columns:
-                valor = getattr(registro, coluna.name)
-                campo = ET.SubElement(item_elem, coluna.name)
+            for campo_nome in campos:
+                valor = getattr(registro, campo_nome, None)
+                campo = ET.SubElement(item_elem, campo_nome)
                 campo.text = str(valor) if valor is not None else ""
 
     tree = ET.ElementTree(root)
@@ -52,35 +52,98 @@ def exportar_xml_zip(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    # Usa id do usuário como local_id se acesso_id não existir
     local_id = current_user.get("acesso_id") or current_user.get("id")
     if not local_id:
         return {"error": "Usuário não possui acesso_id definido"}
 
     tabelas = {
-        "AutorizacaoInternacaoHospitalar": AutorizacaoInternacaoHospitalar,
-        "AutorizacaoProcedimentoAmbulatorial": AutorizacaoProcedimentoAmbulatorial,
-        "CoberturaVacinal": CoberturaVacinal,
-        "EstabelecimentoEquipamento": EstabelecimentoEquipamento,
-        "EstabelecimentoLeito": EstabelecimentoLeito,
-        "EstabelecimentoSaude": EstabelecimentoSaude,
-        "FichaProgramacaoOrcamentaria": FichaProgramacaoOrcamentaria,
-        "Mae": Mae,
-        "Morbidade": Morbidade,
-        "Mortalidade": Mortalidade,
-        "NascidoVivo": NascidoVivo,
-        "SaudeMental": SaudeMental,
-        "SolicitacaoProcedimentoAmbulatorial": SolicitacaoProcedimentoAmbulatorial,
-        "VinculoProfissionalSaude": VinculoProfissionalSaude,
-    }
+    "EstabelecimentoSaude":(
+        EstabelecimentoSaude, [
+            "CNES", "CNPJ", "NomeFantasia", "RazaoSocial", "Endereco", "CEP", "CPFDiretor",
+              "Tipo", "AtividadePrincipal", "AtividadeSecundaria", "SistemaSUS"
+        ]
+    ),
+    "VinculoProfissionalSaude":(
+        VinculoProfissionalSaude,[
+            "CNES", "CPF", "Matricula", "Vinculo", "Ocupacao", "CargaHorariaAmbulatorio",
+             "CargaHorariaHospital", "CargaHorariaTotal", "DataInicioVinculo", "DataFimVinculo"
+        ]
+    ),
+    "EstabelecimentoLeito":(
+        EstabelecimentoLeito,[
+            "CNES", "TipoLeito", "Quantidade", "QuantidadeSUS"
+        ]
+    ),
+    "EstabelecimentoEquipamento":(
+        EstabelecimentoEquipamento,[
+            "CNES", "Codigo", "Tipo", "Quantidade", "QuantidadeSUS", "DisponibilidadeSUS"
+        ]
+    ),
+    "FichaProgramacaoOrcamentaria":(
+        FichaProgramacaoOrcamentaria,[
+            "CNES", "Procedimento", "Financiamento", "Quantidade", "ValorUnitario", "ValorTotal"
+        ]
+    ),
+    "SolicitacaoProcedimentoAmbulatorial":(
+        SolicitacaoProcedimentoAmbulatorial,[
+            "CNES", "CPFSolicitante", "Ocupacao", "CNS", "Data", "Procedimento", "CID10Principal", 
+            "CID10Secundario", "CID10CausasAssociadas", "Quantidade", "Origem"
+        ]
+    ),
+    
+    "AutorizacaoProcedimentoAmbulatorial": (
+        AutorizacaoProcedimentoAmbulatorial,
+        ["CNES", "CPFAutorizador", "Ocupacao", "CNS", "Data", "Procedimento", "CID10Principal",
+          "CID10Secundario", "CID10CausasAssociadas", "Quantidade", "Origem"
+        ]
+    ),
+    "AutorizacaoInternacaoHospitalar": (
+        AutorizacaoInternacaoHospitalar,
+        ["CNES", "NumeroAIH", "Identificacao", "EspecialidadeLeito", "ModalidadeInternacao",
+          "AIHAnterior", "DataEmissao", "DataInternacao", "DataSaida", "ProcedimentoSolicitado", 
+          "CaraterInternacao", "MotivoSaida", "CNSSolicitante", "CNSResponsavel", "CNSAutorizador",
+            "DiagnosticoPrincipal", "CNSPaciente"
+        ] 
+    ),
+    "Mortalidade":(
+        Mortalidade,[
+            "FaixaEtaria", "CategoriaCID", "SubCategoriaCID", "QuantidadeMasculino", "QuantidadeFeminino"
+        ]
+    ),
+    "Morbidade":(
+        Morbidade,[
+           "FaixaEtaria" , "CategoriaCID", "SubCategoriaCID", "QuantidadeMasculino", "QuantidadeFeminino"
+        ]
+    ),
+    "SaudeMental": (
+        SaudeMental,[
+            "FaixaEtaria", "CategoriaCID", "SubCategoriaCID", "QuantidadeMasculino", "QuantidadeFeminino"
+        ]
+    ),
+    "Mae":(
+        Mae,[
+            "CPF", "Nome", "DataNascimento", "Raca", "QuantidadeConsulta", "GravidezRisco"
+        ]
+    ),
+    "NascidoVivo":(
+        NascidoVivo, [
+            "CPFMae", "NumeroDNV", "Raca", "DataNascimento", "TipoParto", "TempoGestacao", "PesoNascimento"
+        ]
+    ),
+    "CoberturaVacinal": (
+        CoberturaVacinal,
+        ["FaixaEtaria", "Vacina", "QuantidadeMasculino", "QuantidadeFeminino"]
+    ),
+   
+}
 
     pasta_saida = "xml_temp"
     os.makedirs(pasta_saida, exist_ok=True)
 
     arquivos_xml = []
-    for nome, modelo in tabelas.items():
+    for nome, (modelo, campos) in tabelas.items():
         xml_path = os.path.join(pasta_saida, f"{nome}.xml")
-        gerar_xml_tabela(db, modelo, nome, exercicio, mes, local_id, xml_path)
+        gerar_xml_tabela(db, modelo, nome, exercicio, mes, local_id, xml_path, campos)
         arquivos_xml.append(xml_path)
 
     nome_zip = f"SAUDE_{local_id}_{exercicio}{mes:02d}.zip"
