@@ -18,6 +18,7 @@ class SolicitacaoProcedimentoAmbulatorialSchema(BaseModel):
     Quantidade : Optional[int] = None
     Origem : Optional[str] = None
     Ocupacao : Optional[int] = None
+    CNS : Optional[int] = None
     CPFSolicitante : Optional[int] = None
     
     class Config:
