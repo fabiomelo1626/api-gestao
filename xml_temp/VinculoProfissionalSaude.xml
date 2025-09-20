@@ -2,5 +2,22 @@
 <SIAP>
   <Codigo>1</Codigo>
   <Exercicio>2025</Exercicio>
-  <Mes>05</Mes>
+  <Mes>06</Mes>
+  <VinculoProfissionalSaude>
+    <id>1</id>
+    <user_id>1</user_id>
+    <local_id>1</local_id>
+    <CNES>12718712</CNES>
+    <CPF>97280522270</CPF>
+    <Matricula>8712631</Matricula>
+    <Vinculo>10102</Vinculo>
+    <Ocupacao>8127178</Ocupacao>
+    <CargaHorariaAmbulatorio>17</CargaHorariaAmbulatorio>
+    <CargaHorariaHospital>12</CargaHorariaHospital>
+    <CargaHorariaTotal>14</CargaHorariaTotal>
+    <DataInicioVinculo>2025-12-02</DataInicioVinculo>
+    <DataFimVinculo>2025-12-02</DataFimVinculo>
+    <data_registro>2025-09-12</data_registro>
+    <data_alteracao />
+  </VinculoProfissionalSaude>
 </SIAP>

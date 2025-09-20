@@ -12,7 +12,7 @@ class EstabelecimentoEquipamentoSchema(BaseModel):
     Codigo : Optional[int] = None
     Tipo : Optional[int] = None
     Quantidade : Optional[int] = None
-    QuantidadeSUS : Optional[int] = None
+    QuantidadeUso : Optional[int] = None
     DisponibilidadeSUS : Optional[int] = None
     
     class Config:

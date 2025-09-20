@@ -17,7 +17,7 @@ class EstabelecimentoEquipamento(Base):
     Tipo = Column(Integer, ForeignKey("aux_tipo_equipamento.id"), nullable=True)
     tipo = relationship("TipoEquipamento", back_populates="estabelecimento_equipamento")
     Quantidade = Column(Integer, nullable=True) 
-    QuantidadeSUS = Column(Integer, nullable=True)
+    QuantidadeUso = Column(Integer, nullable=True)
     DisponibilidadeSUS = Column(Integer, ForeignKey("aux_sus.id"), nullable=True)
     disponibilidade = relationship("Sus", back_populates="estabelecimento_equipamento")
     
