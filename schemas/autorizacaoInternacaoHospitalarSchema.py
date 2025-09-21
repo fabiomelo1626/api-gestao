@@ -19,7 +19,7 @@ class AutorizacaoInternacaoHospitalarSchema(BaseModel):
     DataSaida : Optional[datetime] = None
     ProcedimentoSolicitado : Optional[int] = None
     CaraterInternacao : Optional[int] = None
-    MotivoSaida : Optional[int] = None
+    MotivoSaida : Optional[str] = None
     CNSSolicitante : Optional[int] = None
     CNSResponsavel : Optional[int] = None
     CNSAutorizador : Optional[int] = None
