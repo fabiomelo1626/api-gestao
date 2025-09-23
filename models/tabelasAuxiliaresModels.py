@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Numeric
 from conexao.conect_db import Base
 from sqlalchemy.orm import relationship
 
@@ -118,7 +118,7 @@ class CaraterInternacao(Base):
 class MotivoSaida(Base):
     __tablename__ = "aux_motivo_saida"
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(Numeric(1,1), primary_key=True, index=True)
     descricao = Column(String, nullable=False)
     
     autorizacao_internacao = relationship("AutorizacaoInternacaoHospitalar", back_populates="motivo_saida")
