@@ -31,9 +31,9 @@ from seed.popular import popular
 app = FastAPI(
     title="SAÚDE SIAP API",
     version="1.0",
-    #docs_url=None,
-    #redoc_url=None,    
-    #openapi_url=None
+    docs_url=None,
+    redoc_url=None,    
+    openapi_url=None
     )
 
 
