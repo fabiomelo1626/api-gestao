@@ -83,7 +83,7 @@ def esqueci_senha(payload: EmailSchema, background_tasks: BackgroundTasks, db: S
 
     token = create_reset_password_token({"sub": user.email})
 
-    link_reset = f"https://obras.gestaomunicipal.net/redefinir-senha?token={token}"
+    link_reset = f"https://saude.gestaomunicipal.net/redefinir-senha?token={token}"
 
     background_tasks.add_task(enviar_email_com_link_reset, user.email, link_reset, username=user.username)
 

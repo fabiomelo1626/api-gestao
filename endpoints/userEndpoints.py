@@ -67,7 +67,7 @@ def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session
         destinatario=novo_usuario.email,
         senha=senha_temporaria,
         username=novo_usuario.username,
-        link="https://obras.gestaomunicipal.net/login"
+        link="https://saude.gestaomunicipal.net/login"
     )
 
     return novo_usuario
