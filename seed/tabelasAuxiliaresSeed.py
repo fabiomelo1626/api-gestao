@@ -334,27 +334,27 @@ def seed_tabelas_auxiliares(db: Session):
     
     
     motivo_saida = [
-        (1.1, "Alta Curado"),
-        (1.2, "Alta Melhorado"),
-        (1.3, "Alta da Puérpera e permanência do recém-nascido"),
-        (1.4, "Alta a pedido"),
-        (1.5, "Alta com previsão de retorno para acompanhamento do paciente"),
-        (1.6, "Alta por Evasão"),
-        (1.7, "Alta da Puérpera e recém-nascido"),
-        (1.8, "Alta por Outros motivos"),
-        (2.1, "Por características próprias da doença"),
-        (2.2, "Por Intercorrência"),
-        (2.3, "Por impossibilidade sócio-familiar"),
-        (2.4, "Por Processo de doação de órgãos, tecidos e células - doador vivo"),
-        (2.5, "Por Processo de doação de órgãos, tecidos e células - doador morto"),
-        (2.6, "Por mudança de Procedimento"),
-        (2.7, "Por reoperação"),
-        (2.8, "Outros motivos"),
-        (3.1, "Transferido para outro estabelecimento"),
-        (4.1, "Com declaração de óbito fornecida pelo médico assistente"),
-        (4.2, "Com declaração de Óbito fornecida pelo Instituto Médico Legal - IML"),
-        (4.3, "Com declaração de Óbito fornecida pelo Serviço de Verificação de Óbito - SVO"),
-        (5.1, "ENCERRAMENTO ADMINISTRATIVO")
+        ("1.1", "Alta Curado"),
+        ("1.2", "Alta Melhorado"),
+        ("1.3", "Alta da Puérpera e permanência do recém-nascido"),
+        ("1.4", "Alta a pedido"),
+        ("1.5", "Alta com previsão de retorno para acompanhamento do paciente"),
+        ("1.6", "Alta por Evasão"),
+        ("1.7", "Alta da Puérpera e recém-nascido"),
+        ("1.8", "Alta por Outros motivos"),
+        ("2.1", "Por características próprias da doença"),
+        ("2.2", "Por Intercorrência"),
+        ("2.3", "Por impossibilidade sócio-familiar"),
+        ("2.4", "Por Processo de doação de órgãos, tecidos e células - doador vivo"),
+        ("2.5", "Por Processo de doação de órgãos, tecidos e células - doador morto"),
+        ("2.6", "Por mudança de Procedimento"),
+        ("2.7", "Por reoperação"),
+        ("2.8", "Outros motivos"),
+        ("3.1", "Transferido para outro estabelecimento"),
+        ("4.1", "Com declaração de óbito fornecida pelo médico assistente"),
+        ("4.2", "Com declaração de Óbito fornecida pelo Instituto Médico Legal - IML"),
+        ("4.3", "Com declaração de Óbito fornecida pelo Serviço de Verificação de Óbito - SVO"),
+        ("5.1", "ENCERRAMENTO ADMINISTRATIVO")
     ]
     
     faixa_etaria = [
