@@ -25,7 +25,7 @@ from models.vinculoProfissionalSaudeModels import VinculoProfissionalSaude
 
 xml = APIRouter(prefix="/api")
 
-def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, local_id: int, xml_path: str, campos: list[str]):
+'''def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, local_id: int, xml_path: str, campos: list[str]):
     registros = db.query(modelo).filter_by(local_id=local_id).all()
     root = ET.Element("SIAP")
 
@@ -43,7 +43,49 @@ def gerar_xml_tabela(db: Session, modelo, nome: str, exercicio: int, mes: int, l
 
     tree = ET.ElementTree(root)
     ET.indent(tree, space="  ")
+    tree.write(xml_path, encoding="utf-8", xml_declaration=True)'''
+
+
+def gerar_xml_tabela(
+    db: Session,
+    modelo,
+    nome: str,
+    exercicio: int,
+    mes: int,
+    local_id: int,
+    xml_path: str,
+    campos: list[str]
+):
+    # Definir data limite: último dia do mês informado
+    from calendar import monthrange
+    ultimo_dia = monthrange(exercicio, mes)[1]
+    data_limite = datetime(exercicio, mes, ultimo_dia, 23, 59, 59)
+
+    # Busca apenas registros do local_id cadastrados até a data limite
+    registros = (
+        db.query(modelo)
+        .filter_by(local_id=local_id)
+        .filter(modelo.data_registro <= data_limite)   # <-- filtro pela data
+        .all()
+    )
+
+    root = ET.Element("SIAP")
+    ET.SubElement(root, "Codigo").text = str(local_id)
+    ET.SubElement(root, "Exercicio").text = str(exercicio)
+    ET.SubElement(root, "Mes").text = f"{mes:02d}"
+
+    if registros:
+        for registro in registros:
+            item_elem = ET.SubElement(root, nome)
+            for campo_nome in campos:
+                valor = getattr(registro, campo_nome, None)
+                campo = ET.SubElement(item_elem, campo_nome)
+                campo.text = str(valor) if valor is not None else ""
+
+    tree = ET.ElementTree(root)
+    ET.indent(tree, space="  ")
     tree.write(xml_path, encoding="utf-8", xml_declaration=True)
+
 
 @xml.get("/exportar_xml_zip/")
 def exportar_xml_zip(
@@ -53,6 +95,7 @@ def exportar_xml_zip(
     current_user: dict = Depends(get_current_user)
 ):
     local_id = current_user.get("acesso_id") or current_user.get("id")
+    local_id = 1
     if not local_id:
         return {"error": "Usuário não possui acesso_id definido"}
 
