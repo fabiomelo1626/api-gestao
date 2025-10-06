@@ -1,4 +1,3 @@
-# local_acesso.py
 from sqlalchemy import Column, Integer, String, Boolean, BigInteger
 from sqlalchemy.orm import relationship
 from conexao.conect_db import Base
@@ -21,19 +20,8 @@ class LocalAcesso(Base):
     is_active = Column(Boolean, default=True)
     
     acessos = relationship("Acesso", back_populates="locais")
+    atendimento = relationship("Atendimento", back_populates="local")
+    pessoa = relationship("Pessoa", back_populates="local")
+
     
-    estabelecimento_saude = relationship("EstabelecimentoSaude", back_populates="local")
-    vinculo_profissional = relationship("VinculoProfissionalSaude", back_populates="local")
-    estabelecimentoleito = relationship("EstabelecimentoLeito", back_populates="local")
-    estabelecimento_equipamento = relationship("EstabelecimentoEquipamento", back_populates="local")
-    ficha_programacao = relationship("FichaProgramacaoOrcamentaria", back_populates="local")
-    solicitacao_procedimento = relationship("SolicitacaoProcedimentoAmbulatorial", back_populates="local")
-    autorizacao_internacao = relationship("AutorizacaoInternacaoHospitalar", back_populates="local")
-    mortalidade = relationship("Mortalidade", back_populates="local")
-    morbidade = relationship("Morbidade", back_populates="local")
-    saude_mental = relationship("SaudeMental", back_populates="local")
-    mae = relationship("Mae", back_populates="local")
-    nascido_vivo = relationship("NascidoVivo", back_populates="local")
-    cobertura_vacinal = relationship("CoberturaVacinal", back_populates="local")
-    procedimento_ambulatorial = relationship("AutorizacaoProcedimentoAmbulatorial", back_populates="local")
-      
+  

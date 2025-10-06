@@ -8,7 +8,7 @@ from models.userModels import User
 from schemas.loginSchema import LoginSchema
 from schemas.emailSchema import EmailSchema
 from schemas.userSchema import ResetPasswordRequest
-from schemas.acessoSchema import FirstPassword  # Schema para primeiro acesso
+from schemas.acessoSchema import FirstPassword
 from utils.autenticate import hash_password, verify_password
 from utils.token import create_access_token, verify_token, create_reset_password_token
 from utils.email import enviar_email_com_link_reset

@@ -1,19 +1,16 @@
 from fastapi import Depends, APIRouter, HTTPException
 import requests
-from models.autorizacaoInternacaoHospitalarModels import AutorizacaoInternacaoHospitalar
-from models.autorizacaoProcedimentoAmbulatorialModels import AutorizacaoProcedimentoAmbulatorial
-from models.coberturaVacinalModels import CoberturaVacinal
 from sqlalchemy.orm import Session
 from conexao.conect_db import get_db
 from fastapi.responses import FileResponse
 import os
 
 pdf = APIRouter(prefix="/api")
-
+'''
 
 @pdf.get("/pdf-autorizacao-internacao/{autorizacao_id}")
 def gerar_pdf_autorizacao_internacao(autorizacao_id: int, db: Session = Depends(get_db)):
-    autorizacao = db.query(AutorizacaoInternacaoHospitalar).filter(AutorizacaoInternacaoHospitalar.id == autorizacao_id).first()
+    autorizacao = db.query(modelo).filter(modelo.id == autorizacao_id).first()
     if not autorizacao:
         raise HTTPException(status_code=404, detail="Autorização Internação não encontrada")
     
@@ -43,3 +40,4 @@ def gerar_pdf_autorizacao_internacao(autorizacao_id: int, db: Session = Depends(
         raise HTTPException(status_code=500, detail=f"Erro ao gerar relatório: {resp.text}")
 
 
+'''

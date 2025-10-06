@@ -1,0 +1,24 @@
+from datetime import datetime
+from typing import Optional
+from pydantic import BaseModel
+
+
+
+class AtendimentoSchema(BaseModel):
+    user_id: Optional[int] = None
+    local_id: Optional[int] = None
+
+    data_registro: Optional[datetime] = None
+    data_alteracao: Optional[datetime] = None
+    descricao: Optional[str] = None
+    pessoa_atendimento: Optional[int] = None
+    status_atendimento: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+class AtendimentnoCreate(AtendimentoSchema):
+    pass
+
+class AtendimentnoResponse(AtendimentoSchema):
+    id: int
