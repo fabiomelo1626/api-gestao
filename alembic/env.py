@@ -18,23 +18,10 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 from conexao.conect_db import Base
 from models.acessoModels import Acesso
-from models.autorizacaoInternacaoHospitalarModels import AutorizacaoInternacaoHospitalar
-from models.autorizacaoProcedimentoAmbulatorialModels import AutorizacaoProcedimentoAmbulatorial
-from models.coberturaVacinalModels import CoberturaVacinal
-from models.estabelecimentoEquipamentoModels import EstabelecimentoEquipamento
-from models.estabelecimentoLeitoModels import EstabelecimentoLeito
-from models.estabelecimentoSaudeModels import EstabelecimentoSaude
-from models.fichaProgramacaoOrcamentariaModels import FichaProgramacaoOrcamentaria
-from models.localAcessoModels import LocalAcesso
-from models.maeModels import Mae
-from models.morbidadeModels import Morbidade
-from models.mortalidadeModels import Mortalidade
-from models.nascidoVivoModels import NascidoVivo
-from models.saudeMentalModels import SaudeMental
-from models.solicitacaoProcedimentoAmbulatorialModels import SolicitacaoProcedimentoAmbulatorial
-from models.unidadeGestoraModels import UnidadeGestora
 from models.userModels import User
-from models.vinculoProfissionalSaudeModels import VinculoProfissionalSaude
+from models.atendimentoModels import Atendimento
+from models.localAcessoModels import LocalAcesso
+from models.pessoaModels import Pessoa
 from models.tabelasAuxiliaresModels import *
 
 target_metadata = Base.metadata

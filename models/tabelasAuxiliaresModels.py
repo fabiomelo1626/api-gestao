@@ -1,0 +1,30 @@
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float, Date, BigInteger
+from sqlalchemy.orm import relationship
+from conexao.conect_db import Base
+
+
+class Status(Base):
+    __tablename__ = "status"
+
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=True)
+
+    atendimento = relationship("Atendimento", back_populates="status")
+
+
+class Tipo(Base):
+    __tablename__ = "tipo"
+
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=True)
+
+    atendimento = relationship("Atendimento", back_populates="tipo")
+
+
+class TipoPessoa(Base):
+    __tablename__ = "tipo_pessoa"
+
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=True)
+
+    pessoa = relationship("Pessoa", back_populates="tipo_pessoa")
