@@ -22,6 +22,7 @@ class PessoaSchema(BaseModel):
     Bairro: Optional[str] = None
     CEP: Optional[int] = None
     email: Optional[str] = None
+    tipo: Optional[int] = None
     
     class Config:
         from_attributes = True

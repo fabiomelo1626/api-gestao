@@ -13,6 +13,7 @@ class AtendimentoSchema(BaseModel):
     descricao: Optional[str] = None
     pessoa_atendimento: Optional[int] = None
     status_atendimento: Optional[str] = None
+    tipo_atendimento: Optional[int] = None
     
     class Config:
         from_attributes = True
