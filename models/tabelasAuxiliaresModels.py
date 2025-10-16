@@ -27,4 +27,4 @@ class TipoPessoa(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)
 
-    pessoa = relationship("Pessoa", back_populates="tipo_pessoa")
+    pessoa = relationship("Pessoa", back_populates="tipopessoa")
