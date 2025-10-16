@@ -26,8 +26,8 @@ class Pessoa(Base):
     Bairro = Column(String(255),nullable=False)
     CEP = Column(BigInteger, nullable=True)
     email = Column(String, nullable=True)
-    #tipo = Column(Integer, ForeignKey("tipo_pessoa.id"), nullable=True)
-    #tipopessoa = relationship("TipoPessoa", back_populates="pessoa")
+    tipo = Column(Integer, ForeignKey("tipo_pessoa.id"), nullable=True)
+    tipopessoa = relationship("TipoPessoa", back_populates="pessoa")
     
 
     atendimento = relationship("Atendimento", back_populates="pessoa")
