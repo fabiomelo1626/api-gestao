@@ -9,7 +9,6 @@ class Status(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)
 
-    atendimento = relationship("Atendimento", back_populates="status")
 
 
 class Tipo(Base):
@@ -18,7 +17,6 @@ class Tipo(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)
 
-    atendimento = relationship("Atendimento", back_populates="tipo")
 
 
 class TipoPessoa(Base):
@@ -27,4 +25,3 @@ class TipoPessoa(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)
 
-    pessoa = relationship("Pessoa", back_populates="tipopessoa")

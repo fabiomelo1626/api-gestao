@@ -15,9 +15,9 @@ from endpoints.atendimentoEndpoints import atendimento
 app = FastAPI(
     title="AGENDA API",
     version="1.0",
-    #docs_url=None,
-    #redoc_url=None,    
-    #openapi_url=None
+    docs_url=None,
+    redoc_url=None,    
+    openapi_url=None
     )
 
 

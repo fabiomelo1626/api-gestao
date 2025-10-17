@@ -18,6 +18,4 @@ class Atendimento(Base):
     pessoa_atendimento = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
     pessoa = relationship("Pessoa", back_populates="atendimento")
     status_atendimento = Column(Integer, ForeignKey("status.id"), default="Em andamento")
-    status = relationship("Status", back_populates="atendimento")
     tipo_atendimento = Column(Integer, ForeignKey("tipo.id"), nullable=True)
-    tipo = relationship("Tipo", back_populates="atendimento")
