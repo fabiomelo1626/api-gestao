@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /root/api-saude
+cd /root/API-AGENDA
 source .venv/bin/activate
-uvicorn main:app --host 0.0.0.0 --port 7000
+uvicorn main:app --host 0.0.0.0 --port 9000
