@@ -10,6 +10,7 @@ from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
 from endpoints.pessoaEndpoints import pessoa
 from endpoints.atendimentoEndpoints import atendimento
+from endpoints.auxiliaresEndpoints import auxiliares
 
 
 app = FastAPI(
@@ -35,6 +36,7 @@ app.include_router(acesso)
 app.include_router(local)
 app.include_router(pessoa)
 app.include_router(atendimento)
+app.include_router(auxiliares)
 
 
 def test_connection():

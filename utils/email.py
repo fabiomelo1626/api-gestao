@@ -109,7 +109,7 @@ def enviar_email_boas_vindas(destinatario: str, senha: str, username: str, link:
     msg.attach(MIMEText(html, "html"))
 
     # Adicionando a imagem embutida
-    caminho_imagem = os.path.join("img", "sistema-saude.png")
+    caminho_imagem = os.path.join("img", "sistema-agenda.png")
     with open(caminho_imagem, "rb") as f:
         img = MIMEImage(f.read())
         img.add_header("Content-ID", "<sistema_saude>")

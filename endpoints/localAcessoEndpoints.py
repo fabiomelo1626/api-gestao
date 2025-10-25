@@ -13,7 +13,7 @@ local = APIRouter(prefix="/api")
 
 
 @local.post("/create-local/", response_model=LocalAcessoResponse, status_code=status.HTTP_201_CREATED)
-def create_local(local: LocalAcessoCreate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+def create_local(local: LocalAcessoCreate, db: Session = Depends(get_db), ):
     if db.query(LocalAcesso).filter(LocalAcesso.cnpj == local.cnpj).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Local com este CNPJ já cadastrado.")
 
