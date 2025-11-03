@@ -6,21 +6,21 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
-from models.pessoaModels import Pessoa
-from schemas.pessoaSchema import PessoaCreate, PessoaResponse
+from models.pessoaPublicaModels import PessoaPublica
+from schemas.pessoaPublicaSchema import PessoaPublicaCreate, PessoaPublicaResponse
 
-pessoa = APIRouter(prefix="/api")
+pessoa_publica = APIRouter(prefix="/api")
 
 
 
-@pessoa.post("/create-pessoa/", response_model=PessoaResponse)
-def create_pessoa(
-    pessoa: PessoaCreate,
+@pessoa_publica.post("/create-pessoa-publica/", response_model=PessoaPublicaResponse)
+def create_pessoa_publica(
+    pessoa_publica: PessoaPublicaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
     try:
-        db_pessoa = Pessoa(**pessoa.dict())
+        db_pessoa = PessoaPublica(**pessoa_publica.dict())
         db_pessoa.data_registro = datetime.today()
         db_pessoa.user_id = current_user["id"]
         db_pessoa.local_id = current_user["acesso_id"]
@@ -37,50 +37,50 @@ def create_pessoa(
 
 
 
-@pessoa.get("/busca-pessoa/{pessoa_id}", response_model=PessoaResponse)
-def search_publica(
-    pessoa_id: int,
+@pessoa_publica.get("/busca-pessoa-publica/{pessoa_publica_id}", response_model=PessoaPublicaResponse)
+def search_pessoa_publica(
+    pessoa_publica_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
+    db_pessoa = db.query(PessoaPublica).filter(PessoaPublica.id == pessoa_publica_id).first()
     if not db_pessoa:
-        raise HTTPException(status_code=404, detail="Pessoa não encontrada")
+        raise HTTPException(status_code=404, detail="Pessoa Publica não encontrada")
     return db_pessoa
 
 
-@pessoa.get("/pessoas", response_model=List[PessoaResponse])
-def pessoas_all(
+@pessoa_publica.get("/pessoas-publicas", response_model=List[PessoaPublicaResponse])
+def pessoas_publicas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    return db.query(Pessoa).all()
+    return db.query(PessoaPublica).all()
 
 
-@pessoa.get("/pessoas-by-local_id/{local_id}", response_model=List[PessoaResponse])
+@pessoa_publica.get("/pessoas-publicas-by-local_id/{local_id}", response_model=List[PessoaPublicaResponse])
 def search_pessoas_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    pessoas = db.query(Pessoa).filter(Pessoa.local_id == local_id).all()
+    pessoas = db.query(PessoaPublica).filter(PessoaPublica.local_id == local_id).all()
    
     return pessoas
 
 
-@pessoa.put("/editar-pessoa/{pessoa_id}", response_model=PessoaResponse)
-def update_pessoa(
-    pessoa_id: int,
-    pessoa: PessoaCreate,
+@pessoa_publica.put("/editar-pessoa-publica/{pessoa_publica_id}", response_model=PessoaPublicaResponse)
+def update_pessoa_publica(
+    pessoa_publica_id: int,
+    pessoa_publica: PessoaPublicaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
+    db_pessoa = db.query(PessoaPublica).filter(PessoaPublica.id == pessoa_publica_id).first()
     if not db_pessoa:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa não encontrada")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa Publica não encontrada")
 
     try:
-        for key, value in pessoa.dict(exclude_unset=True).items():
+        for key, value in pessoa_publica.dict(exclude_unset=True).items():
             setattr(db_pessoa, key, value)
 
         db_pessoa.data_alteracao = datetime.now()

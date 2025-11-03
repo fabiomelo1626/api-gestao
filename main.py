@@ -9,6 +9,7 @@ from endpoints.userEndpoints import user
 from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
 from endpoints.pessoaEndpoints import pessoa
+from endpoints.pessoaPublicaEndpoints import pessoa_publica
 from endpoints.atendimentoEndpoints import atendimento
 from endpoints.auxiliaresEndpoints import auxiliares
 
@@ -35,6 +36,7 @@ app.include_router(login_user)
 app.include_router(acesso)
 app.include_router(local)
 app.include_router(pessoa)
+app.include_router(pessoa_publica)
 app.include_router(atendimento)
 app.include_router(auxiliares)
 

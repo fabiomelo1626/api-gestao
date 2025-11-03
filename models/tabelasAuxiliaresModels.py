@@ -25,3 +25,15 @@ class TipoPessoa(Base):
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)
 
+class Cargo(Base):
+    __tablename__ = "cargo"
+
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=True)
+
+
+class Setor(Base):
+    __tablename__ = "setor"
+
+    id = Column(Integer, primary_key=True, index=True)
+    descricao = Column(String, nullable=True)
