@@ -22,6 +22,7 @@ class LocalAcesso(Base):
     acessos = relationship("Acesso", back_populates="locais")
     atendimento = relationship("Atendimento", back_populates="local")
     pessoa = relationship("Pessoa", back_populates="local")
+    pessoa_publica = relationship("PessoaPublica", back_populates="local")
 
     
-  
+     

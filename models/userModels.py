@@ -23,3 +23,4 @@ class User(Base):
     acessos = relationship("Acesso", back_populates="usuarios")
     atendimento = relationship("Atendimento", back_populates="user")
     pessoa = relationship("Pessoa", back_populates="user")
+    pessoa_publica = relationship("PessoaPublica", back_populates="user")

@@ -12,14 +12,15 @@ from endpoints.pessoaEndpoints import pessoa
 from endpoints.pessoaPublicaEndpoints import pessoa_publica
 from endpoints.atendimentoEndpoints import atendimento
 from endpoints.auxiliaresEndpoints import auxiliares
+from seed.popular import popular
 
 
 app = FastAPI(
     title="AGENDA API",
     version="1.0",
-    docs_url=None,
-    redoc_url=None,    
-    openapi_url=None
+    #docs_url=None,
+    #redoc_url=None,    
+    #openapi_url=None
     )
 
 
@@ -59,6 +60,7 @@ def create_tables():
 # Chamar a função de inicialização antes de rodar o servidor
 test_connection()
 create_tables()
+popular()
 
 
 # Rodar o servidor

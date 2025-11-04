@@ -8,9 +8,9 @@ class PessoaPublica(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
-    user = relationship("User", back_populates="pessoa")
+    user = relationship("User", back_populates="pessoa_publica")
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
-    local = relationship("LocalAcesso", back_populates="pessoa")
+    local = relationship("LocalAcesso", back_populates="pessoa_publica")
 
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
