@@ -8,6 +8,8 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.pessoaModels import Pessoa
 from schemas.pessoaSchema import PessoaCreate, PessoaResponse
+from utils.middlewareDependence import check_permission
+
 
 pessoa = APIRouter(prefix="/api")
 
@@ -51,7 +53,7 @@ def search_publica(
     return db_pessoa
 
 
-@pessoa.get("/pessoas", response_model=List[PessoaResponse])
+@pessoa.get("/pessoas", dependencies=[Depends(check_permission("listar"))], response_model=List[PessoaResponse])
 def pessoas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
