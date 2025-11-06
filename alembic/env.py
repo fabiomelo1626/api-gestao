@@ -23,6 +23,7 @@ from models.atendimentoModels import Atendimento
 from models.localAcessoModels import LocalAcesso
 from models.pessoaModels import Pessoa
 from models.pessoaPublicaModels import PessoaPublica
+from models.userPermissionModels import UserPermission
 from models.tabelasAuxiliaresModels import *
 
 target_metadata = Base.metadata

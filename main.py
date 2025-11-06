@@ -12,6 +12,7 @@ from endpoints.pessoaEndpoints import pessoa
 from endpoints.pessoaPublicaEndpoints import pessoa_publica
 from endpoints.atendimentoEndpoints import atendimento
 from endpoints.auxiliaresEndpoints import auxiliares
+from endpoints.userPermissionEndpoints import permission
 from seed.popular import popular
 
 
@@ -40,6 +41,7 @@ app.include_router(pessoa)
 app.include_router(pessoa_publica)
 app.include_router(atendimento)
 app.include_router(auxiliares)
+app.include_router(permission)
 
 
 def test_connection():
