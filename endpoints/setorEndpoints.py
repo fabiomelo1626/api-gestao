@@ -51,7 +51,7 @@ def search_publica(
     return db_pessoa
 
 
-@pessoa.get("/pessoas", dependencies=[Depends(check_permission("obra", "listar"))], response_model=List[PessoaResponse])
+@pessoa.get("/pessoas", dependencies=[Depends(check_permission("listar"))], response_model=List[PessoaResponse])
 def pessoas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)

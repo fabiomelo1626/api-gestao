@@ -6,31 +6,43 @@ from endpoints.userEndpoints import get_current_user
 from models.userModels import User
 from models.userPermissionModels import UserPermission
 from schemas.userPermissionSchema import UserPermissionCreate, UserPermissionResponse
+from models.permissionTableModels import PermissionTable
+from schemas.permissionTableSchema import PermissionTableCreate
+from endpoints.userEndpoints import get_current_user
 from sqlalchemy.exc import SQLAlchemyError
 
 
 permission = APIRouter()
 
-@permission.post("/create-permissions", response_model=UserPermissionResponse)
+@permission.post("/permissions/", response_model=UserPermissionResponse)
 def set_user_permission(
-    permission: UserPermissionCreate,
-    db: Session = Depends(get_db),
-    #current_user: dict = Depends(get_current_user)
+    permission = UserPermissionCreate,
+    table = PermissionTableCreate,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
 ):
-    try:
-        db_permission = UserPermission(**permission.dict())
-        db_permission.data_registro = datetime.today()
-        #db_permission.local_id = current_user["acesso_id"]
+    user = db.query(User).filter(User.id == permission.user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
 
-        db.add(db_permission)
-        db.commit()
-        db.refresh(db_permission)
+    tabela = db.query(PermissionTable).filter(PermissionTable.nome == table).first()
 
-        return db_permission
-    
-    except SQLAlchemyError as e:
-        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+    perm = (
+        db.query(UserPermission)
+        .filter(UserPermission.user_id == permission.user_id, UserPermission.permission_table_id == tabela.id)
+        .first()
+    )
 
+  
 
+    perm.criar = permission.criar
+    perm.listar = permission.listar
+    perm.deletar = permission.deletar
+    perm.editar = permission.editar
+    perm.local_id = current_user["acesso_id"]
+
+    db.add(perm)
+    db.commit()
+    db.refresh(perm)
+
+    return {"message": f"Permissões atualizadas para {user.username}", "tabela": tabela.nome}
