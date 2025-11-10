@@ -6,31 +6,31 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
-from models.pessoaModels import Pessoa
-from schemas.pessoaSchema import PessoaCreate, PessoaResponse
+from models.tabelasAuxiliaresModels import Setor
+from schemas.setorSchema import SetorCreate, SetorResponse
 from utils.middlewareDependence import check_permission
 
 
-pessoa = APIRouter(prefix="/api")
+setor = APIRouter(prefix="/api")
 
 
 
-@pessoa.post("/create-pessoa/", response_model=PessoaResponse)
-def create_pessoa(
-    pessoa: PessoaCreate,
+@setor.post("/create-setor/", response_model=SetorResponse)
+def create_setor(
+    setor: SetorCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
     try:
-        db_pessoa = Pessoa(**pessoa.dict())
-        db_pessoa.data_registro = datetime.today()
-        db_pessoa.user_id = current_user["id"]
-        db_pessoa.local_id = current_user["acesso_id"]
+        db_setor = Setor(**setor.dict())
+        db_setor.data_registro = datetime.today()
+        db_setor.user_id = current_user["id"]
+        db_setor.local_id = current_user["acesso_id"]
 
-        db.add(db_pessoa)
+        db.add(db_setor)
         db.commit()
-        db.refresh(db_pessoa)
-        return db_pessoa
+        db.refresh(db_setor)
+        return db_setor
 
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
@@ -39,56 +39,56 @@ def create_pessoa(
 
 
 
-@pessoa.get("/busca-pessoa/{pessoa_id}", response_model=PessoaResponse)
-def search_publica(
-    pessoa_id: int,
+@setor.get("/busca-setor/{setor_id}", response_model=SetorResponse)
+def search_setor(
+    setor_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
-    if not db_pessoa:
-        raise HTTPException(status_code=404, detail="Pessoa não encontrada")
-    return db_pessoa
+    db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
+    if not db_setor:
+        raise HTTPException(status_code=404, detail="Setor não encontrado")
+    return db_setor
 
 
-@pessoa.get("/pessoas", dependencies=[Depends(check_permission("listar"))], response_model=List[PessoaResponse])
-def pessoas_all(
+@setor.get("/setores", dependencies=[Depends(check_permission("listar"))], response_model=List[PessoaResponse])
+def setores_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    return db.query(Pessoa).all()
+    return db.query(Setor).all()
 
 
-@pessoa.get("/pessoas-by-local_id/{local_id}", response_model=List[PessoaResponse])
-def search_pessoas_local(
+@setor.get("/setores-by-local_id/{local_id}", response_model=List[SetorResponse])
+def search_setores_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    pessoas = db.query(Pessoa).filter(Pessoa.local_id == local_id).all()
+    setores = db.query(Setor).filter(Setor.local_id == local_id).all()
    
-    return pessoas
+    return setores
 
 
-@pessoa.put("/editar-pessoa/{pessoa_id}", response_model=PessoaResponse)
+@setor.put("/editar-setor/{setor_id}", response_model=SetorResponse)
 def update_pessoa(
-    pessoa_id: int,
-    pessoa: PessoaCreate,
+    setor_id: int,
+    setor: SetorCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
-    if not db_pessoa:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Pessoa não encontrada")
+    db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
+    if not db_setor:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Setor não encontrado")
 
     try:
-        for key, value in pessoa.dict(exclude_unset=True).items():
-            setattr(db_pessoa, key, value)
+        for key, value in setor.dict(exclude_unset=True).items():
+            setattr(db_setor, key, value)
 
-        db_pessoa.data_alteracao = datetime.now()
+        db_setor.data_alteracao = datetime.now()
         db.commit()
-        db.refresh(db_pessoa)
-        return db_pessoa
+        db.refresh(db_setor)
+        return db_setor
 
     except SQLAlchemyError as e:
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")

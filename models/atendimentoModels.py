@@ -22,4 +22,10 @@ class Atendimento(Base):
     data = Column(Date, nullable=True)
     pessoa_publica_id = Column(Integer, ForeignKey("pessoa_publica.id"), nullable=True)
     pessoa_publica = relationship("PessoaPublica", back_populates="atendimento")
+
+    total_atendimento_dia = Column(Integer, nullable=True)
+    total_atendimento_semana = Column(Integer, nullable=True)
+    total_atendimento_mes = Column(Integer, nullable=True)
+    total_atendimento_ano = Column(Integer, nullable=True)
+    
     

@@ -36,5 +36,13 @@ class Cargo(Base):
 class Setor(Base):
     __tablename__ = "setor"
 
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user = relationship("User", back_populates="pessoa")
+    local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
+    local = relationship("LocalAcesso", back_populates="pessoa")
+
+    data_registro = Column(Date, nullable=True)
+    data_alteracao = Column(Date, nullable=True)
+
     id = Column(Integer, primary_key=True, index=True)
     descricao = Column(String, nullable=True)

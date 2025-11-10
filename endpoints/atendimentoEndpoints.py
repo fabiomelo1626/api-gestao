@@ -92,3 +92,10 @@ def update_atendimento(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+@atendimento.get("/atendimento-count-dia/{local_id}", response_model=AtendimentnoResponse)
+def count_dia_atendimento(
+    local_id: int,
+
+    ):
