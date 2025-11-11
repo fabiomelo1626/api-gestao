@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List
+from sqlalchemy import func
 from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
@@ -94,8 +95,71 @@ def update_atendimento(
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
-@atendimento.get("/atendimento-count-dia/{local_id}", response_model=AtendimentnoResponse)
-def count_dia_atendimento(
-    local_id: int,
+atendimento = APIRouter()
 
-    ):
+@atendimento.get("/atendimento-count/{local_id}")
+def count_atendimentos(
+    local_id: int,
+    periodo: str = Query("dia", enum=["dia", "semana", "mes", "ano"]),
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    
+
+    query = db.query(
+        func.count(Atendimento.id).label("total"),
+    ).filter(Atendimento.local_id == local_id)
+
+    if periodo == "dia":
+        query = (
+            db.query(
+                func.date_trunc('day', Atendimento.data).label("periodo"),
+                func.count(Atendimento.id).label("total")
+            )
+            .filter(Atendimento.local_id == local_id)
+            .group_by(func.date_trunc('day', Atendimento.data))
+            .order_by(func.date_trunc('day', Atendimento.data))
+        )
+
+    elif periodo == "semana":
+        query = (
+            db.query(
+                func.date_trunc('week', Atendimento.data).label("periodo"),
+                func.count(Atendimento.id).label("total")
+            )
+            .filter(Atendimento.local_id == local_id)
+            .group_by(func.date_trunc('week', Atendimento.data))
+            .order_by(func.date_trunc('week', Atendimento.data))
+        )
+
+    elif periodo == "mes":
+        query = (
+            db.query(
+                func.date_trunc('month', Atendimento.data).label("periodo"),
+                func.count(Atendimento.id).label("total")
+            )
+            .filter(Atendimento.local_id == local_id)
+            .group_by(func.date_trunc('month', Atendimento.data))
+            .order_by(func.date_trunc('month', Atendimento.data))
+        )
+
+    elif periodo == "ano":
+        query = (
+            db.query(
+                func.date_trunc('year', Atendimento.data).label("periodo"),
+                func.count(Atendimento.id).label("total")
+            )
+            .filter(Atendimento.local_id == local_id)
+            .group_by(func.date_trunc('year', Atendimento.data))
+            .order_by(func.date_trunc('year', Atendimento.data))
+        )
+
+    resultados = query.all()
+
+    return [
+        {
+            "periodo": r.periodo.strftime("%Y-%m-%d") if r.periodo else None,
+            "total_atendimentos": r.total
+        }
+        for r in resultados
+    ]
