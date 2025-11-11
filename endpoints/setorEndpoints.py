@@ -21,11 +21,14 @@ def create_setor(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
+    local_id = setor.local_id
+    if not local_id:
+        raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
+    
     try:
         db_setor = Setor(**setor.dict())
         db_setor.data_registro = datetime.today()
         db_setor.user_id = current_user["id"]
-        db_setor.local_id = current_user["acesso_id"]
 
         db.add(db_setor)
         db.commit()
@@ -51,7 +54,11 @@ def search_setor(
     return db_setor
 
 
-@setor.get("/setores", dependencies=[Depends(check_permission("listar"))], response_model=List[PessoaResponse])
+@setor.get(
+    "/setores",
+    dependencies=[Depends(check_permission("setor", "listar"))],
+    response_model=List[SetorResponse]
+)
 def setores_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
