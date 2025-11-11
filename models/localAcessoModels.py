@@ -24,6 +24,7 @@ class LocalAcesso(Base):
     pessoa = relationship("Pessoa", back_populates="local")
     pessoa_publica = relationship("PessoaPublica", back_populates="local")
     permission_table = relationship("PermissionTable", back_populates="local")
+    setor = relationship("Setor", back_populates="local")
 
     
      

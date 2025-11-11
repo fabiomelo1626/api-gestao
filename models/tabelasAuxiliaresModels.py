@@ -37,9 +37,9 @@ class Setor(Base):
     __tablename__ = "setor"
 
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
-    user = relationship("User", back_populates="pessoa")
+    user = relationship("User", back_populates="setor")
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
-    local = relationship("LocalAcesso", back_populates="pessoa")
+    local = relationship("LocalAcesso", back_populates="setor")
 
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)

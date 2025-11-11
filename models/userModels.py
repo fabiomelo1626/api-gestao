@@ -25,3 +25,4 @@ class User(Base):
     pessoa = relationship("Pessoa", back_populates="user")
     pessoa_publica = relationship("PessoaPublica", back_populates="user")
     permissions = relationship("UserPermission", back_populates="user")
+    setor = relationship("Setor", back_populates="user")
