@@ -22,7 +22,7 @@ class PessoaPublicaSchema(BaseModel):
     Bairro: Optional[str] = None
     CEP: Optional[int] = None
     email: Optional[str] = None
-    tipo: Optional[int] = None
+    # tipo: Optional[int] = None
     cargo_id: Optional[int] = None
     setor: Optional[int] = None
     
