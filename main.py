@@ -47,7 +47,6 @@ app.include_router(permission)
 app.include_router(setor)
 app.include_router(table)
 
-
 def test_connection():
     try:
         with engine.connect() as connection:
