@@ -71,7 +71,7 @@ def search_pessoas_local(
     return atendimentos
 
 
-@atendimento.put("/editar-atendimentno/{atendimento_id}", response_model=AtendimentnoResponse)
+@atendimento.put("/editar-atendimento/{atendimento_id}", response_model=AtendimentnoResponse)
 def update_atendimento(
     atendimento_id: int,
     atendimento: AtendimentnoCreate,
@@ -96,8 +96,6 @@ def update_atendimento(
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
-
-atendimento = APIRouter()
 
 @atendimento.get("/atendimento-count/{local_id}")
 def count_atendimentos(
