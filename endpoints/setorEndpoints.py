@@ -21,7 +21,7 @@ def create_setor(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    local_id = setor.local_id
+    local_id = current_user["acesso_id"]
     if not local_id:
         raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
     
