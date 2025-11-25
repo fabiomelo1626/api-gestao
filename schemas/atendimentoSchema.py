@@ -13,7 +13,7 @@ class AtendimentoSchema(BaseModel):
 
     pessoa_atendimento_id: Optional[int] = None
     pessoa_publica_id: Optional[int] = None
-
+    data: Optional[datetime] = None
     status_atendimento: Optional[int] = None
     tipo_atendimento: Optional[int] = None
 
