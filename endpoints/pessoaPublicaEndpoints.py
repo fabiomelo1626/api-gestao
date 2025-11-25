@@ -19,15 +19,15 @@ def create_pessoa_publica(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    local_id = current_user["local_id"]
-    if not local_id:
-        raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
+#    local_id = current_user["local_id"]
+#    if not local_id:
+#        raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
     
     try:
         db_pessoa = PessoaPublica(**pessoa_publica.dict())
         db_pessoa.data_registro = datetime.today()
         db_pessoa.user_id = current_user["id"]
-        db_pessoa.local_id = current_user["local_id"]
+#        db_pessoa.local_id = current_user["local_id"]
 
         db.add(db_pessoa)
         db.commit()
