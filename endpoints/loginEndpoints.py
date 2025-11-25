@@ -43,7 +43,6 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
             data={
                 "sub": db_user.username,
                 "id": db_user.id,
-                # "acesso_id": acesso_atual["id"],
             }
         )
 
