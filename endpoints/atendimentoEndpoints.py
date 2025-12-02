@@ -26,7 +26,7 @@ def create_atendimento(
         db_atendimento = Atendimento(**atendimento.dict())
         db_atendimento.data_registro = datetime.today()
         db_atendimento.user_id = current_user["id"]
-    #    db_atendimento.local_id = current_user["local_id"]
+        db_atendimento.local_id = current_user["user"]
 
         db.add(db_atendimento)
         db.commit()
