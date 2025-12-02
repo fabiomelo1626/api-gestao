@@ -5,8 +5,8 @@ from pydantic import BaseModel
 
 
 class SetorSchema(BaseModel):
-    #user_id: Optional[int] = None
-    #local_id: Optional[int] = None
+    user_id: Optional[int] = None
+    local_id: Optional[int] = None
 
     data_registro: Optional[datetime] = None
     data_alteracao: Optional[datetime] = None
