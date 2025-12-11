@@ -65,7 +65,7 @@ def create_tables():
 # Chamar a função de inicialização antes de rodar o servidor
 test_connection()
 create_tables()
-popular()
+#popular()
 
 
 # Rodar o servidor

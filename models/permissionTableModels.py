@@ -15,4 +15,4 @@ class PermissionTable(Base):
     
     nome = Column(String, unique=True)  
 
-    permissions = relationship("UserPermission", back_populates="permission_table")
+    #permissions = relationship("UserPermission", back_populates="permission_table")

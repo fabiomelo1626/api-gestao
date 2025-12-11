@@ -8,7 +8,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.atendimentoModels import Atendimento
-from schemas.atendimentoSchema import AtendimentnoCreate, AtendimentnoResponse
+from schemas.atendimentoSchema import AtendimentnoCreate, AtendimentnoResponse, AtendimentnoStatus
 
 atendimento = APIRouter(prefix="/api")
 
@@ -26,7 +26,7 @@ def create_atendimento(
         db_atendimento = Atendimento(**atendimento.dict())
         db_atendimento.data_registro = datetime.today()
         db_atendimento.user_id = current_user["id"]
-        db_atendimento.local_id = current_user["user"]
+        db_atendimento.local_id = local_id
 
         db.add(db_atendimento)
         db.commit()
@@ -138,3 +138,28 @@ def count_atendimentos(
         }
         for r in resultados
     ]
+
+
+
+@atendimento.put("/atendimentos-status/{atendimento_id}", response_model=List[AtendimentnoResponse])
+def status_atendimento(
+    atendimento_id: int,
+    atendimento: AtendimentnoStatus,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+
+):
+    db_atendimento = db.query(Atendimento).filter(Atendimento.id == atendimento_id).first()
+    if not db_atendimento:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Atendimento não encontrado")
+
+    try:
+
+        db_atendimento.data_alteracao = datetime.now()
+        db.commit()
+        db.refresh(db_atendimento)
+        return db_atendimento
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")

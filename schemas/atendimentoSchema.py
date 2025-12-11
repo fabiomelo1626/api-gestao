@@ -32,3 +32,12 @@ class AtendimentnoCreate(AtendimentoSchema):
 
 class AtendimentnoResponse(AtendimentoSchema):
     id: int
+
+
+
+class AtendimentnoStatus(BaseModel):
+    id: int
+    user_id: Optional[int] = None
+
+    status_atendimento: Optional[int] = None
+    data_alteracao: Optional[datetime] = None
