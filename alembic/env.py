@@ -19,13 +19,17 @@ if config.config_file_name is not None:
 from conexao.conect_db import Base
 from models.acessoModels import Acesso
 from models.userModels import User
-from models.atendimentoModels import Atendimento
+from models.auxiliaresModels import *
 from models.localAcessoModels import LocalAcesso
 from models.pessoaModels import Pessoa
-from models.pessoaPublicaModels import PessoaPublica
 from models.permissionTableModels import PermissionTable
 from models.userPermissionModels import UserPermission
-from models.tabelasAuxiliaresModels import *
+from models.metasModels import Metas
+from models.setorModels import Setor
+from models.tarefasModels import Tarefa
+from models.cargoModels import Cargo
+from models.projetosModels import Projeto
+from models.atendimentoModels import Atendimento
 
 target_metadata = Base.metadata
 

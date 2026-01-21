@@ -5,11 +5,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
-from models.userModels import User
 from models.userPermissionModels import UserPermission
-#from models.permissionTableModels import PermissionTable
 from schemas.userPermissionSchema import UserPermissionCreate, UserPermissionResponse
-#from schemas.permissionTableSchema import PermissionTableCreate
 
 
 permission = APIRouter(

@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.pessoaModels import Pessoa
-from schemas.pessoaSchema import PessoaCreate, PessoaResponse
+from schemas.pessoaSchema import *
 from utils.middlewareDependence import check_permission
 
 
@@ -21,14 +21,13 @@ def create_pessoa(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    local_id = pessoa.local_id
-    if not local_id:
-       raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
+    
     
     try:
         db_pessoa = Pessoa(**pessoa.dict())
+        db_pessoa.data_registro = datetime.today()
         db_pessoa.user_id = current_user["id"]
-
+        db_pessoa.local_id = pessoa.local_id
 
         db.add(db_pessoa)
         db.commit()
@@ -43,7 +42,7 @@ def create_pessoa(
 
 
 @pessoa.get("/busca-pessoa/{pessoa_id}", response_model=PessoaResponse)
-def search_publica(
+def search_pessoa(
     pessoa_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
@@ -54,7 +53,7 @@ def search_publica(
     return db_pessoa
 
 
-@pessoa.get("/pessoas", dependencies=[Depends(check_permission("tabela_pessoa", "listar"))], response_model=List[PessoaResponse])
+@pessoa.get("/pessoas", response_model=List[PessoaResponse])
 def pessoas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)

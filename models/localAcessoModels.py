@@ -20,11 +20,14 @@ class LocalAcesso(Base):
     is_active = Column(Boolean, default=True)
     
     acessos = relationship("Acesso", back_populates="locais")
-    atendimento = relationship("Atendimento", back_populates="local")
-    pessoa = relationship("Pessoa", back_populates="local")
-    pessoa_publica = relationship("PessoaPublica", back_populates="local")
     permission_table = relationship("PermissionTable", back_populates="local")
     setor = relationship("Setor", back_populates="local")
+    meta = relationship("Metas", back_populates="local")
+    pessoa = relationship("Pessoa", back_populates="local")
+    tarefa = relationship("Tarefa", back_populates="local")
+    cargo = relationship("Cargo", back_populates="local")
+    projeto = relationship("Projeto", back_populates="local")
+    atendimento = relationship("Atendimento", back_populates="local")
 
     
      

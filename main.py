@@ -8,13 +8,16 @@ from endpoints.loginEndpoints import login_user
 from endpoints.userEndpoints import user
 from endpoints.localAcessoEndpoints import local
 from endpoints.acessoEndpoints import acesso
+from endpoints.metasEndpoints import metas
 from endpoints.pessoaEndpoints import pessoa
-from endpoints.pessoaPublicaEndpoints import pessoa_publica
-from endpoints.atendimentoEndpoints import atendimento
+from endpoints.tarefasEndpoints import tarefas
 from endpoints.auxiliaresEndpoints import auxiliares
 from endpoints.userPermissionEndpoints import permission
 from endpoints.permissionTableEndpoint import table
 from endpoints.setorEndpoints import setor
+from endpoints.cargoEndpoints import cargo
+from endpoints.projetosEndpoints import projetos
+from endpoints.atendimentoEndpoints import atendimento
 from seed.popular import popular
 
 
@@ -39,13 +42,16 @@ app.include_router(user)
 app.include_router(login_user)
 app.include_router(acesso)
 app.include_router(local)
+app.include_router(metas)
 app.include_router(pessoa)
-app.include_router(pessoa_publica)
-app.include_router(atendimento)
+app.include_router(tarefas)
 app.include_router(auxiliares)
 app.include_router(permission)
 app.include_router(setor)
 app.include_router(table)
+app.include_router(cargo)
+app.include_router(projetos)
+app.include_router(atendimento)
 
 def test_connection():
     try:
@@ -62,7 +68,6 @@ def create_tables():
         print(f"Erro ao criar as tabelas: {e}")
 
 
-# Chamar a função de inicialização antes de rodar o servidor
 test_connection()
 create_tables()
 popular()

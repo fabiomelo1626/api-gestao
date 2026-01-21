@@ -15,13 +15,11 @@ class Atendimento(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
     descricao = Column(String, nullable=True)
-    pessoa_atendimento_id = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
-    pessoa = relationship("Pessoa", back_populates="atendimento")
-    status_atendimento = Column(Integer, ForeignKey("status.id"), default="Em andamento")
-    tipo_atendimento = Column(Integer, ForeignKey("tipo.id"), nullable=True)
-    data = Column(Date, nullable=True)
-    pessoa_publica_id = Column(Integer, ForeignKey("pessoa_publica.id"), nullable=True)
-    pessoa_publica = relationship("PessoaPublica", back_populates="atendimento")
+    pessoa_id = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
+    #pessoa = relationship("Pessoa", back_populates="atendimento")
+    status_atendimento = Column(String, ForeignKey("aux_status.nome"), default="Não iniciada")
+    data_atendimento = Column(Date, nullable=True)
+    
 
     total_atendimento_dia = Column(Integer, nullable=True)
     total_atendimento_semana = Column(Integer, nullable=True)

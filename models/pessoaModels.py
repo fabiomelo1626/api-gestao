@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Float, Date, BigInteger
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, DateTime, Float, Date, BigInteger
 from sqlalchemy.orm import relationship
 from conexao.conect_db import Base
 
@@ -26,7 +26,8 @@ class Pessoa(Base):
     Bairro = Column(String(255),nullable=False)
     CEP = Column(BigInteger, nullable=True)
     email = Column(String, nullable=True)
-    tipo = Column(Integer, ForeignKey("tipo_pessoa.id"), nullable=True)
-    
-
-    atendimento = relationship("Atendimento", back_populates="pessoa")
+    telefone = Column(Integer, nullable=True)
+    is_secretario = Column(Boolean, default=False)
+    is_funcionario = Column(Boolean, default=False) 
+    setor_id = Column(Integer, ForeignKey("setor.id"), nullable=True)
+    cargo_id = Column(Integer, ForeignKey("cargo.id"), nullable=True)

@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 
-class SetorSchema(BaseModel):
+class CargoSchema(BaseModel):
     user_id: Optional[int] = None
     local_id: Optional[int] = None
 
@@ -12,13 +12,11 @@ class SetorSchema(BaseModel):
     data_alteracao: Optional[datetime] = None
     Nome: Optional[str] = None
     descricao: Optional[str] = None
-    is_lotacao: Optional[bool]
-    
     class Config:
         from_attributes = True
 
-class SetorCreate(SetorSchema):
+class CargoCreate(CargoSchema):
     pass
 
-class SetorResponse(SetorSchema):
+class CargoResponse(CargoSchema):
     id: int

@@ -6,7 +6,8 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
-from models.tabelasAuxiliaresModels import Setor
+from models.localAcessoModels import LocalAcesso
+from models.setorModels import Setor
 from schemas.setorSchema import SetorCreate, SetorResponse
 from utils.middlewareDependence import check_permission
 
@@ -18,22 +19,29 @@ setor = APIRouter(prefix="/api")
 @setor.post("/create-setor/", response_model=SetorResponse)
 def create_setor(
     setor: SetorCreate,
+    #lotacao = LocalAcesso,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    #current_user: dict = Depends(get_current_user)
 ):
-    local_id = setor.local_id
-    if not local_id:
-       raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
-    
+
     try:
-        db_setor = Setor(**setor.dict())
-        db_setor.data_registro = datetime.today()
-        db_setor.user_id = current_user["id"]
-    #    db_setor.local_id = current_user['local_id']
+        db_setor = Setor(**setor.dict(exclude={"is_lotacao"}))
+        db_setor.data_registro = datetime.utcnow()
+
+        if setor.is_lotacao:
+            lotacao = LocalAcesso(
+                nome=setor.Nome,
+            )
+
+            db.add(lotacao)
+            db.flush() 
+
+            db_setor.local_id = lotacao.id
 
         db.add(db_setor)
         db.commit()
         db.refresh(db_setor)
+
         return db_setor
 
     except SQLAlchemyError as e:
@@ -55,16 +63,15 @@ def search_setor(
     return db_setor
 
 
+
 @setor.get(
-    "/setores",
-    dependencies=[Depends(check_permission("setor", "listar"))],
-    response_model=List[SetorResponse]
-)
+    "/setores", response_model=List[SetorResponse])
 def setores_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
     return db.query(Setor).all()
+
 
 
 @setor.get("/setores-by-local_id/{local_id}", response_model=List[SetorResponse])
@@ -76,6 +83,7 @@ def search_setores_local(
     setores = db.query(Setor).filter(Setor.local_id == local_id).all()
    
     return setores
+
 
 
 @setor.put("/editar-setor/{setor_id}", response_model=SetorResponse)

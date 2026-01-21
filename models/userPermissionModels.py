@@ -16,10 +16,10 @@ class UserPermission(Base):
     data_alteracao =  Column(Date, nullable=True)
 
     nome = Column(String, nullable=True)
-    tabela_pessoa = Column(Boolean, default=False)
-    tabela_pessoa_publica = Column(Boolean, default=False)
-    tabela_atendimento = Column(Boolean, default=False)
+    tabela_metas = Column(Boolean, default=False)
+    tabela_responsaveis = Column(Boolean, default=False)
     tabela_setor = Column(Boolean, default=False)
+    tabela_tarefas = Column(Boolean, default=False)
     listar = Column(Boolean, default=False)
     criar = Column(Boolean, default=False)
     editar = Column(Boolean, default=False)
