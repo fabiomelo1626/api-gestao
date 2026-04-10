@@ -70,7 +70,7 @@ def create_tables():
 
 test_connection()
 create_tables()
-popular()
+#popular()
 
 
 # Rodar o servidor

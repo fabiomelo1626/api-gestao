@@ -15,7 +15,7 @@ class Tarefa(Base):
     data_alteracao = Column(Date, nullable=True)
     
     data_conclusao = Column(Date, nullable=True)
-    Nome = Column(String(255), nullable=True) 
+    nome = Column(String(255), nullable=True) 
     descricao = Column(String(255), nullable=False)
     responsavel = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
     meta_id = Column(Integer, ForeignKey("metas.id"), nullable=True)
