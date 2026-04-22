@@ -1,0 +1,49 @@
+services:
+  # --- BANCO DE DADOS ---
+  db:
+    image: postgres:15
+    container_name: postgres_gestao
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: gestao_db
+    ports:
+      - "5432:5432" # Faz a ponte: Porta do Docker (5432) -> Sua máquina (5432)
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  # --- BACKEND (FastAPI) ---
+  backend:
+    build: .  # Considera que o Dockerfile do python está na raiz
+    volumes:
+      - .:/app
+    container_name: gestao-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/gestao_db
+    depends_on:
+      - db  # Só sobe o python depois que o banco estiver pronto
+
+  # --- FRONTEND (Next.js) ---
+  frontend:
+    build:
+      context: ../gestao-frontend
+      target: dev
+    volumes:
+      - ../gestao-frontend:/app
+      - /app/node_modules
+    container_name: gestao-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      # IMPORTANTE: No browser, o front usa localhost. No servidor (SSR), usa 'backend'
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+
+volumes:
+  pgdata: # Garante que seus dados não sumam ao desligar o container
