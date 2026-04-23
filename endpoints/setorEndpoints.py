@@ -21,7 +21,7 @@ def create_setor(
     setor: SetorCreate,
     #lotacao = LocalAcesso,
     db: Session = Depends(get_db),
-    #current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user)
 ):
 
     try:
