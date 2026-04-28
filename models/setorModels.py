@@ -14,7 +14,7 @@ class Setor(Base):
 
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
-    Nome = Column(String(255), nullable=True) 
+    nome = Column(String(255), nullable=True) 
     descricao = Column(String(255), nullable=False)
     is_lotacao = Column(Boolean, default=False)
     

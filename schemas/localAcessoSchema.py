@@ -5,12 +5,12 @@ from enum import Enum
 class LocalAcessoSchema(BaseModel):
     nome: str
     cnpj: int
-    Logradouro: str | None
-    Numero: str | None
-    Bairro: str | None
-    CEP: int | None
-    Cidade: str | None
-    Estado: str | None
+    logradouro: str | None
+    numero: str | None
+    bairro: str | None
+    cep: int | None
+    cidade: str | None
+    estado: str | None
     email: Optional[str] = None
     telefone: Optional[int] = None
 

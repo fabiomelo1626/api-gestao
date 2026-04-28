@@ -10,7 +10,7 @@ class SetorSchema(BaseModel):
 
     data_registro: Optional[datetime] = None
     data_alteracao: Optional[datetime] = None
-    Nome: Optional[str] = None
+    nome: Optional[str] = None
     descricao: Optional[str] = None
     is_lotacao: Optional[bool]
     

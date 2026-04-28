@@ -13,17 +13,17 @@ class PessoaSchema(BaseModel):
 
     data_registro : Optional[datetime] = None
     data_alteracao : Optional[datetime] = None
-    CPF : Optional[int] = None
-    RG : Optional[int] = None
-    Titulo : Optional[int] = None
-    Nome : Optional[str] = None
-    DataNascimento : Optional[datetime]
-    Cidade : Optional[str] = None
-    Estado : Optional[str] = None
-    Logradouro : Optional[str] = None
-    Numero : Optional[str] = None
-    Bairro : Optional[str] = None
-    CEP : Optional[int] = None
+    cpf : Optional[int] = None
+    rg : Optional[int] = None
+    titulo : Optional[int] = None
+    nome : Optional[str] = None
+    datanascimento : Optional[datetime]
+    cidade : Optional[str] = None
+    estado : Optional[str] = None
+    logradouro : Optional[str] = None
+    numero : Optional[str] = None
+    bairro : Optional[str] = None
+    cep : Optional[int] = None
     email : Optional[str] = None
     is_secretario : Optional[bool] = None
     is_funcionario : Optional[bool] = None

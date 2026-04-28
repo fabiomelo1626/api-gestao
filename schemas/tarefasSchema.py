@@ -12,7 +12,7 @@ class TarefaSchema(BaseModel):
 
     data_conclusao: Optional[datetime] = None
     setor_id : Optional[int] = None
-    Nome : Optional[str] = None
+    nome : Optional[str] = None
     descricao : Optional[str] = None
     responsavel : Optional[int] = None
     meta_id: Optional[int] = None

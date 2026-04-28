@@ -12,7 +12,7 @@ class MetaSchema(BaseModel):
 
     data_conclusao: Optional[datetime] = None
     setor : Optional[int] = None
-    Nome : Optional[str] = None
+    nome : Optional[str] = None
     descricao : Optional[str] = None
     responsavel : Optional[int] = None
     status : Optional[str] = None
