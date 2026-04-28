@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from datetime import datetime
 from typing import List
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.orm import joinedload, join
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
@@ -47,11 +48,19 @@ def search_pessoa(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
 ):
-    db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
+    
+    db_pessoa = db.query(Pessoa)\
+    .options(joinedload(Pessoa.cargo),
+             joinedload(Pessoa.setor))\
+    .filter(Pessoa.id == pessoa_id)\
+    .first()
+
     if not db_pessoa:
         raise HTTPException(status_code=404, detail="Pessoa não encontrada")
-    return db_pessoa
+    
+   
 
+    return db_pessoa
 
 @pessoa.get("/pessoas", response_model=List[PessoaResponse])
 def pessoas_all(

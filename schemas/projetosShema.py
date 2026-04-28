@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
+from schemas.cargoSchema import CargoResponse
+
 
 
 class ProjetoSchema(BaseModel):
@@ -12,7 +14,7 @@ class ProjetoSchema(BaseModel):
 
     data_conclusao: Optional[datetime] = None
     setor : Optional[int] = None
-    Nome : Optional[str] = None
+    nome : Optional[str] = None
     descricao : Optional[str] = None
     responsavel : Optional[int] = None
     status : Optional[str] = None
@@ -24,3 +26,4 @@ class ProjetoCreate(ProjetoSchema):
 
 class ProjetoResponse(ProjetoSchema):
     id: int
+    

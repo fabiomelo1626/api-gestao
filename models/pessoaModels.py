@@ -31,3 +31,7 @@ class Pessoa(Base):
     is_funcionario = Column(Boolean, default=False) 
     setor_id = Column(Integer, ForeignKey("setor.id"), nullable=True)
     cargo_id = Column(Integer, ForeignKey("cargo.id"), nullable=True)
+    telefone = Column(Integer, nullable=True)
+    
+    setor = relationship("Setor", back_populates="pessoa")
+    cargo = relationship("Cargo", back_populates="pessoa")

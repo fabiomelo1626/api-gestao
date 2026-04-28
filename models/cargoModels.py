@@ -17,3 +17,4 @@ class Cargo(Base):
     nome = Column(String(255), nullable=True) 
     descricao = Column(String(255), nullable=False)
     
+    pessoa = relationship("Pessoa", back_populates="cargo")

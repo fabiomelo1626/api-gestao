@@ -59,6 +59,13 @@ def projetos_all(
 ):
     return db.query(Projeto).all()
 
+@projetos.get("/projetos-count", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    return db.query(Projeto).all()
+
 
 @projetos.get("/projetos-by-local_id/{local_id}", response_model=List[ProjetoResponse])
 def search_projetos_local(

@@ -2,6 +2,9 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
+from schemas.cargoSchema import CargoResponse
+from schemas.setorSchema import SetorResponse
+
 
 
 class PessoaSchema(BaseModel):
@@ -35,3 +38,10 @@ class PessoaCreate(PessoaSchema):
 
 class PessoaResponse(PessoaSchema):
     id: int
+
+    cargo: CargoResponse | None  
+    setor: SetorResponse | None
+
+    class Config:
+        from_attributes = True
+

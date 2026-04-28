@@ -18,3 +18,4 @@ class Setor(Base):
     descricao = Column(String(255), nullable=False)
     is_lotacao = Column(Boolean, default=False)
     
+    pessoa = relationship("Pessoa", back_populates="setor")
