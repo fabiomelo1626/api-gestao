@@ -21,12 +21,13 @@ def create_setor(
     setor: SetorCreate,
     #lotacao = LocalAcesso,
     db: Session = Depends(get_db),
-    #current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user)
 ):
 
     try:
         db_setor = Setor(**setor.dict(exclude={"is_lotacao"}))
         db_setor.data_registro = datetime.utcnow()
+        db_setor.user_id = current_user["id"]
 
         if setor.is_lotacao:
             lotacao = LocalAcesso(

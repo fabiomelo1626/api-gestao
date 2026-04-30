@@ -4,7 +4,7 @@ from enum import Enum
 
 class LocalAcessoSchema(BaseModel):
     nome: str
-    cnpj: int
+    cnpj: int | None
     logradouro: str | None
     numero: str | None
     bairro: str | None
