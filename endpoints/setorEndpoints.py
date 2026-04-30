@@ -25,7 +25,7 @@ def create_setor(
 ):
 
     try:
-        db_setor = Setor(**setor.dict(exclude={"is_lotacao"}))
+        db_setor = Setor(**setor.dict())
         db_setor.data_registro = datetime.utcnow()
         db_setor.user_id = current_user["id"]
 
