@@ -30,7 +30,7 @@ def create_setor(
 
         if setor.is_lotacao:
             lotacao = LocalAcesso(
-                nome=setor.Nome,
+                nome=setor.nome,
             )
 
             db.add(lotacao)
