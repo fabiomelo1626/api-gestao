@@ -16,7 +16,7 @@ class Metas(Base):
 
     data_conclusao = Column(Date, nullable=True)
     setor = Column(Integer, ForeignKey("setor.id"), nullable=True)
-    Nome = Column(String(255), nullable=True) 
+    nome = Column(String(255), nullable=True) 
     descricao = Column(String(255), nullable=False)
     responsavel = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
     projeto_id = Column(Integer, ForeignKey("projeto.id"), nullable=True)
