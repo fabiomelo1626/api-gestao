@@ -1,3 +1,4 @@
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -62,7 +63,7 @@ def run_migrations_offline() -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
+'''
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode.
 
@@ -83,7 +84,35 @@ def run_migrations_online() -> None:
 
         with context.begin_transaction():
             context.run_migrations()
+'''
 
+def run_migrations_online() -> None:
+    """Run migrations in 'online' mode."""
+    
+    # 1. Pega a URL do ambiente (injetada pelo Docker)
+    database_url = os.getenv("DATABASE_URL")
+
+    # 2. Se não encontrar no ambiente, tenta pegar do alembic.ini
+    if not database_url:
+        database_url = config.get_main_option("sqlalchemy.url")
+
+    # 3. Ajuste para o driver do SQLAlchemy (opcional, mas recomendado)
+    if database_url and database_url.startswith("postgresql://"):
+        database_url = database_url.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+    from sqlalchemy import create_engine
+    
+    # 4. Cria o engine usando a URL correta
+    connectable = create_engine(database_url, poolclass=pool.NullPool)
+
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection, 
+            target_metadata=target_metadata
+        )
+
+        with context.begin_transaction():
+            context.run_migrations()
 
 if context.is_offline_mode():
     run_migrations_offline()
