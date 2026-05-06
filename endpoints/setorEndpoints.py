@@ -25,9 +25,20 @@ def create_setor(
 ):
 
     try:
+        if "local_id" not in current_user:
+            raise HTTPException(
+                status_code=400,
+                detail="Local não selecionado"
+            )
+        local = db.query(LocalAcesso).filter(
+            LocalAcesso.id == current_user["local_id"]
+        ).first()
+        if not local:
+            raise HTTPException(status_code=404, detail="Local não encontrado")
         db_setor = Setor(**setor.dict())
         db_setor.data_registro = datetime.utcnow()
         db_setor.user_id = current_user["id"]
+        db_setor.local_id = local.id
 
         if setor.is_lotacao:
             lotacao = LocalAcesso(
@@ -37,7 +48,6 @@ def create_setor(
             db.add(lotacao)
             db.flush() 
 
-            db_setor.local_id = lotacao.id
 
         db.add(db_setor)
         db.commit()

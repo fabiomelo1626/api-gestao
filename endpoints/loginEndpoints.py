@@ -36,17 +36,21 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
             raise HTTPException(status_code=401, detail="Senha incorreta")
 
         acessos = db_user.acessos
+        ativos = [acesso for acesso in acessos if acesso.ativo]
         
-        acesso_info = [{"id": acesso.id} for acesso in db_user.acessos]
-        # acesso_atual = acesso_info[0]
+        acesso_info = [{"id": acesso.id, "local_id": acesso.localacesso_id} for acesso in ativos]
 
+        token_data = {
+            "sub": db_user.username,
+            "id": db_user.id,
+            "email": db_user.email,
+        }
+
+        if len(ativos) == 1:
+            token_data["local_id"] = ativos[0].localacesso_id
         
-        access_token = create_access_token(
-            data={
-                "sub": db_user.username,
-                "id": db_user.id,
-            }
-        )
+
+        access_token = create_access_token(data=token_data)
 
         return {
             "access_token": access_token,
