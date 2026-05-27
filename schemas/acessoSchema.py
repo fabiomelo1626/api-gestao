@@ -2,12 +2,14 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import date
 
+
 class UserSimple(BaseModel):
     id: int
     username: str
 
     class Config:
         from_attributes = True
+
 
 class LocalAcessoSimple(BaseModel):
     id: int
@@ -16,9 +18,11 @@ class LocalAcessoSimple(BaseModel):
     class Config:
         from_attributes = True
 
+
 class AcessoCreate(BaseModel):
     usuario_id: int
     localacesso_id: int
+
 
 class AcessoResponse(BaseModel):
     id: int

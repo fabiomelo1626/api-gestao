@@ -11,6 +11,7 @@ class MetaSchema(BaseModel):
     data_alteracao : Optional[datetime] = None
 
     data_conclusao: Optional[datetime] = None
+    projeto_id : Optional[int] = None
     setor : Optional[int] = None
     nome : Optional[str] = None
     descricao : Optional[str] = None
