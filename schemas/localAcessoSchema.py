@@ -13,6 +13,7 @@ class LocalAcessoSchema(BaseModel):
     estado: str | None
     email: Optional[str] = None
     telefone: Optional[int] = None
+    cor: Optional[str] = None
 
     logo: Optional[str] = None  
     is_active: Optional[bool] = True
