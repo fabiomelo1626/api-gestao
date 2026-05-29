@@ -18,6 +18,7 @@ class LocalAcesso(Base):
     telefone = Column(BigInteger, nullable=True)
     logo = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
+    cor = Column(String, default="#1113d3")
     
     acessos = relationship("Acesso", back_populates="locais")
     permission_table = relationship("PermissionTable", back_populates="local")
