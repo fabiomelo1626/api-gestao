@@ -15,6 +15,13 @@ class UserPermissionSchema(BaseModel):
     tabela_responsaveis : Optional[bool] = None
     tabela_tarefas : Optional[bool] = None
     tabela_setor : Optional[bool] = None
+    tabela_pessoa : Optional[bool] = None
+    tabela_atendimento : Optional[bool] = None
+    tabela_acessos : Optional[bool] = None
+    tabela_cargos : Optional[bool] = None
+    tabela_projetos : Optional[bool] = None
+    tabela_user : Optional[bool] = None
+
     listar: Optional[bool] = None
     criar: Optional[bool] = None
     editar: Optional[bool] = None

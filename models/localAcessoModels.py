@@ -19,7 +19,7 @@ class LocalAcesso(Base):
     logo = Column(String, nullable=True)
     is_active = Column(Boolean, default=True)
     cor = Column(String, default="#1113d3")
-    
+    #default = "#1113d3"
     acessos = relationship("Acesso", back_populates="locais")
     permission_table = relationship("PermissionTable", back_populates="local")
     setor = relationship("Setor", back_populates="local")

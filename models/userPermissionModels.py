@@ -20,6 +20,13 @@ class UserPermission(Base):
     tabela_responsaveis = Column(Boolean, default=False)
     tabela_setor = Column(Boolean, default=False)
     tabela_tarefas = Column(Boolean, default=False)
+    tabela_pessoa = Column(Boolean, default=False)
+    tabela_atendimento = Column(Boolean, default=False)
+    tabela_acessos = Column(Boolean, default=False)
+    tabela_cargos = Column(Boolean, default=False)
+    tabela_projetos = Column(Boolean, default=False)
+    tabela_user = Column(Boolean, default=True)
+
     listar = Column(Boolean, default=False)
     criar = Column(Boolean, default=False)
     editar = Column(Boolean, default=False)
