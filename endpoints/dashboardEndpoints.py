@@ -26,12 +26,12 @@ def get_status_all(db: Session = Depends(get_db)):
     }
 
 @dashboard.get("/dashboard/projetos/destaque/{local_id}")
-def get_status_all(local_id = int, db: Session = Depends(get_db)): 
+def get_projetos_destaque_all(local_id: int, db: Session = Depends(get_db)): 
     return db.query(Projeto).filter(Projeto.local_id==local_id).order_by(Projeto.id.desc()).limit(3).all()
         
 
 @dashboard.get("/dashboard/tarefas/destaque/{local_id}")
-def get_status_all(local_id = int, db: Session = Depends(get_db)): 
+def get_tarefas_destaque_all(local_id: int, db: Session = Depends(get_db)): 
     atividades =  db.query(Tarefa).filter(Tarefa.local_id==local_id).order_by(Tarefa.data_alteracao.desc()).limit(5).all()
 
     return atividades

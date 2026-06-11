@@ -21,6 +21,7 @@ class UserPermissionSchema(BaseModel):
     tabela_cargos : Optional[bool] = None
     tabela_projetos : Optional[bool] = None
     tabela_user : Optional[bool] = None
+    tabela_permissoes: Optional[bool] = None
 
     listar: Optional[bool] = None
     criar: Optional[bool] = None
