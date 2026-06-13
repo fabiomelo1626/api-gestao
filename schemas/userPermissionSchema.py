@@ -4,7 +4,7 @@ from pydantic import BaseModel
 
 
 
-class UserPermissionSchema(BaseModel):
+class PermissionTablesSchema(BaseModel):
     user_id: Optional[int] = None
     local_id: Optional[int] = None
     data_registro: Optional[datetime] = None
@@ -31,8 +31,8 @@ class UserPermissionSchema(BaseModel):
     class Config:
         from_attributes = True
 
-class UserPermissionCreate(UserPermissionSchema):
+class PermissionTablesCreate(PermissionTablesSchema):
     pass
 
-class UserPermissionResponse(UserPermissionSchema):
+class PermissionTablesResponse(PermissionTablesSchema):
     id: int

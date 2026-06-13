@@ -5,8 +5,8 @@ from conexao.conect_db import Base
 
 
 
-class PermissionTable(Base):
-    __tablename__ = "permission_table"
+class PermissionTables(Base):
+    __tablename__ = "permission_tables"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
@@ -33,11 +33,10 @@ class PermissionTable(Base):
     deletar = Column(Boolean, default=False)
 
     user = relationship("User", back_populates="permissions")
-    #permission_table = relationship("PermissionTable", back_populates="permissions")
 
 
-class UserPermission(Base):
-    __tablename__ = "user_permission"
+class UserPermissions(Base):
+    __tablename__ = "user_permissions"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
@@ -45,4 +44,3 @@ class UserPermission(Base):
 
     data_registro =  Column(Date, nullable=True)
     data_alteracao =  Column(Date, nullable=True)
-

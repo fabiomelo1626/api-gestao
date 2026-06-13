@@ -1,7 +1,7 @@
 from fastapi import Depends, HTTPException, status
 from models.permissionTableModels import PermissionTable
 from models.userModels import User
-from models.userPermissionModels import UserPermission
+from models.PermissionModels import *
 from sqlalchemy.orm import Session
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user

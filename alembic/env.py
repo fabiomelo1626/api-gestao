@@ -24,7 +24,7 @@ from models.auxiliaresModels import *
 from models.localAcessoModels import LocalAcesso
 from models.pessoaModels import Pessoa
 from models.permissionTableModels import PermissionTable
-from models.userPermissionModels import UserPermission
+from models.PermissionModels import *
 from models.metasModels import Metas
 from models.setorModels import Setor
 from models.tarefasModels import Tarefa
