@@ -21,7 +21,7 @@ class User(Base):
     
    
     acessos = relationship("Acesso", back_populates="usuarios")
-    permissions = relationship("UserPermission", back_populates="user")
+    permissions = relationship("PermissionTables", back_populates="user")
     setor = relationship("Setor", back_populates="user")
     meta = relationship("Metas", back_populates="user")
     pessoa = relationship("Pessoa", back_populates="user")
