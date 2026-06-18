@@ -79,7 +79,8 @@ def search_setor(
     "/setores", response_model=List[SetorResponse])
 def setores_all(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Setor).all()
 

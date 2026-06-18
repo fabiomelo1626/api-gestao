@@ -25,7 +25,7 @@ def create_permission(
        raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
     
     try:
-        db_permission = PermissionTables(**permission.dict())
+        db_permission = PermissionTables(**permission.model_dump())
         db_permission.user_id = current_user["id"]
         db_permission.data_registro = datetime.today()
         db_permission.local_id = local_id
@@ -68,3 +68,66 @@ def update_permission_table(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+
+
+
+
+
+@permission.post("/create-user-permission/", response_model=UserPermissionResponse)
+def create_user_permission(
+    permission: UserPermissionCreate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    local_id = permission.local_id
+    if not local_id:
+       raise HTTPException(status_code=403, detail="Local não encontrado no token ou na requisição.")
+    
+    try:
+        db_permission = UserPermissions(**permission.model_dump())
+        db_permission.user_id = current_user["id"]
+        db_permission.data_registro = datetime.today()
+        db_permission.local_id = local_id
+
+        db.add(db_permission)
+        db.commit()
+        db.refresh(db_permission)
+        return db_permission
+
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+
+
+
+@permission.put("/editar-user-permission/{permission_id}", response_model=UserPermissionResponse)
+def update_user_permission(
+    permission_id: int,
+    permission: UserPermissionCreate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    db_permission = db.query(UserPermissions).filter(UserPermissions.id == permission_id).first()
+    if not db_permission:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="permission não encontrado")
+
+    try:
+        for key, value in permission.dict(exclude_unset=True).items():
+            setattr(db_permission, key, value)
+
+        db_permission.data_alteracao = datetime.now()
+        db.commit()
+        db.refresh(db_permission)
+        return db_permission
+
+    except SQLAlchemyError as e:
+        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
