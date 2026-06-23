@@ -19,7 +19,8 @@ projetos = APIRouter(prefix="/api")
 def create_projeto(
     projeto: ProjetoCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
    
     try:
@@ -44,7 +45,8 @@ def create_projeto(
 def search_projeto(
     projeto_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     db_projeto = db.query(Projeto).filter(Projeto.id == projeto_id).first()
     if not db_projeto:
@@ -55,14 +57,16 @@ def search_projeto(
 @projetos.get("/projetos", response_model=List[ProjetoResponse])
 def projetos_all(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Projeto).all()
 
 @projetos.get("/projetos-count", response_model=List[ProjetoResponse])
 def projetos_count_all(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    
 ):
     return db.query(Projeto).all()
 
@@ -71,7 +75,8 @@ def projetos_count_all(
 def search_projetos_local(
     local_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     projetos = db.query(Projeto).filter(Projeto.local_id == local_id).all()
    
@@ -83,7 +88,8 @@ def update_projeto(
     projeto_id: int,
     projeto: ProjetoCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_projeto = db.query(Projeto).filter(Projeto.id == projeto_id).first()
     if not db_projeto:

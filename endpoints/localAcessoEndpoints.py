@@ -8,12 +8,17 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.localAcessoModels import LocalAcesso
 from schemas.localAcessoSchema import LocalAcessoCreate, LocalAcessoResponse
-from models.acessoModels import Acesso 
+from models.acessoModels import Acesso
+from utils.middlewareDependence import check_permission 
 local = APIRouter(prefix="/api")
 
 
 @local.post("/create-local/", response_model=LocalAcessoResponse, status_code=status.HTTP_201_CREATED)
-def create_local(local: LocalAcessoCreate, db: Session = Depends(get_db), ):
+def create_local(
+    local: LocalAcessoCreate,
+    db: Session = Depends(get_db),
+    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+    ):
     if db.query(LocalAcesso).filter(LocalAcesso.cnpj == local.cnpj).first():
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Local com este CNPJ já cadastrado.")
 
@@ -30,7 +35,13 @@ def create_local(local: LocalAcessoCreate, db: Session = Depends(get_db), ):
 
 
 @local.put("/editar-local/{local_id}", response_model=LocalAcessoResponse)
-def update_local(local_id: int, local: LocalAcessoCreate, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+def update_local(
+    local_id: int,
+    local: LocalAcessoCreate,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
+    ):
     db_local = db.query(LocalAcesso).filter(LocalAcesso.id == local_id).first()
     if not db_local:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Local não encontrado.")
@@ -64,6 +75,7 @@ def listar_locais(
     Estado: str = Query(None),
     ordem: str = Query("asc"),
     db: Session = Depends(get_db),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     query = db.query(LocalAcesso)
 
@@ -86,7 +98,12 @@ def listar_locais(
     
 
 @local.delete("/inativar-local/{local_id}", response_model=LocalAcessoResponse)
-def inativar_local(local_id: int, db: Session = Depends(get_db), current_user: dict = Depends(get_current_user)):
+def inativar_local(
+    local_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "deletar"))]
+    ):
     db_local = db.query(LocalAcesso).filter(LocalAcesso.id == local_id).first()
     if not db_local:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Local não encontrado")

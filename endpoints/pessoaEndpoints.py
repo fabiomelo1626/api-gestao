@@ -20,7 +20,8 @@ pessoa = APIRouter(prefix="/api")
 def create_pessoa(
     pessoa: PessoaCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
     
     
@@ -46,7 +47,8 @@ def create_pessoa(
 def search_pessoa(
     pessoa_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     
     db_pessoa = db.query(Pessoa)\
@@ -65,7 +67,8 @@ def search_pessoa(
 @pessoa.get("/pessoas", response_model=List[PessoaResponse])
 def pessoas_all(
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Pessoa).all()
 
@@ -74,7 +77,8 @@ def pessoas_all(
 def search_pessoas_local(
     local_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     pessoas = db.query(Pessoa).filter(Pessoa.local_id == local_id).all()
    
@@ -86,7 +90,8 @@ def update_pessoa(
     pessoa_id: int,
     pessoa: PessoaCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
     if not db_pessoa:

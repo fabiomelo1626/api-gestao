@@ -21,7 +21,9 @@ def create_setor(
     setor: SetorCreate,
     #lotacao = LocalAcesso,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+
 ):
 
     try:
@@ -66,7 +68,9 @@ def create_setor(
 def search_setor(
     setor_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+
 ):
     db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
     if not db_setor:
@@ -90,7 +94,8 @@ def setores_all(
 def search_setores_local(
     local_id: int,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     setores = db.query(Setor).filter(Setor.local_id == local_id).all()
    
@@ -103,7 +108,8 @@ def update_pessoa(
     setor_id: int,
     setor: SetorCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
+    current_user: dict = Depends(get_current_user),
+    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
     if not db_setor:
