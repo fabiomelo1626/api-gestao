@@ -41,6 +41,24 @@ def create_permission(
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
+@permission.get("/usuario/{usuario_id}/permissoes", response_model=list[PermissionTablesResponse])
+def listar_permissoes_usuario(
+    usuario_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    permissoes = (
+        db.query(PermissionTables)
+        .join(
+            UserPermissions,
+            UserPermissions.permission_table_id == PermissionTables.id
+        )
+        .filter(UserPermissions.user_id == usuario_id)
+        .all()
+    )
+
+    return permissoes
+
 
 
 
@@ -68,9 +86,6 @@ def update_permission_table(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
-
-
-
 
 
 
@@ -129,5 +144,6 @@ def update_user_permission(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
 
 
