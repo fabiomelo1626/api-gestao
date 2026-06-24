@@ -21,7 +21,7 @@ class LocalAcesso(Base):
     cor = Column(String, default="#1113d3")
     #default = "#1113d3"
     acessos = relationship("Acesso", back_populates="locais")
-    permission_table = relationship("PermissionTable", back_populates="local")
+    permission_tables = relationship("PermissionTables", back_populates="local")
     setor = relationship("Setor", back_populates="local")
     meta = relationship("Metas", back_populates="local")
     pessoa = relationship("Pessoa", back_populates="local")

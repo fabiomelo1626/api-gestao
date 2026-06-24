@@ -11,6 +11,8 @@ class PermissionTables(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
+    local = relationship("LocalAcesso", back_populates="permission_tables")
+
     data_registro =  Column(Date, nullable=True)
     data_alteracao =  Column(Date, nullable=True)
 
