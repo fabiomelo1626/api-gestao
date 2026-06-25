@@ -29,6 +29,4 @@ class LocalAcesso(Base):
     cargo = relationship("Cargo", back_populates="local")
     projeto = relationship("Projeto", back_populates="local")
     atendimento = relationship("Atendimento", back_populates="local")
-
     
-     

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Body, status
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import SQLAlchemyError
@@ -60,6 +61,23 @@ def listar_permissoes_usuario(
     return permissoes
 
 
+@permission.get("/permissoes", response_model=List[PermissionTablesResponse])
+def permissoes_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    return db.query(PermissionTables).all()
+
+
+@permission.get("/permission-by-local_id/{local_id}", response_model=List[PermissionTables])
+def search_permissions_local(
+    local_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+):
+    permissions = db.query(PermissionTables).filter(PermissionTables.local_id == local_id).all()
+   
+    return permissions
 
 
 @permission.put("/editar-permission/{permission_id}", response_model=PermissionTablesResponse)
@@ -86,7 +104,6 @@ def update_permission_table(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
-
 
 
 
@@ -119,7 +136,6 @@ def create_user_permission(
 
 
 
-
 @permission.put("/editar-user-permission/{permission_id}", response_model=UserPermissionResponse)
 def update_user_permission(
     permission_id: int,
@@ -144,6 +160,3 @@ def update_user_permission(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
-
-
-
