@@ -30,6 +30,7 @@ from models.tarefasModels import Tarefa
 from models.cargoModels import Cargo
 from models.projetosModels import Projeto
 from models.atendimentoModels import Atendimento
+from models.comunicacaoModels import Comunicacao
 
 target_metadata = Base.metadata
 

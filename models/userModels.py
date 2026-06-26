@@ -30,3 +30,4 @@ class User(Base):
     cargo = relationship("Cargo", back_populates="user")
     projeto = relationship("Projeto", back_populates="user")
     atendimento = relationship("Atendimento", back_populates="user")
+    comunicacao = relationship("Comunicacao", back_populates="user" )

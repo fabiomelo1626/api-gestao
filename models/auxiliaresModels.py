@@ -11,4 +11,20 @@ class Status(Base):
     
     meta = relationship("Metas", back_populates="status_meta")
     tarefa = relationship("Tarefa", back_populates="status_tarefa")
+
+
+
+class CategoriamMensagem(Base):
+    __tablename__ = "aux_categoria_mensagem"
+
+    id = Column(Integer, primary_key=True)
+    descricao = Column(String, nullable=True)
+
+
+class StatusMensagem(Base):
+    __tablename__ = "aux_status_mensagem"
+
+    id = Column(Integer, primary_key=True)
+    descricao = Column(String, nullable=True, unique=True)
+
    

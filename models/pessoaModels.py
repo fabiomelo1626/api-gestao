@@ -35,3 +35,6 @@ class Pessoa(Base):
     
     setor = relationship("Setor", back_populates="pessoa")
     cargo = relationship("Cargo", back_populates="pessoa")
+    comunicacoes_registradas  = relationship("Comunicacao", foreign_keys="[Comunicacao.remetente_id]", back_populates="remetente")
+    mensagens_recebidas = relationship("Comunicacao", foreign_keys="[Comunicacao.destinatario_id]", back_populates="destinatario")
+    

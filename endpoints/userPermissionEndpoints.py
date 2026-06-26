@@ -69,7 +69,7 @@ def permissoes_all(
     return db.query(PermissionTables).all()
 
 
-@permission.get("/permission-by-local_id/{local_id}", response_model=List[PermissionTables])
+@permission.get("/permission-by-local_id/{local_id}", response_model=List[PermissionTablesResponse])
 def search_permissions_local(
     local_id: int,
     db: Session = Depends(get_db),
