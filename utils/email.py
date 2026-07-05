@@ -49,7 +49,7 @@ def enviar_email_boas_vindas(destinatario: str, senha: str, username: str, link:
     senha_email = settings.EMAIL_PASSWORD
 
     msg = MIMEMultipart("related")
-    msg["Subject"] = "🔑 Marka Sistemas - Primeiro acesso ao sistema de Saúde Pública"
+    msg["Subject"] = "🔑 DEV - SYSTEM - Primeiro acesso ao sistema para Gestão."
     msg["From"] = remetente
     msg["To"] = destinatario
 
@@ -83,7 +83,7 @@ def enviar_email_boas_vindas(destinatario: str, senha: str, username: str, link:
             </div>
 
             <div style="text-align: center; margin: 30px 0;">
-              <a href="https://saude.gestaomunicipal.net/login" style="background-color: #2980b9; color: #fff; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;">
+              <a href="https://181.224.24.33:3000/login" style="background-color: #2980b9; color: #fff; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-size: 16px; font-weight: bold;">
                 ➡️ Acessar o Sistema
               </a>
             </div>

@@ -61,13 +61,6 @@ def listar_permissoes_usuario(
     return permissoes
 
 
-@permission.get("/permissoes", response_model=List[PermissionTablesResponse])
-def permissoes_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user)
-):
-    return db.query(PermissionTables).all()
-
 
 @permission.get("/permission-by-local_id/{local_id}", response_model=List[PermissionTablesResponse])
 def search_permissions_local(
@@ -160,3 +153,12 @@ def update_user_permission(
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+@permission.get("/usuarios-permissoes-all", response_model=List[UserPermissions])
+def user_permissoes_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    return db.query(UserPermissions).all()
+
