@@ -155,7 +155,7 @@ def update_user_permission(
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
-@permission.get("/usuarios-permissoes-all", response_model=List[UserPermissions])
+@permission.get("/usuarios-permissoes-all", response_model=List[UserPermissionResponse])
 def user_permissoes_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
