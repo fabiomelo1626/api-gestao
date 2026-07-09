@@ -39,9 +39,12 @@ class PermissionTables(Base):
 
 class UserPermissions(Base):
     __tablename__ = "user_permissions"
+    user_cadastra_id =     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    cadastrador = relationship("LocalAcesso",foreign_keys=[user_cadastra_id], back_populates="user_cadastra")
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user = relationship("User",foreign_keys=[user_id], back_populates="permissions")
     permission_table_id = Column(Integer, ForeignKey("permission_tables.id"), nullable=True)
     local_id = Column(Integer, ForeignKey("localAcesso.id"), nullable=True)
 

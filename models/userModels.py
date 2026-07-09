@@ -31,3 +31,4 @@ class User(Base):
     projeto = relationship("Projeto", back_populates="user")
     atendimento = relationship("Atendimento", back_populates="user")
     comunicacao = relationship("Comunicacao", back_populates="user" )
+    

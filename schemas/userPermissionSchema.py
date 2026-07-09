@@ -42,6 +42,8 @@ class PermissionTablesResponse(PermissionTablesSchema):
 
 
 class UserPermissionSchema(BaseModel):
+    user_cadastra_id: Optional[int] = None
+
     user_id: Optional[int] = None
     local_id: Optional[int] = None
     permission_table_id: Optional[int] = None
