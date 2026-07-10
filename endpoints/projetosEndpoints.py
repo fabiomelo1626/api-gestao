@@ -62,13 +62,76 @@ def projetos_all(
 ):
     return db.query(Projeto).all()
 
+
+
+
+#CONTAGE DOS PROJETOS
 @projetos.get("/projetos-count", response_model=List[ProjetoResponse])
 def projetos_count_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
     
 ):
-    return db.query(Projeto).all()
+    return db.query(Projeto).count()
+
+#todos os atrasados
+@projetos.get("/projetos-atrasados", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Em atraso").all()
+
+#quantidade de atrasados
+@projetos.get("/projetos-atrasados-count", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Em atraso").count()
+
+
+
+#todos os concluidos
+@projetos.get("/projetos-concluidos", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Concluída").all()
+
+#quantidade de concluidos
+@projetos.get("/projetos-atrasados-count", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Concluída").count()
+
+
+#todos os em andamento
+@projetos.get("/projetos-em-andamento", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Em andamento").all()
+
+#quantidade de em andamento
+@projetos.get("/projetos-em-andamento-count", response_model=List[ProjetoResponse])
+def projetos_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Projeto).filter(Projeto.status == "Em andamento").count()
+
+
 
 
 @projetos.get("/projetos-by-local_id/{local_id}", response_model=List[ProjetoResponse])

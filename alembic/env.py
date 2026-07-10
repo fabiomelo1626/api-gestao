@@ -32,6 +32,7 @@ from models.projetosModels import Projeto
 from models.atendimentoModels import Atendimento
 from models.comunicacaoModels import Comunicacao
 
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,

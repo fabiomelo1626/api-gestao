@@ -21,7 +21,8 @@ class User(Base):
     
    
     acessos = relationship("Acesso", back_populates="usuarios")
-    permissions = relationship("PermissionTables", back_populates="user")
+    permissions_table = relationship("PermissionTables", back_populates="user")
+    permissions = relationship("UserPermissions", foreign_keys="[UserPermissions.user_id]", back_populates="user")
     
     setor = relationship("Setor", back_populates="user")
     meta = relationship("Metas", back_populates="user")
@@ -31,4 +32,5 @@ class User(Base):
     projeto = relationship("Projeto", back_populates="user")
     atendimento = relationship("Atendimento", back_populates="user")
     comunicacao = relationship("Comunicacao", back_populates="user" )
+    user_cadastra = relationship("UserPermissions", foreign_keys="[UserPermissions.user_cadastra_id]",back_populates="cadastrador" )
     

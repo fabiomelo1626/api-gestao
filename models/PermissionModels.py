@@ -34,13 +34,13 @@ class PermissionTables(Base):
     editar = Column(Boolean, default=False)
     deletar = Column(Boolean, default=False)
 
-    user = relationship("User", back_populates="permissions")
+    user = relationship("User", back_populates="permissions_table")
 
 
 class UserPermissions(Base):
     __tablename__ = "user_permissions"
-    user_cadastra_id =     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
-    cadastrador = relationship("LocalAcesso",foreign_keys=[user_cadastra_id], back_populates="user_cadastra")
+    user_cadastra_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    cadastrador = relationship("User",foreign_keys=[user_cadastra_id], back_populates="user_cadastra")
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
