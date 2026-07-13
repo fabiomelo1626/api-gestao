@@ -162,3 +162,17 @@ def user_permissoes_all(
 ):
     return db.query(UserPermissions).all()
 
+
+@permission.delete("/editar-user-permission/{permission_id}")
+def delete_user_permission(
+    permission_id: int,
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    db_permission = db.query(UserPermissions).filter(UserPermissions.id == permission_id).first()
+    if not db_permission:
+        raise HTTPException(status_code=404, detail="Vínculo não encontrado")
+    
+    db.delete(db_permission)
+    db.commit()
+    return {"detail": "Vínculo removido com sucesso"}

@@ -65,7 +65,7 @@ def projetos_all(
 
 
 
-#CONTAGE DOS PROJETOS
+#CONTAGEM DOS PROJETOS
 @projetos.get("/projetos-count", response_model=List[ProjetoResponse])
 def projetos_count_all(
     db: Session = Depends(get_db),
