@@ -112,7 +112,7 @@ def create_user_permission(
     
     try:
         db_permission = UserPermissions(**permission.model_dump())
-        db_permission.user_id = current_user["id"]
+        db_permission.user_cadastra_id = current_user["id"]
         db_permission.data_registro = datetime.today()
         db_permission.local_id = local_id
 
@@ -164,7 +164,7 @@ def user_permissoes_all(
 
 
 @permission.delete("/editar-user-permission/{permission_id}")
-def delete_user_permission(
+def delete_user_permission(   
     permission_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
