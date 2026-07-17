@@ -8,11 +8,14 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.PermissionModels import *
 from schemas.userPermissionSchema import *
+import logging
+import traceback
 
 permission = APIRouter(
     prefix="/api",
 )
 
+logger = logging.getLogger(__name__)
 
 
 @permission.post("/create-permission/", response_model=PermissionTablesResponse)
@@ -37,9 +40,18 @@ def create_permission(
         return db_permission
 
     except SQLAlchemyError as e:
-        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+        logger.exception("Erro de banco de dados ao criar permissão")
+        raise HTTPException(
+            status_code=500,
+            detail="Erro de banco de dados ao criar permissão"
+        )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+        logger.exception("Erro interno ao criar permissão")
+        raise HTTPException(
+            status_code=500,
+            detail="Erro interno do servidor"
+        )
+
 
 
 @permission.get("/usuario/{usuario_id}/permissoes", response_model=list[PermissionTablesResponse])
