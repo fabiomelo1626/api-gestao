@@ -9,11 +9,15 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.atendimentoModels import Atendimento
 from schemas.atendimentoSchema import AtendimentnoCreate, AtendimentnoResponse, AtendimentnoStatus
+from utils.middlewareDependence import check_permission
 
 atendimento = APIRouter(prefix="/api")
 
 
-@atendimento.post("/create-atendimento/", response_model=AtendimentnoResponse)
+@atendimento.post("/create-atendimento/",
+                  response_model=AtendimentnoResponse,
+                  dependencies=[Depends(check_permission("tabela_atendimento", "criar"))]
+                  )
 def create_atendimento(
     atendimento: AtendimentnoCreate,
     db: Session = Depends(get_db),
@@ -38,7 +42,10 @@ def create_atendimento(
 
 
 
-@atendimento.get("/busca-atendimento/{atendimento_id}", response_model=AtendimentnoResponse)
+@atendimento.get("/busca-atendimento/{atendimento_id}",
+                 response_model=AtendimentnoResponse,
+                 dependencies=[Depends(check_permission("tabela_atendimento", "listar"))]
+                 )
 def search_atendimento(
     atendimento_id: int,
     db: Session = Depends(get_db),
@@ -58,7 +65,10 @@ def atendimentos_all(
     return db.query(Atendimento).all()
 
 
-@atendimento.get("/atendimentos-by-local_id/{local_id}", response_model=List[AtendimentnoResponse])
+@atendimento.get("/atendimentos-by-local_id/{local_id}",
+                 response_model=List[AtendimentnoResponse],
+                 dependencies=[Depends(check_permission("tabela_atendimento", "listar"))]
+                 )
 def search_pessoas_local(
     local_id: int,
     db: Session = Depends(get_db),
@@ -69,7 +79,10 @@ def search_pessoas_local(
     return atendimentos
 
 
-@atendimento.put("/editar-atendimento/{atendimento_id}", response_model=AtendimentnoResponse)
+@atendimento.put("/editar-atendimento/{atendimento_id}",
+                  response_model=AtendimentnoResponse,
+                  dependencies=[Depends(check_permission("tabela_atendimento", "editar"))]
+                 )
 def update_atendimento(
     atendimento_id: int,
     atendimento: AtendimentnoCreate,
@@ -97,7 +110,10 @@ def update_atendimento(
 
 
 
-@atendimento.get("/atendimento-count/{local_id}")
+@atendimento.get("/atendimento-count/{local_id}",
+                 response_model=AtendimentnoResponse, 
+                 dependencies=[Depends(check_permission("tabela_atendimento", "listar"))]
+                 )
 def count_atendimentos(
     local_id: int,
     periodo: str = Query("dia", enum=["dia", "semana", "mes", "ano"]),
@@ -139,7 +155,10 @@ def count_atendimentos(
 
 
 
-@atendimento.put("/atendimentos-status/{atendimento_id}", response_model=List[AtendimentnoResponse])
+@atendimento.put("/atendimentos-status/{atendimento_id}", 
+                 response_model=List[AtendimentnoResponse], 
+                 dependencies=[Depends(check_permission("tabela_atendimento", "editar"))]
+                 )
 def status_atendimento(
     atendimento_id: int,
     atendimento: AtendimentnoStatus,

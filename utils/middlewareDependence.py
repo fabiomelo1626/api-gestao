@@ -9,32 +9,26 @@ def check_permission(tabela_nome: str, acao: str):
         current_user: dict = Depends(get_current_user),
         db: Session = Depends(get_db)
     ):
-        perm = (
+        # Criamos os filtros dinâmicos baseados nas strings passadas
+        filtro_tabela = getattr(PermissionTables, tabela_nome) == True
+        filtro_acao = getattr(PermissionTables, acao) == True
+
+        # Buscamos se existe QUALQUER permissão do usuário que atenda a ambos os critérios
+        perm_valida = (
             db.query(PermissionTables)
             .join(UserPermissions, UserPermissions.permission_table_id == PermissionTables.id)
-            .filter(UserPermissions.user_id == current_user["id"])
+            .filter(
+                UserPermissions.user_id == current_user["id"],
+                filtro_tabela,
+                filtro_acao
+            )
             .first()
         )
 
-        if not perm:
+        if not perm_valida:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="Nenhuma permissão configurada para o seu usuário."
-            )
-
-        tabela_ok = getattr(perm, tabela_nome, False)
-        acao_ok = getattr(perm, acao, False)
-
-        if not tabela_ok:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Usuário não possui permissão de acesso à tabela ({tabela_nome})"
-            )
-
-        if not acao_ok:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Usuário não possui permissão para executar a ação ({acao})"
+                detail=f"Usuário não possui permissão para ({acao}) na tabela ({tabela_nome})."
             )
 
         return True

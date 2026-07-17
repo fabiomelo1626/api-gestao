@@ -16,12 +16,14 @@ pessoa = APIRouter(prefix="/api")
 
 
 
-@pessoa.post("/create-pessoa/", response_model=PessoaResponse)
+@pessoa.post("/create-pessoa/", 
+             response_model=PessoaResponse, 
+             dependencies=[Depends(check_permission("tabela_pessoas", "criar"))]
+             )
 def create_pessoa(
     pessoa: PessoaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
     
     
@@ -43,12 +45,14 @@ def create_pessoa(
 
 
 
-@pessoa.get("/busca-pessoa/{pessoa_id}", response_model=PessoaResponse)
+@pessoa.get("/busca-pessoa/{pessoa_id}", 
+            response_model=PessoaResponse, 
+            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            )
 def search_pessoa(
     pessoa_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     
     db_pessoa = db.query(Pessoa)\
@@ -64,34 +68,40 @@ def search_pessoa(
 
     return db_pessoa
 
-@pessoa.get("/pessoas", response_model=List[PessoaResponse])
+@pessoa.get("/pessoas", 
+            response_model=List[PessoaResponse], 
+            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            )
 def pessoas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Pessoa).all()
 
 
-@pessoa.get("/pessoas-by-local_id/{local_id}", response_model=List[PessoaResponse])
+@pessoa.get("/pessoas-by-local_id/{local_id}", 
+            response_model=List[PessoaResponse], 
+            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            )
 def search_pessoas_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     pessoas = db.query(Pessoa).filter(Pessoa.local_id == local_id).all()
    
     return pessoas
 
 
-@pessoa.put("/editar-pessoa/{pessoa_id}", response_model=PessoaResponse)
+@pessoa.put("/editar-pessoa/{pessoa_id}", 
+             response_model=PessoaResponse,            
+             dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+             )
 def update_pessoa(
     pessoa_id: int,
     pessoa: PessoaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_pessoa = db.query(Pessoa).filter(Pessoa.id == pessoa_id).first()
     if not db_pessoa:

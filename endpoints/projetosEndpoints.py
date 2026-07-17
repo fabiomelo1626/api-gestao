@@ -114,10 +114,11 @@ def projetos_count_all(
 
 
 #todos os em andamento
-@projetos.get("/projetos-em-andamento", response_model=List[ProjetoResponse])
+@projetos.get("/projetos-em-andamento", response_model=List[ProjetoResponse], dependencies=[Depends(check_permission("tabela_projetos", "listar"))])
 def projetos_count_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
+
     
 ):
     return db.query(Projeto).filter(Projeto.status == "Em andamento").all()

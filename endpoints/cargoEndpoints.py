@@ -15,12 +15,14 @@ cargo = APIRouter(prefix="/api")
 
 
 
-@cargo.post("/create-cargo/", response_model=CargoResponse)
+@cargo.post("/create-cargo/", 
+            response_model=CargoResponse, 
+            dependencies=[Depends(check_permission("tabela_cargos", "criar"))]
+            )
 def create_cargo(
     cargo: CargoCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
     
     try:
@@ -41,12 +43,14 @@ def create_cargo(
 
 
 
-@cargo.get("/busca-cargo/{cargo_id}", response_model=CargoResponse)
+@cargo.get("/busca-cargo/{cargo_id}", 
+           response_model=CargoResponse, 
+           dependencies=[Depends(check_permission("tabela_cargos", "listar"))]
+           )
 def search_cargo(
     cargo_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     db_cargo = db.query(Cargo).filter(Cargo.id == cargo_id).first()
     if not db_cargo:
@@ -55,22 +59,26 @@ def search_cargo(
 
 
 
-@cargo.get("/cargos", response_model=List[CargoResponse])
+@cargo.get("/cargos", 
+           response_model=List[CargoResponse], 
+           dependencies=[Depends(check_permission("tabela_cargos", "listar"))]
+           )
 def cargos_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
     ):
     return db.query(Cargo).all()
 
 
 
-@cargo.get("/cargos-by-local_id/{local_id}", response_model=List[CargoResponse])
+@cargo.get("/cargos-by-local_id/{local_id}", 
+           response_model=List[CargoResponse], 
+           dependencies=[Depends(check_permission("tabela_cargos", "listar"))]
+           )
 def search_cargos_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     cargos = db.query(Cargo).filter(Cargo.local_id == local_id).all()
    
@@ -78,13 +86,15 @@ def search_cargos_local(
 
 
 
-@cargo.put("/editar-cargo/{cargo_id}", response_model=CargoResponse)
+@cargo.put("/editar-cargo/{cargo_id}", 
+           response_model=CargoResponse, 
+           dependencies=[Depends(check_permission("tabela_cargos", "editar"))]
+           )
 def update_cargo(
     cargo_id: int,
     cargo: CargoCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_cargo = db.query(Cargo).filter(Cargo.id == cargo_id).first()
     if not db_cargo:

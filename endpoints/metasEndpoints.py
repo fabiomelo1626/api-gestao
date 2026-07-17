@@ -15,12 +15,14 @@ metas = APIRouter(prefix="/api")
 
 
 
-@metas.post("/create-meta/", response_model=MetaResponse)
+@metas.post("/create-meta/", 
+            response_model=MetaResponse, 
+            dependencies=[Depends(check_permission("tabela_metas", "criar"))]
+            )
 def create_meta(
     meta: MetaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
    
     try:
@@ -41,12 +43,14 @@ def create_meta(
 
 
 
-@metas.get("/busca-meta/{meta_id}", response_model=MetaResponse)
+@metas.get("/busca-meta/{meta_id}", 
+           response_model=MetaResponse, 
+           dependencies=[Depends(check_permission("tabela_metas", "listar"))]
+           )
 def search_meta(
     meta_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     db_meta = db.query(Metas).filter(Metas.id == meta_id).first()
     if not db_meta:
@@ -54,34 +58,39 @@ def search_meta(
     return db_meta
 
 
-@metas.get("/meats", response_model=List[MetaResponse])
+@metas.get("/meats", 
+           response_model=List[MetaResponse], 
+           dependencies=[Depends(check_permission("tabela_metas", "listar"))]
+           )
 def mestas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Metas).all()
 
 
-@metas.get("/metas-by-local_id/{local_id}", response_model=List[MetaResponse])
+@metas.get("/metas-by-local_id/{local_id}", 
+           response_model=List[MetaResponse], 
+           dependencies=[Depends(check_permission("tabela_metas", "listar"))]
+           )
 def search_metas_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     metas = db.query(Metas).filter(Metas.local_id == local_id).all()
    
     return metas
 
 
-@metas.put("/editar-meta/{meta_id}", response_model=MetaResponse)
+@metas.put("/editar-meta/{meta_id}", 
+           response_model=MetaResponse, 
+           dependencies=[Depends(check_permission("tabela_metas", "editar"))]
+           )
 def update_meta(
     meta_id: int,
     meta: MetaCreate,
     db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_meta = db.query(Metas).filter(Metas.id == meta_id).first()
     if not db_meta:

@@ -15,12 +15,14 @@ tarefas = APIRouter(prefix="/api")
 
 
 
-@tarefas.post("/create-tarefa/", response_model=TarefaResponse)
+@tarefas.post("/create-tarefa/", 
+              response_model=TarefaResponse, 
+              dependencies=[Depends(check_permission("tabela_tarefas", "criar"))]
+              )
 def create_tarefa(
     tarefa: TarefaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
 ):
     
     
@@ -42,12 +44,14 @@ def create_tarefa(
 
 
 
-@tarefas.get("/busca-tarefa/{tarefa_id}", response_model=TarefaResponse)
+@tarefas.get("/busca-tarefa/{tarefa_id}", 
+             response_model=TarefaResponse, 
+             dependencies=[Depends(check_permission("tabela_tarefas", "listar"))]
+             )
 def search_tarefa(
     tarefa_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     db_tarefa = db.query(Tarefa).filter(Tarefa.id == tarefa_id).first()
     if not db_tarefa:
@@ -55,21 +59,25 @@ def search_tarefa(
     return db_tarefa
 
 
-@tarefas.get("/tarefas", response_model=List[TarefaResponse])
+@tarefas.get("/tarefas", 
+             response_model=List[TarefaResponse], 
+             dependencies=[Depends(check_permission("tabela_tarefas", "listar"))]
+             )
 def tarefas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     return db.query(Tarefa).all()
 
 
-@tarefas.get("/tarefas-by-local_id/{local_id}", response_model=List[TarefaResponse])
+@tarefas.get("/tarefas-by-local_id/{local_id}", 
+             response_model=List[TarefaResponse], 
+             dependencies=[Depends(check_permission("tabela_tarefas", "listar"))]
+             )
 def search_tarefas_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     tarefas = db.query(Tarefa).filter(Tarefa.local_id == local_id).all()
     for tarefa in tarefas:
@@ -86,13 +94,15 @@ def search_tarefas_local(
 
 
 
-@tarefas.put("/novo-prazo-tarefa/{tarefa_id}", response_model=TarefaResponse)
+@tarefas.put("/novo-prazo-tarefa/{tarefa_id}", 
+             response_model=TarefaResponse, 
+             dependencies=[Depends(check_permission("tabela_tarefas", "editar"))]
+             )
 def novo_prazo_tarefa(
     tarefa_id: int,
       nova_data : datetime,
         db: Session = Depends(get_db),
           current_user: dict = Depends(get_current_user),
-          dependencies=[Depends(check_permission("tabela_setor", "editar"))]
           ):
         db_tarefa = db.query(Tarefa).filter(Tarefa.id == tarefa_id).first()
         if not db_tarefa:
@@ -110,13 +120,14 @@ def novo_prazo_tarefa(
 
 
 
-@tarefas.put("/editar-tarefa/{tarefa_id}", response_model=TarefaResponse)
+@tarefas.put("/editar-tarefa/{tarefa_id}",
+              response_model=TarefaResponse, 
+              dependencies=[Depends(check_permission("tabela_tarefas", "editar"))])
 def update_tarefa(
     tarefa_id: int,
     tarefa: TarefaCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 
 ):
     db_tarefa = db.query(Tarefa).filter(Tarefa.id == tarefa_id).first()

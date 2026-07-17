@@ -16,13 +16,16 @@ setor = APIRouter(prefix="/api")
 
 
 
-@setor.post("/create-setor/", response_model=SetorResponse)
+@setor.post("/create-setor/",
+             response_model=SetorResponse,
+            dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+            )
 def create_setor(
     setor: SetorCreate,
     #lotacao = LocalAcesso,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+    
 
 ):
 
@@ -64,13 +67,14 @@ def create_setor(
 
 
 
-@setor.get("/busca-setor/{setor_id}", response_model=SetorResponse)
+@setor.get("/busca-setor/{setor_id}",
+           response_model=SetorResponse,
+           dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+          )
 def search_setor(
     setor_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
-
 ):
     db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
     if not db_setor:
@@ -80,22 +84,27 @@ def search_setor(
 
 
 @setor.get(
-    "/setores", response_model=List[SetorResponse])
+    "/setores",
+     response_model=List[SetorResponse],
+     dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+     )
 def setores_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+    
 ):
     return db.query(Setor).all()
 
 
 
-@setor.get("/setores-by-local_id/{local_id}", response_model=List[SetorResponse])
+@setor.get("/setores-by-local_id/{local_id}",
+            response_model=List[SetorResponse],
+            dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+           )
 def search_setores_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
 ):
     setores = db.query(Setor).filter(Setor.local_id == local_id).all()
    
@@ -103,13 +112,16 @@ def search_setores_local(
 
 
 
-@setor.put("/editar-setor/{setor_id}", response_model=SetorResponse)
+@setor.put("/editar-setor/{setor_id}",
+           response_model=SetorResponse,
+           dependencies=[Depends(check_permission("tabela_setor", "editar"))]
+           )
 def update_pessoa(
     setor_id: int,
     setor: SetorCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
+    
 ):
     db_setor = db.query(Setor).filter(Setor.id == setor_id).first()
     if not db_setor:
