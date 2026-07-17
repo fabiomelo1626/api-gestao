@@ -18,7 +18,7 @@ pessoa = APIRouter(prefix="/api")
 
 @pessoa.post("/create-pessoa/", 
              response_model=PessoaResponse, 
-             dependencies=[Depends(check_permission("tabela_pessoas", "criar"))]
+             dependencies=[Depends(check_permission("tabela_pessoa", "criar"))]
              )
 def create_pessoa(
     pessoa: PessoaCreate,
@@ -47,7 +47,7 @@ def create_pessoa(
 
 @pessoa.get("/busca-pessoa/{pessoa_id}", 
             response_model=PessoaResponse, 
-            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            dependencies=[Depends(check_permission("tabela_pessoa", "listar"))]
             )
 def search_pessoa(
     pessoa_id: int,
@@ -70,7 +70,7 @@ def search_pessoa(
 
 @pessoa.get("/pessoas", 
             response_model=List[PessoaResponse], 
-            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            dependencies=[Depends(check_permission("tabela_pessoa", "listar"))]
             )
 def pessoas_all(
     db: Session = Depends(get_db),
@@ -81,7 +81,7 @@ def pessoas_all(
 
 @pessoa.get("/pessoas-by-local_id/{local_id}", 
             response_model=List[PessoaResponse], 
-            dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+            dependencies=[Depends(check_permission("tabela_pessoa", "listar"))]
             )
 def search_pessoas_local(
     local_id: int,
@@ -95,7 +95,7 @@ def search_pessoas_local(
 
 @pessoa.put("/editar-pessoa/{pessoa_id}", 
              response_model=PessoaResponse,            
-             dependencies=[Depends(check_permission("tabela_pessoas", "listar"))]
+             dependencies=[Depends(check_permission("tabela_pessoa", "listar"))]
              )
 def update_pessoa(
     pessoa_id: int,
