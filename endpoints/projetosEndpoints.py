@@ -17,7 +17,7 @@ projetos = APIRouter(prefix="/api")
 
 @projetos.post("/create-projeto/", 
                response_model=ProjetoResponse, 
-               dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+               dependencies=[Depends(check_permission("tabela_projetos", "criar"))]
                )
 def create_projeto(
     projeto: ProjetoCreate,
@@ -46,7 +46,7 @@ def create_projeto(
 
 @projetos.get("/busca-projeto/{projeto_id}", 
               response_model=ProjetoResponse, 
-              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              dependencies=[Depends(check_permission("tabela_projetos", "listar"))]
               )
 def search_projeto(
     projeto_id: int,
@@ -62,7 +62,7 @@ def search_projeto(
 
 @projetos.get("/projetos", 
               response_model=List[ProjetoResponse], 
-              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              dependencies=[Depends(check_permission("tabela_projetos", "listar"))]
               )
 def projetos_all(
     db: Session = Depends(get_db),
@@ -149,7 +149,7 @@ def projetos_count_all(
 
 @projetos.get("/projetos-by-local_id/{local_id}", 
               response_model=List[ProjetoResponse], 
-              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              dependencies=[Depends(check_permission("tabela_projetos", "listar"))]
               )
 def search_projetos_local(
     local_id: int,
@@ -164,7 +164,7 @@ def search_projetos_local(
 
 @projetos.put("/editar-projeto/{projeto_id}", 
               response_model=ProjetoResponse, 
-              dependencies=[Depends(check_permission("tabela_setor", "editar"))]
+              dependencies=[Depends(check_permission("tabela_projetos", "editar"))]
               )
 def update_projeto(
     projeto_id: int,
