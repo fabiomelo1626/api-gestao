@@ -15,12 +15,15 @@ projetos = APIRouter(prefix="/api")
 
 
 
-@projetos.post("/create-projeto/", response_model=ProjetoResponse)
+@projetos.post("/create-projeto/", 
+               response_model=ProjetoResponse, 
+               dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+               )
 def create_projeto(
     projeto: ProjetoCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "criar"))]
+    
 ):
    
     try:
@@ -41,12 +44,15 @@ def create_projeto(
 
 
 
-@projetos.get("/busca-projeto/{projeto_id}", response_model=ProjetoResponse)
+@projetos.get("/busca-projeto/{projeto_id}", 
+              response_model=ProjetoResponse, 
+              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              )
 def search_projeto(
     projeto_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+    
 ):
     db_projeto = db.query(Projeto).filter(Projeto.id == projeto_id).first()
     if not db_projeto:
@@ -54,11 +60,14 @@ def search_projeto(
     return db_projeto
 
 
-@projetos.get("/projetos", response_model=List[ProjetoResponse])
+@projetos.get("/projetos", 
+              response_model=List[ProjetoResponse], 
+              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              )
 def projetos_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+    
 ):
     return db.query(Projeto).all()
 
@@ -114,7 +123,10 @@ def projetos_count_all(
 
 
 #todos os em andamento
-@projetos.get("/projetos-em-andamento", response_model=List[ProjetoResponse], dependencies=[Depends(check_permission("tabela_projetos", "listar"))])
+@projetos.get("/projetos-em-andamento", 
+              response_model=List[ProjetoResponse], 
+              dependencies=[Depends(check_permission("tabela_projetos", "listar"))]
+              )
 def projetos_count_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
@@ -135,25 +147,30 @@ def projetos_count_all(
 
 
 
-@projetos.get("/projetos-by-local_id/{local_id}", response_model=List[ProjetoResponse])
+@projetos.get("/projetos-by-local_id/{local_id}", 
+              response_model=List[ProjetoResponse], 
+              dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+              )
 def search_projetos_local(
     local_id: int,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "listar"))]
+    
 ):
     projetos = db.query(Projeto).filter(Projeto.local_id == local_id).all()
    
     return projetos
 
 
-@projetos.put("/editar-projeto/{projeto_id}", response_model=ProjetoResponse)
+@projetos.put("/editar-projeto/{projeto_id}", 
+              response_model=ProjetoResponse, 
+              dependencies=[Depends(check_permission("tabela_setor", "editar"))]
+              )
 def update_projeto(
     projeto_id: int,
     projeto: ProjetoCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    dependencies=[Depends(check_permission("tabela_setor", "editar"))]
 ):
     db_projeto = db.query(Projeto).filter(Projeto.id == projeto_id).first()
     if not db_projeto:
