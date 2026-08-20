@@ -12,6 +12,7 @@ from models.projetosModels import Projeto
 from models.tarefasModels import Tarefa
 from schemas.metasSchema import *
 from schemas.projetosShema import ProjetoResponse
+from schemas.tarefasSchema import TarefaResponse
 from utils.middlewareDependence import check_permission
 
 
@@ -106,5 +107,139 @@ def projetos_count_all(
     
 ):
     return db.query(Projeto).filter(Projeto.status == "Em andamento").count()
+
+
+
+
+#CONTAGEM DOS METAS
+@dashboard.get("/metas-count", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).count()
+
+#todas as metas atrasadas
+@dashboard.get("/metas-atrasadas", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Em atraso").all()
+
+#quantidade de metas atrasadas
+@dashboard.get("/metas-atrasadas-count", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Em atraso").count()
+
+
+#todos as concluidas
+@dashboard.get("/metas-concluidas", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Concluída").all()
+
+#quantidade metas de concluidas
+@dashboard.get("/metas-concluidos-count", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Em atraso").count()
+
+#todos as metas em andamenta
+@dashboard.get("/metas-em-andamento", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Em andamento").all()
+
+#quantidade de metas em andamenta
+@dashboard.get("/metas-em-andamento-count", response_model=List[MetaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Metas).filter(Metas.status == "Em andamento").count()
+
+
+
+
+#CONTAGEM DOS TAREFAS
+@dashboard.get("/tarefas-count", response_model=List[TarefaResponse])
+def tarefas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).count()
+
+#todos as atrasadas
+@dashboard.get("/tarefas-atrasadas", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Em atraso").all()
+
+#quantidade de atrasadas
+@dashboard.get("/tarefas-atrasadas-count", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Em atraso").count()
+
+
+#todos os concluidas
+@dashboard.get("/tarefas-concluidas", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Concluída").all()
+
+#quantidade de concluidas
+@dashboard.get("/tarefas-concluidos-count", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Em atraso").count()
+
+#todos os em andamenta
+@dashboard.get("/tarefas-em-andamento", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Em andamento").all()
+
+#quantidade de em andamenta
+@dashboard.get("/tarefas-em-andamento-count", response_model=List[TarefaResponse])
+def metas_count_all(
+    db: Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user),
+    
+):
+    return db.query(Tarefa).filter(Tarefa.status == "Em andamento").count()
 
 

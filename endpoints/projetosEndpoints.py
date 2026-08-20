@@ -1,11 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from datetime import datetime
 from typing import List
 from sqlalchemy.exc import SQLAlchemyError
 
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
+from models.metasModels import Metas
 from models.projetosModels import Projeto
 from schemas.projetosShema import *
 from utils.middlewareDependence import check_permission
@@ -54,7 +55,10 @@ def search_projeto(
     current_user: dict = Depends(get_current_user),
     
 ):
-    db_projeto = db.query(Projeto).filter(Projeto.id == projeto_id).first()
+    db_projeto = db.query(Projeto).options(
+        joinedload(Projeto.meta).joinedload(Metas.tarefa)
+    ).filter(Projeto.id == projeto_id).first()
+    
     if not db_projeto:
         raise HTTPException(status_code=404, detail="projeto não encontrado")
     return db_projeto
@@ -71,78 +75,6 @@ def projetos_all(
 ):
     return db.query(Projeto).all()
 
-
-
-
-#CONTAGEM DOS PROJETOS
-@projetos.get("/projetos-count", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).count()
-
-#todos os atrasados
-@projetos.get("/projetos-atrasados", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Em atraso").all()
-
-#quantidade de atrasados
-@projetos.get("/projetos-atrasados-count", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Em atraso").count()
-
-
-
-#todos os concluidos
-@projetos.get("/projetos-concluidos", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Concluída").all()
-
-#quantidade de concluidos
-@projetos.get("/projetos-atrasados-count", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Concluída").count()
-
-
-#todos os em andamento
-@projetos.get("/projetos-em-andamento", 
-              response_model=List[ProjetoResponse], 
-              dependencies=[Depends(check_permission("tabela_projetos", "listar"))]
-              )
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Em andamento").all()
-
-#quantidade de em andamento
-@projetos.get("/projetos-em-andamento-count", response_model=List[ProjetoResponse])
-def projetos_count_all(
-    db: Session = Depends(get_db),
-    current_user: dict = Depends(get_current_user),
-    
-):
-    return db.query(Projeto).filter(Projeto.status == "Em andamento").count()
 
 
 

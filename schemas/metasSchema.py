@@ -2,6 +2,8 @@ from datetime import datetime
 from typing import Optional
 from pydantic import BaseModel
 
+from schemas.tarefasSchema import TarefaResponse
+
 
 
 class MetaSchema(BaseModel):
@@ -25,3 +27,5 @@ class MetaCreate(MetaSchema):
 
 class MetaResponse(MetaSchema):
     id: int
+    
+    tarefa: list[TarefaResponse] = []

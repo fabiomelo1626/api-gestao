@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from schemas.cargoSchema import CargoResponse
+from schemas.metasSchema import MetaResponse
 
 
 
@@ -27,3 +28,4 @@ class ProjetoCreate(ProjetoSchema):
 class ProjetoResponse(ProjetoSchema):
     id: int
     
+    meta: list[MetaResponse] = []    
