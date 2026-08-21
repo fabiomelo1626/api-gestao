@@ -58,11 +58,11 @@ def search_meta(
     return db_meta
 
 
-@metas.get("/meats", 
+@metas.get("/metas", 
            response_model=List[MetaResponse], 
            dependencies=[Depends(check_permission("tabela_metas", "listar"))]
            )
-def mestas_all(
+def metas_all(
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
 ):
