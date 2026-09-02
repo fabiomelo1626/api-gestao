@@ -33,4 +33,4 @@ class User(Base):
     atendimento = relationship("Atendimento", back_populates="user")
     comunicacao = relationship("Comunicacao", back_populates="user" )
     user_cadastra = relationship("UserPermissions", foreign_keys="[UserPermissions.user_cadastra_id]",back_populates="cadastrador" )
-    
+    projeto_setor = relationship("ProjetoSetor", back_populates="user")

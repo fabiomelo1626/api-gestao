@@ -32,3 +32,4 @@ class LocalAcesso(Base):
     mensagens_enviadas = relationship("Comunicacao", foreign_keys="[Comunicacao.instituicao_id]", back_populates="instituicao")
     mensagens_recebidas = relationship("Comunicacao", foreign_keys="[Comunicacao.destino_instituicao_id]", back_populates="destino")
     comunicacao = relationship("Comunicacao", foreign_keys="[Comunicacao.local_id]", back_populates="local")    
+    projeto_setor = relationship("ProjetoSetor", back_populates="local")
