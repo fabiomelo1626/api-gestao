@@ -22,6 +22,7 @@ class PermissionTablesSchema(BaseModel):
     tabela_projetos : Optional[bool] = None
     tabela_user : Optional[bool] = None
     tabela_permissoes: Optional[bool] = None
+    tabela_projeto_setor: Optional[bool] = None
 
     listar: Optional[bool] = None
     criar: Optional[bool] = None

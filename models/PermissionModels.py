@@ -28,6 +28,7 @@ class PermissionTables(Base):
     tabela_projetos = Column(Boolean, default=False)
     tabela_user = Column(Boolean, default=False)
     tabela_permissoes = Column(Boolean, default=False)
+    tabela_projeto_setor = Column(Boolean, default=False)
 
     listar = Column(Boolean, default=False)
     criar = Column(Boolean, default=False)

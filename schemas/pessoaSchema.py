@@ -14,7 +14,6 @@ class PessoaSchema(BaseModel):
     data_registro : Optional[datetime] = None
     data_alteracao : Optional[datetime] = None
     cpf : Optional[int] = None
-    rg : Optional[int] = None
     titulo : Optional[int] = None
     nome : Optional[str] = None
     datanascimento : Optional[datetime]

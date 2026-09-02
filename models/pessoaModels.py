@@ -15,7 +15,6 @@ class Pessoa(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
     cpf = Column(BigInteger, nullable=True)
-    rg = Column(BigInteger, nullable=True)
     titulo = Column(BigInteger, nullable=True)
     nome = Column(String(255), nullable=True) 
     datanascimento = Column(Date, nullable=True)

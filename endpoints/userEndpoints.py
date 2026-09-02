@@ -11,7 +11,8 @@ from utils.autenticate import hash_password, verify_password
 from utils.token import verify_token
 from utils.randomUtils import generate_random_password
 from utils.email import enviar_email_boas_vindas
-
+import smtplib
+from config.tokenSettings import settings
 
 user = APIRouter(prefix="/api")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
@@ -57,20 +58,23 @@ def create_user(user: UserCreate, background_tasks: BackgroundTasks, db: Session
         fullname=user.fullname,
         first_access=True
     )
+    
 
     db.add(novo_usuario)
     db.commit()
     db.refresh(novo_usuario)
-
+    
+  
     background_tasks.add_task(
         enviar_email_boas_vindas,
         destinatario=novo_usuario.email,
         senha=senha_temporaria,
         username=novo_usuario.username,
-        link="https://gestaomunicipal.net/login"
+        link="https://181.224.24.33:8080"
     )
 
     return novo_usuario
+
 
 
 @user.get("/users", response_model=List[UserResponse])

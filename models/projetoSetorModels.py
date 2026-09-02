@@ -3,8 +3,8 @@ from sqlalchemy.orm import relationship
 from conexao.conect_db import Base
 
 
-class Projeto(Base):
-    __tablename__ = "projeto"
+class ProjetoSetor(Base):
+    __tablename__ = "projeto_setor"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
@@ -14,12 +14,7 @@ class Projeto(Base):
     data_registro = Column(Date, nullable=True)
     data_alteracao = Column(Date, nullable=True)
 
-    data_conclusao = Column(Date, nullable=True)
-    nome = Column(String(255), nullable=True) 
-    descricao = Column(String(255), nullable=False)
-    responsavel = Column(Integer, ForeignKey("pessoa.id"), nullable=True)
-    status = Column(String, ForeignKey("aux_status.nome"), default="Não iniciada")
-
-    meta = relationship("Metas", back_populates="projeto")
+    setor_id = Column(Integer, ForeignKey("setor.id"), nullable=True)
+    projeto_id = Column(Integer, ForeignKey("projeto.id"), nullable=True) 
 
     

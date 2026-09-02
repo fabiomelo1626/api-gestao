@@ -19,6 +19,7 @@ from endpoints.projetosEndpoints import projetos
 from endpoints.atendimentoEndpoints import atendimento
 from endpoints.dashboardEndpoints import dashboard
 from endpoints.comunicacaoEndpoints import comunicacao
+from endpoints.projetosetorEndpoints import projeto_setor
 from seed.popular import popular
 
 
@@ -54,6 +55,7 @@ app.include_router(projetos)
 app.include_router(atendimento)
 app.include_router(dashboard)
 app.include_router(comunicacao)
+app.include_router(projeto_setor)
 
 def test_connection():
     try:
