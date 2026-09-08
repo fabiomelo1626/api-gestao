@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session, joinedload
@@ -5,7 +7,7 @@ from sqlalchemy.orm import Session, joinedload
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.userModels import User
-from schemas.loginSchema import LoginSchema
+from schemas.loginSchema import LoginSchema, RefreshTokenSchema
 from schemas.emailSchema import EmailSchema
 from schemas.userSchema import ResetPasswordRequest
 from schemas.acessoSchema import FirstPassword
@@ -13,6 +15,8 @@ from utils.autenticate import hash_password, verify_password
 from utils.token import create_access_token, verify_token, create_reset_password_token
 from utils.email import enviar_email_com_link_reset
 import traceback
+from config.tokenSettings import settings
+from jose import jwt, JWTError
 
 
 login_user = APIRouter(prefix="/api")
@@ -50,10 +54,22 @@ def login(data: LoginSchema, db: Session = Depends(get_db)):
             token_data["local_id"] = ativos[0].localacesso_id
         
 
-        access_token = create_access_token(data=token_data)
+        #access_token = create_access_token(data=token_data)
+        access_token = create_access_token(
+                        data=token_data,
+                        expires_delta=timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES),
+                        token_type="access"
+                        )
+        
+        refresh_token = create_access_token(
+                        data=token_data,
+                        expires_delta=timedelta(days=7),
+                        token_type="refresh"
+                        )
 
         return {
             "access_token": access_token,
+            "refresh_token": refresh_token,
             "token_type": "bearer",
             "user": {
                 "id": db_user.id,
@@ -149,3 +165,93 @@ def primeiro_acesso(payload: FirstPassword, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Erro ao atualizar a senha")
 
     return {"message": "Senha alterada com sucesso!", "user": {"username": user.username, "first_access": user.first_access}}
+
+
+@login_user.post("/refresh-token")
+def refresh_token(
+    data: RefreshTokenSchema,
+    db: Session = Depends(get_db)
+):
+    try:
+        payload = jwt.decode(
+            data.refresh_token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM]
+        )
+
+        # Verifica se é realmente um refresh token
+        if payload.get("type") != "refresh":
+            raise HTTPException(
+                status_code=401,
+                detail="Token inválido para refresh"
+            )
+
+        user_id = payload.get("id")
+        username = payload.get("sub")
+        email = payload.get("email")
+        local_id = payload.get("local_id")
+
+        if not user_id or not username:
+            raise HTTPException(
+                status_code=401,
+                detail="Refresh token inválido"
+            )
+
+        # Busca novamente o usuário no banco
+        db_user = db.query(User).filter(
+            User.id == user_id
+        ).first()
+
+        if not db_user:
+            raise HTTPException(
+                status_code=404,
+                detail="Usuário não encontrado"
+            )
+
+        # Usuário foi desativado depois que fez login
+        if not db_user.status:
+            raise HTTPException(
+                status_code=403,
+                detail="Usuário está inativo"
+            )
+
+        # Dados para o novo access token
+        token_data = {
+            "sub": db_user.username,
+            "id": db_user.id,
+            "email": db_user.email,
+        }
+
+        # Mantém o local selecionado
+        if local_id is not None:
+            token_data["local_id"] = local_id
+
+        new_access_token = create_access_token(
+            data=token_data,
+            expires_delta=timedelta(
+                minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
+            ),
+            token_type="access"
+        )
+
+        return {
+            "access_token": new_access_token,
+            "token_type": "bearer"
+        }
+
+    except JWTError:
+        raise HTTPException(
+            status_code=401,
+            detail="Refresh token inválido ou expirado"
+        )
+
+    except HTTPException:
+        raise
+
+    except Exception as e:
+        print(traceback.format_exc())
+
+        raise HTTPException(
+            status_code=500,
+            detail=str(e)
+        )
