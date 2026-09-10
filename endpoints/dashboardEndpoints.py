@@ -11,7 +11,7 @@ from models.pessoaModels import Pessoa
 from models.projetosModels import Projeto
 from models.tarefasModels import Tarefa
 from schemas.metasSchema import *
-from schemas.projetosShema import ProjetoResponse
+from schemas.projetosSchema import ProjetoResponse
 from schemas.tarefasSchema import TarefaResponse
 from utils.middlewareDependence import check_permission
 

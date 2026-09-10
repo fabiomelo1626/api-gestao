@@ -8,7 +8,7 @@ from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.metasModels import Metas
 from models.projetosModels import Projeto
-from schemas.projetosShema import *
+from schemas.projetosSchema import *
 from utils.middlewareDependence import check_permission
 
 
