@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from conexao.conect_db import get_db
 from endpoints.userEndpoints import get_current_user
 from models.metasModels import Metas
+from models.projetoSetorModels import ProjetoSetor
 from models.projetosModels import Projeto
 from schemas.projetosSchema import *
 from utils.middlewareDependence import check_permission
@@ -16,31 +17,48 @@ projetos = APIRouter(prefix="/api")
 
 
 
-@projetos.post("/create-projeto/", 
-               response_model=ProjetoResponse, 
-               dependencies=[Depends(check_permission("tabela_projetos", "criar"))]
-               )
+@projetos.post(
+    "/create-projeto/", 
+    response_model=ProjetoResponse, 
+    dependencies=[Depends(check_permission("tabela_projetos", "criar"))]
+)
 def create_projeto(
     projeto: ProjetoCreate,
     db: Session = Depends(get_db),
     current_user: dict = Depends(get_current_user),
-    
 ):
-   
     try:
-        db_projeto = Projeto(**projeto.dict())
+        dados_projeto = projeto.dict()
+        setores_ids = dados_projeto.pop("setores_ids", [])
+
+        # 2. Instancia e preenche o Projeto
+        db_projeto = Projeto(**dados_projeto)
         db_projeto.data_registro = datetime.today()
         db_projeto.user_id = current_user["id"]
         db_projeto.local_id = projeto.local_id
 
         db.add(db_projeto)
+        db.flush()  
+       
+        for setor_id in setores_ids:
+            vinculo = ProjetoSetor(
+                projeto_id=db_projeto.id,
+                setor_id=setor_id,
+                user_id=current_user["id"],
+                local_id=projeto.local_id,
+                data_registro=datetime.today()
+            )
+            db.add(vinculo)
+
         db.commit()
         db.refresh(db_projeto)
         return db_projeto
 
     except SQLAlchemyError as e:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
     except Exception as e:
+        db.rollback()
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 

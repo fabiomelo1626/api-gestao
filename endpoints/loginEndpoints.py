@@ -179,7 +179,6 @@ def refresh_token(
             algorithms=[settings.ALGORITHM]
         )
 
-        # Verifica se é realmente um refresh token
         if payload.get("type") != "refresh":
             raise HTTPException(
                 status_code=401,
@@ -197,7 +196,6 @@ def refresh_token(
                 detail="Refresh token inválido"
             )
 
-        # Busca novamente o usuário no banco
         db_user = db.query(User).filter(
             User.id == user_id
         ).first()
@@ -208,21 +206,18 @@ def refresh_token(
                 detail="Usuário não encontrado"
             )
 
-        # Usuário foi desativado depois que fez login
         if not db_user.status:
             raise HTTPException(
                 status_code=403,
                 detail="Usuário está inativo"
             )
 
-        # Dados para o novo access token
         token_data = {
             "sub": db_user.username,
             "id": db_user.id,
             "email": db_user.email,
         }
 
-        # Mantém o local selecionado
         if local_id is not None:
             token_data["local_id"] = local_id
 
