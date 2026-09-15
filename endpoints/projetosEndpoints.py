@@ -11,7 +11,11 @@ from models.projetoSetorModels import ProjetoSetor
 from models.projetosModels import Projeto
 from schemas.projetosSchema import *
 from utils.middlewareDependence import check_permission
+import logging
+import traceback
 
+
+logger = logging.getLogger(__name__)
 
 projetos = APIRouter(prefix="/api")
 
@@ -55,13 +59,17 @@ def create_projeto(
         return db_projeto
 
     except SQLAlchemyError as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Erro de banco de dados: {str(e)}")
+        logger.exception("Erro de banco de dados ao criar aluno")
+        raise HTTPException(
+            status_code=500,
+            detail="Erro de banco de dados ao criar aluno"
+        )
     except Exception as e:
-        db.rollback()
-        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
-
-
+        logger.exception("Erro interno ao criar aluno")
+        raise HTTPException(
+            status_code=500,
+            detail="Erro interno do servidor"
+        )
 
 @projetos.get("/busca-projeto/{projeto_id}", 
               response_model=ProjetoResponse, 
