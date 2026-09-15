@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
 
 from schemas.cargoSchema import CargoResponse
@@ -14,8 +14,7 @@ class ProjetoSchema(BaseModel):
     data_alteracao : Optional[datetime] = None
 
     data_conclusao: Optional[datetime] = None
-    setor : Optional[int] = None
-    nome : Optional[str] = None
+    setor_id: Optional[List[int]] = None
     descricao : Optional[str] = None
     responsavel : Optional[int] = None
     status : Optional[str] = None
