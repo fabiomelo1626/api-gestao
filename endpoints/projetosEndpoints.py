@@ -36,7 +36,7 @@ def create_projeto(
         dados_projeto = projeto.dict()
 
         # 1. Remova do dicionário as chaves de setores que não pertencem ao modelo Projeto
-        setores_ids = dados_projeto.pop("setores_ids", None)
+        setores_ids = dados_projeto.pop("setores_ids", [])
         setor_id_unico = dados_projeto.pop("setor_id", None)
 
         # Trata o envio tanto se vier lista quanto se vier um único ID
