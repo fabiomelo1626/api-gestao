@@ -46,7 +46,7 @@ def create_projeto(
         db.flush()  # Gera o ID de db_projeto sem fechar a transação
 
         # 2. Crie os relacionamentos N:N na tabela intermediária ProjetoSetor
-        for s_id in projeto.setores_ids:
+        for s_id in projeto.setor_id:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,
                 setor_id=s_id,
