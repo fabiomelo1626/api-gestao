@@ -32,34 +32,21 @@ def create_projeto(
     current_user: dict = Depends(get_current_user),
 ):
     try:
-        dados_projeto = projeto.dict()
-
-        # Extrai os IDs e remove TODAS as variações de chaves de setores
-        setores_ids = (
-            dados_projeto.pop("setores_ids", None) 
-            or dados_projeto.pop("setor_id", None) 
-            or []
+        # 1. Instancie o Projeto definindo explicitamente apenas os campos da tabela Projeto
+        db_projeto = Projeto(
+            nome=projeto.nome,
+            descricao=projeto.descricao,
+            local_id=projeto.local_id,
+            user_id=current_user["id"],
+            data_registro=datetime.today()
+            # Adicione aqui apenas as colunas diretas da tabela 'projeto' (ex: status, data_inicio, etc)
         )
-        
-        # Garante que seja uma lista (caso tenha vindo apenas um inteiro)
-        if isinstance(setores_ids, int):
-            setores_ids = [setores_ids]
-
-        # Remove qualquer relacionamento com nome similar que possa estar no dict
-        dados_projeto.pop("setores", None)
-        dados_projeto.pop("projetos_setores", None)
-
-        # 1. Instancia o Projeto (agora totalmente limpo de qualquer chave 'setor')
-        db_projeto = Projeto(**dados_projeto)
-        db_projeto.data_registro = datetime.today()
-        db_projeto.user_id = current_user["id"]
-        db_projeto.local_id = projeto.local_id
 
         db.add(db_projeto)
-        db.flush()  
+        db.flush()  # Gera o ID de db_projeto sem fechar a transação
 
-        # 2. Cria os vínculos na tabela intermediária
-        for s_id in setores_ids:
+        # 2. Crie os relacionamentos N:N na tabela intermediária ProjetoSetor
+        for s_id in projeto.setores_ids:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,
                 setor_id=s_id,
@@ -72,7 +59,7 @@ def create_projeto(
         db.commit()
         db.refresh(db_projeto)
         return db_projeto
-    
+
     except SQLAlchemyError as e:
         db.rollback()
         logger.exception("Erro de banco de dados ao criar projeto")
@@ -85,7 +72,7 @@ def create_projeto(
         logger.exception("Erro interno ao criar projeto")
         raise HTTPException(
             status_code=500,
-            detail="Erro interno do servidor"
+            detail=f"Erro interno do servidor: {str(e)}"
         )
 
 @projetos.get("/busca-projeto/{projeto_id}", 
