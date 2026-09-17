@@ -32,10 +32,18 @@ def create_projeto(
     current_user: dict = Depends(get_current_user),
 ):
     try:
+        # Pydantic v2 prefere .model_dump(), no v1 use .dict()
         dados_projeto = projeto.dict()
-        setores_ids = dados_projeto.pop("setores_ids", [])
 
-        # 2. Instancia e preenche o Projeto
+        # 1. Remova do dicionário as chaves de setores que não pertencem ao modelo Projeto
+        setores_ids = dados_projeto.pop("setores_ids", None)
+        setor_id_unico = dados_projeto.pop("setor_id", None)
+
+        # Trata o envio tanto se vier lista quanto se vier um único ID
+        if setores_ids is None:
+            setores_ids = [setor_id_unico] if setor_id_unico is not None else []
+
+        # 2. Instancia o Projeto (agora dados_projeto não tem mais setor_id nem setores_ids)
         db_projeto = Projeto(**dados_projeto)
         db_projeto.data_registro = datetime.today()
         db_projeto.user_id = current_user["id"]
@@ -44,10 +52,11 @@ def create_projeto(
         db.add(db_projeto)
         db.flush()  
        
-        for setor_id in setores_ids:
+        # 3. Cria os vínculos N:N na tabela ProjetoSetor
+        for s_id in setores_ids:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,
-                setor_id=setor_id,
+                setor_id=s_id,
                 user_id=current_user["id"],
                 local_id=projeto.local_id,
                 data_registro=datetime.today()
@@ -59,13 +68,15 @@ def create_projeto(
         return db_projeto
 
     except SQLAlchemyError as e:
-        logger.exception("Erro de banco de dados ao criar aluno")
+        db.rollback()
+        logger.exception("Erro de banco de dados ao criar projeto")
         raise HTTPException(
             status_code=500,
-            detail="Erro de banco de dados ao criar aluno"
+            detail="Erro de banco de dados ao criar projeto"
         )
     except Exception as e:
-        logger.exception("Erro interno ao criar aluno")
+        db.rollback()
+        logger.exception("Erro interno ao criar projeto")
         raise HTTPException(
             status_code=500,
             detail="Erro interno do servidor"
