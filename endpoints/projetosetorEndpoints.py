@@ -17,7 +17,7 @@ projeto_setor = APIRouter(prefix="/api")
 
 @projeto_setor.post("/create-projeto-setor/", 
             response_model=ProjetoSetorResponse, 
-            dependencies=[Depends(check_permission("tabela_projeto_setor", "criar"))]
+            #dependencies=[Depends(check_permission("tabela_projeto_setor", "criar"))]
             )
 def create_projeto_setor(
     projeto: ProjetoSetorCreate,
