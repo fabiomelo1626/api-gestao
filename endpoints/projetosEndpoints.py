@@ -19,8 +19,6 @@ logger = logging.getLogger(__name__)
 
 projetos = APIRouter(prefix="/api")
 
-
-
 @projetos.post(
     "/create-projeto/", 
     response_model=ProjetoResponse, 
@@ -32,21 +30,26 @@ def create_projeto(
     current_user: dict = Depends(get_current_user),
 ):
     try:
-        # 1. Instancie o Projeto definindo explicitamente apenas os campos da tabela Projeto
+        # 1. Instância explícita do Projeto
         db_projeto = Projeto(
             nome=projeto.nome,
             descricao=projeto.descricao,
+            responsavel=projeto.responsavel,
+            status=projeto.status,
+            data_conclusao=projeto.data_conclusao,
             local_id=projeto.local_id,
             user_id=current_user["id"],
             data_registro=datetime.today()
-            # Adicione aqui apenas as colunas diretas da tabela 'projeto' (ex: status, data_inicio, etc)
         )
 
         db.add(db_projeto)
-        db.flush()  # Gera o ID de db_projeto sem fechar a transação
+        db.flush()  # Gera db_projeto.id
 
-        # 2. Crie os relacionamentos N:N na tabela intermediária ProjetoSetor
-        for s_id in projeto.setor_id:
+        # 2. Garante que setor_id seja uma lista iterável (mesmo se vier None)
+        setores_lista = projeto.setor_id or []
+
+        # 3. Criação dos vínculos na tabela intermediária
+        for s_id in setores_lista:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,
                 setor_id=s_id,
