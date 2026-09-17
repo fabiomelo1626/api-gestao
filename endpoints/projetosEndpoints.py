@@ -32,18 +32,24 @@ def create_projeto(
     current_user: dict = Depends(get_current_user),
 ):
     try:
-        # Pydantic v2 prefere .model_dump(), no v1 use .dict()
         dados_projeto = projeto.dict()
 
-        # 1. Remova do dicionário as chaves de setores que não pertencem ao modelo Projeto
-        setores_ids = dados_projeto.pop("setores_ids", [])
-        setor_id_unico = dados_projeto.pop("setor_id", None)
+        # Extrai os IDs e remove TODAS as variações de chaves de setores
+        setores_ids = (
+            dados_projeto.pop("setores_ids", None) 
+            or dados_projeto.pop("setor_id", None) 
+            or []
+        )
+        
+        # Garante que seja uma lista (caso tenha vindo apenas um inteiro)
+        if isinstance(setores_ids, int):
+            setores_ids = [setores_ids]
 
-        # Trata o envio tanto se vier lista quanto se vier um único ID
-        if setores_ids is None:
-            setores_ids = [setor_id_unico] if setor_id_unico is not None else []
+        # Remove qualquer relacionamento com nome similar que possa estar no dict
+        dados_projeto.pop("setores", None)
+        dados_projeto.pop("projetos_setores", None)
 
-        # 2. Instancia o Projeto (agora dados_projeto não tem mais setor_id nem setores_ids)
+        # 1. Instancia o Projeto (agora totalmente limpo de qualquer chave 'setor')
         db_projeto = Projeto(**dados_projeto)
         db_projeto.data_registro = datetime.today()
         db_projeto.user_id = current_user["id"]
@@ -51,8 +57,8 @@ def create_projeto(
 
         db.add(db_projeto)
         db.flush()  
-       
-        # 3. Cria os vínculos N:N na tabela ProjetoSetor
+
+        # 2. Cria os vínculos na tabela intermediária
         for s_id in setores_ids:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,
@@ -66,7 +72,7 @@ def create_projeto(
         db.commit()
         db.refresh(db_projeto)
         return db_projeto
-
+    
     except SQLAlchemyError as e:
         db.rollback()
         logger.exception("Erro de banco de dados ao criar projeto")
