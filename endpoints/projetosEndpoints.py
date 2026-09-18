@@ -30,7 +30,7 @@ def create_projeto(
     current_user: dict = Depends(get_current_user),
 ):
     try:
-        # 1. Instância explícita do Projeto
+        
         db_projeto = Projeto(
             nome=projeto.nome,
             descricao=projeto.descricao,
@@ -43,12 +43,11 @@ def create_projeto(
         )
 
         db.add(db_projeto)
-        db.flush()  # Gera db_projeto.id
-
-        # 2. Garante que setor_id seja uma lista iterável (mesmo se vier None)
+        db.flush()  
+        
         setores_lista = projeto.setor_id or []
+        print(setores_lista)
 
-        # 3. Criação dos vínculos na tabela intermediária
         for s_id in setores_lista:
             vinculo = ProjetoSetor(
                 projeto_id=db_projeto.id,

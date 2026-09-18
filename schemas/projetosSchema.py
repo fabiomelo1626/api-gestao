@@ -14,7 +14,7 @@ class ProjetoSchema(BaseModel):
     data_alteracao : Optional[datetime] = None
 
     data_conclusao: Optional[datetime] = None
-    setor_id: Optional[List[int]] = None
+    setor_id: Optional[List[int]] = []
     nome: Optional[str] = None
     descricao : Optional[str] = None
     responsavel : Optional[int] = None
