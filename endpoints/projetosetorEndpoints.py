@@ -45,7 +45,7 @@ def create_projeto_setor(
 
 @projeto_setor.get("/busca-projeto-setor/{projeto_setor_id}", 
            response_model=ProjetoSetorResponse, 
-           dependencies=[Depends(check_permission("tabela_projeto_setor", "listar"))]
+           #dependencies=[Depends(check_permission("tabela_projeto_setor", "listar"))]
            )
 def search_projeto_setor(
     projeto_setor_id: int,
@@ -61,7 +61,7 @@ def search_projeto_setor(
 
 @projeto_setor.get("/projeto-setor", 
            response_model=List[ProjetoSetorResponse], 
-           dependencies=[Depends(check_permission("tabela_cargos", "listar"))]
+           #dependencies=[Depends(check_permission("tabela_cargos", "listar"))]
            )
 def projeto_setor_all(
     db: Session = Depends(get_db),
@@ -73,7 +73,7 @@ def projeto_setor_all(
 
 @projeto_setor.get("/projeto-setor-by-local_id/{local_id}", 
            response_model=List[ProjetoSetorResponse], 
-           dependencies=[Depends(check_permission("tabela_projeto_setor", "listar"))]
+           #dependencies=[Depends(check_permission("tabela_projeto_setor", "listar"))]
            )
 def search_projeto_setor_local(
     local_id: int,
@@ -88,7 +88,7 @@ def search_projeto_setor_local(
 
 @projeto_setor.put("/editar-projeto-setor/{projeto_setor_id}", 
            response_model=ProjetoSetorResponse, 
-           dependencies=[Depends(check_permission("tabela_projeto_setor", "editar"))]
+           #dependencies=[Depends(check_permission("tabela_projeto_setor", "editar"))]
            )
 def update_cargo(
     projeto_setor_id: int,
