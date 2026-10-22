@@ -9,6 +9,7 @@ class ProjetoSetorSchema(BaseModel):
     local_id: Optional[int] = None
 
     projeto_id: Optional[int] = None
+    setor_id: Optional[int] = None
     setores_ids: Optional[List[int]] = []
     
     class Config:
@@ -19,3 +20,7 @@ class ProjetoSetorCreate(ProjetoSetorSchema):
 
 class ProjetoSetorResponse(ProjetoSetorSchema):
     id: int
+
+
+
+
