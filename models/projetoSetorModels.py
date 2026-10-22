@@ -15,6 +15,8 @@ class ProjetoSetor(Base):
     data_alteracao = Column(Date, nullable=True)
 
     setor_id = Column(Integer, ForeignKey("setor.id"), nullable=True)
+    setores = relationship("Setor", back_populates="projeto_setor")
     projeto_id = Column(Integer, ForeignKey("projeto.id"), nullable=True) 
+    
 
     
