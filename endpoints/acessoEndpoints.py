@@ -49,31 +49,7 @@ def list_acessos_usuarios(user_id: int, db: Session = Depends(get_db)):
         .all()
     return list_acessos
 
-'''
-@acesso.post("/selecionar-local/{local_id}")
-def definir_local(
-    local_id: int,
-    current_user: dict = Depends(get_current_user),
-    db: Session = Depends(get_db)
-):
-    
-    new_token = create_access_token(data={
-        "sub": current_user["sub"],
-        "id": current_user["id"],
-        # "acesso_id": current_user["acesso_id"],
-        # "perfis": current_user["perfis"],
-        "local_id":local_id
-    })
 
-    return {
-        "access_token": new_token,
-        "token_type": "bearer",
-        "sub":current_user["sub"],
-        "id":current_user["id"],
-        # "acesso_id":current_user["acesso_id"],
-        "local_id": local_id,
-    }
-    '''
 
 @acesso.post("/selecionar-local/{local_id}")
 def definir_local(
