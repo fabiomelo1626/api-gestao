@@ -49,7 +49,7 @@ def list_acessos_usuarios(user_id: int, db: Session = Depends(get_db)):
         .all()
     return list_acessos
 
-
+'''
 @acesso.post("/selecionar-local/{local_id}")
 def definir_local(
     local_id: int,
@@ -72,6 +72,50 @@ def definir_local(
         "id":current_user["id"],
         # "acesso_id":current_user["acesso_id"],
         "local_id": local_id,
+    }
+    '''
+
+@acesso.post("/selecionar-local/{local_id}")
+def definir_local(
+    local_id: int,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_db)
+):
+
+    # Busca os acessos vinculados ao usuário e seus respectivos locais
+    acessos_usuario = (
+        db.query(Acesso)
+        .options(joinedload(Acesso.locais))
+        .filter(Acesso.usuario_id == current_user["id"])
+        .all()
+    )
+
+    # Verifica se o local pertence a algum dos acessos do usuário
+    local_autorizado = any(
+        local.id == local_id
+        for acesso_item in acessos_usuario
+        for local in acesso_item.locais
+    )
+
+    if not local_autorizado:
+        raise HTTPException(
+            status_code=403,
+            detail="Você não possui acesso a este local."
+        )
+
+    # Gera novo token somente após validar a autorização
+    new_token = create_access_token(data={
+        "sub": current_user["sub"],
+        "id": current_user["id"],
+        "local_id": local_id
+    })
+
+    return {
+        "access_token": new_token,
+        "token_type": "bearer",
+        "sub": current_user["sub"],
+        "id": current_user["id"],
+        "local_id": local_id
     }
 
 
