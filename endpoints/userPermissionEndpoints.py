@@ -188,3 +188,26 @@ def delete_user_permission(
     db.delete(db_permission)
     db.commit()
     return {"detail": "Vínculo removido com sucesso"}
+
+
+@permission.get("/usuario/me/premissoes", response_model=List[PermissionTablesResponse])
+def listar_minhas_permissoes_no_local(
+    db:Session = Depends(get_db),
+    current_user: dict = Depends(get_current_user)
+):
+    local_id = current_user.get("local_id")
+    usuario_id = current_user.get("id")
+    
+    if not local_id:
+        raise HTTPException(status_code=400, detail="Local não identificado no token ativo")
+    
+    permissoes = (
+        db.query(PermissionTables).join(
+            UserPermissions,
+            UserPermissions.permission_table_id  == PermissionTables.id
+        ).filter(
+            UserPermissions.user_id == usuario_id,
+            UserPermissions.local_id == local_id
+        ).all()
+    )
+    return permissoes
