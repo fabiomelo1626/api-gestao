@@ -190,7 +190,7 @@ def delete_user_permission(
     return {"detail": "Vínculo removido com sucesso"}
 
 
-@permission.get("/usuario/me/premissoes", response_model=List[PermissionTablesResponse])
+@permission.get("/usuario/me/permissoes", response_model=List[PermissionTablesResponse])
 def listar_minhas_permissoes_no_local(
     db:Session = Depends(get_db),
     current_user: dict = Depends(get_current_user)
